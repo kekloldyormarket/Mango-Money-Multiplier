@@ -1,0 +1,1 @@
+{"version":3,"file":"addSwitchboardOracle.d.ts","sourceRoot":"","sources":["../../../src/cli/addSwitchboardOracle.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,UAAU,EAAa,MAAM,iBAAiB,CAAC;AAEjE,OAAO,EAAqB,WAAW,EAAE,MAAM,WAAW,CAAC;AAa3D,wBAA8B,oBAAoB,CAChD,UAAU,EAAE,UAAU,EACtB,KAAK,EAAE,OAAO,EACd,WAAW,EAAE,WAAW,EACxB,MAAM,EAAE,MAAM,GACb,OAAO,CAAC,WAAW,CAAC,CA+BtB"}

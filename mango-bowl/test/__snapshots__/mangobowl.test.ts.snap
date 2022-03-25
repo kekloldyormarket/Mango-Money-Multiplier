@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`mango-bowl HTTP GET /markets 1`] = `
+Array [
+  Object {
+    "address": "2TgaaVoHgnSeEtXvWTx13zQeTf4hYWAMEiMQdcG6EwHi",
+    "baseCurrency": "SOL",
+    "liquidationFee": "0.02500",
+    "makerFee": "-0.00040",
+    "minOrderSize": 0.01,
+    "name": "SOL-PERP",
+    "programId": "mv3ekLzLbnVPNxjSKvqBpU3ZeZXPQdEC3bp5MDEBG68",
+    "quoteCurrency": "USDC",
+    "takerFee": "0.00050",
+    "tickSize": 0.01,
+    "version": 1,
+  },
+]
+`;
