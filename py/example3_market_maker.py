@@ -361,7 +361,7 @@ def aThread(market):
         logger.error(f"Exception: {e}")
 
     while True:
-        CYCLE_INTERVAL = random.randint(30,200) * 10#mm.mango_service_v3_client.lenAccs
+        CYCLE_INTERVAL = random.randint(1,30) * 10#mm.mango_service_v3_client.lenAccs
         
 
         logger.info("next cycle...")

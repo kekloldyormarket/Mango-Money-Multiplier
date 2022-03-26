@@ -95,10 +95,10 @@ console.log(markets[m] + ' midprice: ' + mid.toString())
     rate = 0
 
   // @ts-ignore
-  rates[markets[m]] = rate;
+//  rates[markets[m]] = rate;
   // @ts-ignore
-  rates.arr.push(rate)
-  rates.t+=Math.abs(rate);
+ // rates.arr.push(rate)
+  //rates.t+=Math.abs(rate);
   }
   }
 
@@ -110,7 +110,7 @@ console.log(markets[m] + ' midprice: ' + mid.toString())
     rates.wants[markets[m] + '-SPOT'] = relative 
 
   }
-  fs.writeFileSync('../lala.json', JSON.stringify(rates))
+  fs.writeFileSync('../py/lala.json', JSON.stringify(rates))
 /*
   // L2 orderbook data
   for (const [price, size] of bids.getL2(20)) {
