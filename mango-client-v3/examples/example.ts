@@ -36,6 +36,7 @@ async function examplePerp() {
 
   const mangoGroup = await client.getMangoGroup(groupConfig.publicKey);
 while (true){
+try{
   const owner = new Account(readKeypair());
   const mangoAccount = (
     await client.getMangoAccountsForOwner(mangoGroup, owner.publicKey)
@@ -173,7 +174,10 @@ console.log(markets[m] + ' midprice: ' + mid.toString())
   }
   */
 }
+catch(err){
 
+}
+}
 }
 
 async function exampleSpot() {

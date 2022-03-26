@@ -254,7 +254,7 @@ class MM:
                     market = True 
                 logger.info("market?")
                 logger.info(str(market))
-                if market == True:
+                if market == True and (order.size) > 0:
                     for order in to_create:
                         self.mango_service_v3_client.place_order(
                             PlaceOrder(
@@ -269,7 +269,7 @@ price=order.price,
                                 client_id=123,
                             )
                         )
-                else:
+                elif market == False and (order.size) > 0:
                     for order in to_create:
                         self.mango_service_v3_client.place_order(
                             PlaceOrder(
@@ -284,6 +284,7 @@ price=order.price,
                                 client_id=123,
                             )
                         )
+                print('wat')
                 logger.info("")
             else:
                 logger.info("- no orders to create, current open orders")
@@ -360,7 +361,7 @@ def aThread(market):
         logger.error(f"Exception: {e}")
 
     while True:
-        CYCLE_INTERVAL = random.randint(30,200) / 2#mm.mango_service_v3_client.lenAccs
+        CYCLE_INTERVAL = random.randint(30,200) * 10#mm.mango_service_v3_client.lenAccs
         
 
         logger.info("next cycle...")

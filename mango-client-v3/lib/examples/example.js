@@ -54,120 +54,124 @@ function examplePerp() {
         // load group & market
         const mangoGroup = yield client.getMangoGroup(groupConfig.publicKey);
         while (true) {
-            const owner = new web3_js_1.Account(readKeypair());
-            const mangoAccount = (yield client.getMangoAccountsForOwner(mangoGroup, owner.publicKey))[0];
-            const cache = yield mangoGroup.loadCache(connection);
-            const accountstuff = mangoAccount.toPrettyString(groupConfig, mangoGroup, cache);
-            console.log(accountstuff);
-            //  ppp = (mangoAccount.computeValue(mangoGroup, cache).toNumber() * 4).toFixed(4) 
-            // console.log('purchasing power @4x (breathing room 1x): ' + ppp)
-            let rates = { 'arr': [], 't': 0, 'avg': 0, 'wants': {}, 'mids': {} };
-            for (const m in markets) {
-                const perpMarketConfig = src_1.getMarketByBaseSymbolAndKind(groupConfig, markets[m], 'perp');
-                const perpMarket = yield mangoGroup.loadPerpMarket(connection, perpMarketConfig.marketIndex, perpMarketConfig.baseDecimals, perpMarketConfig.quoteDecimals);
-                // Fetch orderbooks
-                const bids = yield perpMarket.loadBids(connection);
-                const asks = yield perpMarket.loadAsks(connection);
-                let bb, ba;
-                for (const [price, size] of bids.getL2(1)) {
-                    //  console.log(price, size);
-                    bb = price;
+            try {
+                const owner = new web3_js_1.Account(readKeypair());
+                const mangoAccount = (yield client.getMangoAccountsForOwner(mangoGroup, owner.publicKey))[0];
+                const cache = yield mangoGroup.loadCache(connection);
+                const accountstuff = mangoAccount.toPrettyString(groupConfig, mangoGroup, cache);
+                console.log(accountstuff);
+                //  ppp = (mangoAccount.computeValue(mangoGroup, cache).toNumber() * 4).toFixed(4) 
+                // console.log('purchasing power @4x (breathing room 1x): ' + ppp)
+                let rates = { 'arr': [], 't': 0, 'avg': 0, 'wants': {}, 'mids': {} };
+                for (const m in markets) {
+                    const perpMarketConfig = src_1.getMarketByBaseSymbolAndKind(groupConfig, markets[m], 'perp');
+                    const perpMarket = yield mangoGroup.loadPerpMarket(connection, perpMarketConfig.marketIndex, perpMarketConfig.baseDecimals, perpMarketConfig.quoteDecimals);
+                    // Fetch orderbooks
+                    const bids = yield perpMarket.loadBids(connection);
+                    const asks = yield perpMarket.loadAsks(connection);
+                    let bb, ba;
+                    for (const [price, size] of bids.getL2(1)) {
+                        //  console.log(price, size);
+                        bb = price;
+                    }
+                    for (const [price, size] of asks.getL2(1)) {
+                        console.log(price, size);
+                        ba = price;
+                    }
+                    let mid = (bb + ba) / 2;
+                    rates.mids[markets[m] + '-PERP'] = mid;
+                    console.log(markets[m] + ' midprice: ' + mid.toString());
+                    let rate = (yield perpMarket.getCurrentFundingRate(mangoGroup, cache, perpMarketConfig.marketIndex, bids, asks)) * 24 * 365 * 100 * 2;
+                    if (Math.abs(rate) > 50) {
+                        // @ts-ignore
+                        rates[markets[m]] = rate;
+                        // @ts-ignore
+                        rates.arr.push(rate);
+                        rates.t += Math.abs(rate);
+                        console.log(markets[m] + ": " + Math.abs(Math.round(rate * 100) / 100).toString() + '% APY');
+                    }
+                    else {
+                        rate = 0;
+                        // @ts-ignore
+                        rates[markets[m]] = rate;
+                        // @ts-ignore
+                        rates.arr.push(rate);
+                        rates.t += Math.abs(rate);
+                    }
                 }
-                for (const [price, size] of asks.getL2(1)) {
+                rates.avg = rates.t / rates.arr.length;
+                let temp = 0;
+                for (var m in markets) {
+                    let relative = (rates[markets[m]]) / rates.t;
+                    rates.wants[markets[m] + '-PERP'] = -1 * relative;
+                    rates.wants[markets[m] + '-SPOT'] = relative;
+                }
+                fs.writeFileSync('../lala.json', JSON.stringify(rates));
+                /*
+                  // L2 orderbook data
+                  for (const [price, size] of bids.getL2(20)) {
                     console.log(price, size);
-                    ba = price;
-                }
-                let mid = (bb + ba) / 2;
-                rates.mids[markets[m] + '-PERP'] = mid;
-                console.log(markets[m] + ' midprice: ' + mid.toString());
-                let rate = (yield perpMarket.getCurrentFundingRate(mangoGroup, cache, perpMarketConfig.marketIndex, bids, asks)) * 24 * 365 * 100 * 2;
-                if (Math.abs(rate) > 50) {
-                    // @ts-ignore
-                    rates[markets[m]] = rate;
-                    // @ts-ignore
-                    rates.arr.push(rate);
-                    rates.t += Math.abs(rate);
-                    console.log(markets[m] + ": " + Math.abs(Math.round(rate * 100) / 100).toString() + '% APY');
-                }
-                else {
-                    rate = 0;
-                    // @ts-ignore
-                    rates[markets[m]] = rate;
-                    // @ts-ignore
-                    rates.arr.push(rate);
-                    rates.t += Math.abs(rate);
-                }
+                  }
+                
+                  // L3 orderbook data
+                  for (const order of asks) {
+                    console.log(
+                      order.owner.toBase58(),
+                      order.orderId.toString('hex'),
+                      order.price,
+                      order.size,
+                      order.side, // 'buy' or 'sell'
+                    );
+                  }
+                
+                  // Place order
+                  const owner = new Account(readKeypair());
+                  const mangoAccount = (
+                    await client.getMangoAccountsForOwner(mangoGroup, owner.publicKey)
+                  )[0];
+                  
+                  // Place an order that is guaranteed to go on the book and let it auto expire in 5 seconds
+                  await client.placePerpOrder2(
+                    mangoGroup,
+                    mangoAccount,
+                    perpMarket,
+                    owner,
+                    'buy', // or 'sell'
+                    39000,
+                    0.0001,
+                    { orderType: 'postOnlySlide',   : getUnixTs() + 5 },
+                  ); // or 'ioc' or 'postOnly'
+                
+                  // retrieve open orders for account
+                  const openOrders = await perpMarket.loadOrdersForAccount(
+                    connection,
+                    mangoAccount,
+                  );
+                
+                  // cancel orders
+                  for (const order of openOrders) {
+                    await client.cancelPerpOrder(
+                      mangoGroup,
+                      mangoAccount,
+                      owner,
+                      perpMarket,
+                      order,
+                    );
+                  }
+                
+                  // Retrieve fills
+                  for (const fill of await perpMarket.loadFills(connection)) {
+                    console.log(
+                      fill.maker.toBase58(),
+                      fill.taker.toBase58(),
+                      fill.price,
+                      fill.quantity,
+                    );
+                  }
+                  */
             }
-            rates.avg = rates.t / rates.arr.length;
-            let temp = 0;
-            for (var m in markets) {
-                let relative = (rates[markets[m]]) / rates.t;
-                rates.wants[markets[m] + '-PERP'] = -1 * relative;
-                rates.wants[markets[m] + '-SPOT'] = relative;
+            catch (err) {
             }
-            fs.writeFileSync('../lala.json', JSON.stringify(rates));
-            /*
-              // L2 orderbook data
-              for (const [price, size] of bids.getL2(20)) {
-                console.log(price, size);
-              }
-            
-              // L3 orderbook data
-              for (const order of asks) {
-                console.log(
-                  order.owner.toBase58(),
-                  order.orderId.toString('hex'),
-                  order.price,
-                  order.size,
-                  order.side, // 'buy' or 'sell'
-                );
-              }
-            
-              // Place order
-              const owner = new Account(readKeypair());
-              const mangoAccount = (
-                await client.getMangoAccountsForOwner(mangoGroup, owner.publicKey)
-              )[0];
-              
-              // Place an order that is guaranteed to go on the book and let it auto expire in 5 seconds
-              await client.placePerpOrder2(
-                mangoGroup,
-                mangoAccount,
-                perpMarket,
-                owner,
-                'buy', // or 'sell'
-                39000,
-                0.0001,
-                { orderType: 'postOnlySlide',   : getUnixTs() + 5 },
-              ); // or 'ioc' or 'postOnly'
-            
-              // retrieve open orders for account
-              const openOrders = await perpMarket.loadOrdersForAccount(
-                connection,
-                mangoAccount,
-              );
-            
-              // cancel orders
-              for (const order of openOrders) {
-                await client.cancelPerpOrder(
-                  mangoGroup,
-                  mangoAccount,
-                  owner,
-                  perpMarket,
-                  order,
-                );
-              }
-            
-              // Retrieve fills
-              for (const fill of await perpMarket.loadFills(connection)) {
-                console.log(
-                  fill.maker.toBase58(),
-                  fill.taker.toBase58(),
-                  fill.price,
-                  fill.quantity,
-                );
-              }
-              */
         }
     });
 }
