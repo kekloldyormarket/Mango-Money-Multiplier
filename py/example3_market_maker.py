@@ -145,7 +145,7 @@ class MM:
                     wantsInKind[self.MARKET] = (LALA['wants'][self.MARKET] * self.balance) / mid
                     print('2: ' + str(wantsInKind[self.MARKET]))
                 print('diff: ' + str(diff))
-                if diff >=-1 * 0.5 / mid:
+                if diff >=-1 * 5 / mid:
                     if wantsInKind[self.MARKET] > 0:
                         self.MAX_LONG_POSITION = wantsInKind[self.MARKET]
                         self.SIZE = abs(self.MAX_LONG_POSITION / 100 * 10)
@@ -317,7 +317,7 @@ class MM:
                 print(self.balance)#
                 print(abs(to_create[0].size) * to_create[0].price )
                 #sleep(100)#print(self.balance)
-                if market == True and abs(to_create[0].size) * to_create[0].price > self.balance / 100:# * 10:
+                if market == True and abs(to_create[0].size) * to_create[0].price > self.balance / 100 * 5:# * 10:
                     print(1381)
                     for order in to_create:
                         self.mango_service_v3_client.place_order(
@@ -333,7 +333,7 @@ price=order.price,
                                 client_id=123,
                             )
                         )
-                elif market == False and abs(to_create[0].size) * to_create[0].price > self.balance / 100:# * 10:
+                elif market == False and abs(to_create[0].size) * to_create[0].price > self.balance / 100 * 5:# * 10:
                     print(1831)
                     for order in to_create:
                         self.mango_service_v3_client.place_order(
