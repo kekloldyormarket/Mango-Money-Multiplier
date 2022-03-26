@@ -101,6 +101,7 @@ class MM:
                      for balance in self.mango_service_v3_client.get_balances()
                      if balance.coin.split('-')[0] == self.MARKET.split('-')[0]
                 ]
+                
                 #print(2)
                 other = "SPOT"
                 if 'SPOT' in self.MARKET:
@@ -119,16 +120,20 @@ class MM:
                         if balance.coin == self.MARKET.split('-')[0] + '-' + other
                     ]
                   #  print(31)
+                print(self.MARKET)
+                print(self.positions)
+                print(otherpos)
                 diff = 0
 
                 if otherpos != None and self.positions != None:
                     if len(otherpos) > 0 and len(self.positions) > 0:
                         try:
-                            diff = abs(otherpos[0].spot_borrow) -  abs(self.positions[0].net_size)
+                            diff = abs(otherpos[0].total) -  abs(self.positions[0].net_size)
                         except: 
-                            diff = abs(otherpos[0].net_size) -  abs(self.balances2[0].spot_borrow)
+                            diff = abs(otherpos[0].net_size) -  abs(self.balances2[0].total)
                 #print(4)
                 mid = (self.market.bid + self.market.ask) / 2
+                self.mid = mid
                 self.MAX_LONG_POSITION = 0
                 self.MAX_SHORT_POSITION = 0
                 wantsInKind = {}
@@ -139,21 +144,33 @@ class MM:
                 else:
                     wantsInKind[self.MARKET] = (LALA['wants'][self.MARKET] * self.balance) / mid
                     print('2: ' + str(wantsInKind[self.MARKET]))
-
-                if diff >= -1 * 5 / mid:
+                print('diff: ' + str(diff))
+                if diff >=-1 * 0.5 / mid:
                     if wantsInKind[self.MARKET] > 0:
                         self.MAX_LONG_POSITION = wantsInKind[self.MARKET]
-                        self.SIZE = abs(self.MAX_LONG_POSITION / 100 * 7)
+                        self.SIZE = abs(self.MAX_LONG_POSITION / 100 * 10)
                         if  self.long_position_limit_exceeded():
                             self.MAX_SHORT_POSITION = wantsInKind[self.MARKET] / 10 * -1
                     else:
 
                         self.MAX_SHORT_POSITION =  wantsInKind[self.MARKET]
-                        self.SIZE = abs(self.MAX_SHORT_POSITION / 100 * 7)
+                        self.SIZE = abs(self.MAX_SHORT_POSITION / 100 * 10)
                         if  self.short_position_limit_exceeded():
                             self.MAX_LONG_POSITION = wantsInKind[self.MARKET] / 10 * -1
+                else:
+                    if wantsInKind[self.MARKET] > 0:
+                        self.MAX_LONG_POSITION = wantsInKind[self.MARKET]
+                        self.SIZE = abs(self.MAX_LONG_POSITION / 100 * 1)
+                        if  self.long_position_limit_exceeded():
+                            self.MAX_SHORT_POSITION = wantsInKind[self.MARKET] / 100 * -1
+                    else:
 
-                
+                        self.MAX_SHORT_POSITION =  wantsInKind[self.MARKET]
+                        self.SIZE = abs(self.MAX_SHORT_POSITION / 100 * 1)
+                        if  self.short_position_limit_exceeded():
+                            self.MAX_LONG_POSITION = wantsInKind[self.MARKET] / 100 * -1
+                print(self.MAX_LONG_POSITION)
+                print(self.MAX_SHORT_POSITION)
         except:
             sleep(random.randint(10,30))   
             return self.get_ticker()     
@@ -263,33 +280,45 @@ class MM:
                         f" |_ price {order.price}, side {order.side:4}, size {order.size}, value {order.price * order.size}"
                     )
                 market = True
-                if len(self.positions) > 0:
-                    if abs(self.MAX_LONG_POSITION) > abs(self.MAX_SHORT_POSITION):
+                try:
+                    if len(self.positions) > 0:
+                        if abs(self.MAX_LONG_POSITION) > abs(self.MAX_SHORT_POSITION):
 
-                        if abs((self.positions[0].net_size) / self.mid) / abs(self.MAX_LONG_POSITION) > 0.5:
-                            market = False
-                    else:
-                        if abs((self.positions[0].net_size) / self.mid) / abs(self.MAX_SHORT_POSITION) > 0.5:
-                            market = False
-                if len(self.balances2) > 0:
-                    print(1)
-                    if abs(self.MAX_LONG_POSITION) > abs(self.MAX_SHORT_POSITION) and abs(self.balances2[0].spot_borrow) > 0:
-                        print(2)
-                        if abs((self.balances2[0].spot_borrow) / self.mid) / abs(self.MAX_LONG_POSITION) > 0.5:
-                            market = False
-                            print(3) 
-                    elif abs(self.MAX_LONG_POSITION) > abs(self.MAX_SHORT_POSITION) and  abs(self.balances2[0].spot_borrow) > 0:
-                        if abs((self.balances2[0].spot_borrow) / self.mid) / abs(self.MAX_SHORT_POSITION) > 0.5:
-                            print(6)
-                            market = False
+                            if abs((self.positions[0].net_size) * self.mid) / abs(self.MAX_LONG_POSITION) > 0.5:
+                                market = False
+                        else:
+                            if abs((self.positions[0].net_size) * self.mid) / abs(self.MAX_SHORT_POSITION) > 0.5:
+                                market = False
+                    print(self.balances2)
+                    if len(self.balances2) > 0:
+                        print(1)
+                        if abs(self.MAX_LONG_POSITION) > abs(self.MAX_SHORT_POSITION) and abs(self.balances2[0].total) > 0:
+                            print(2)
+                            if abs((self.balances2[0].total) * self.mid) / abs(self.MAX_LONG_POSITION) > 0.5:
+                                market = False
+                                print(3) 
+                        elif abs(self.MAX_LONG_POSITION) > abs(self.MAX_SHORT_POSITION) and  abs(self.balances2[0].total) > 0:
+                            if abs((self.balances2[0].total) * self.mid) / abs(self.MAX_SHORT_POSITION) > 0.5:
+                                print(6)
+                                market = False
                         
-                    elif abs(self.balances2[0].spot_borrow) == 0:
-                        print(7) 
+                        elif abs(self.balances2[0].total) == 0:
+                            print(7) 
+                except:
+                    abc=123
 #                        market = False
                 #market = True 
                 logger.info("market? "+ self.MARKET)
                 logger.info(str(market))
-                if market == True and (to_create[0].size) > 0:
+                print(138)
+                print(to_create[0].size)
+                print(self.mid)
+                print(abs(to_create[0].size)) 
+                print(self.balance)#
+                print(abs(to_create[0].size) * to_create[0].price )
+                #sleep(100)#print(self.balance)
+                if market == True and abs(to_create[0].size) * to_create[0].price > self.balance / 100:# * 10:
+                    print(1381)
                     for order in to_create:
                         self.mango_service_v3_client.place_order(
                             PlaceOrder(
@@ -304,7 +333,8 @@ price=order.price,
                                 client_id=123,
                             )
                         )
-                elif market == False and (to_create[0].size) > 0:
+                elif market == False and abs(to_create[0].size) * to_create[0].price > self.balance / 100:# * 10:
+                    print(1831)
                     for order in to_create:
                         self.mango_service_v3_client.place_order(
                             PlaceOrder(
@@ -357,14 +387,14 @@ price=order.price,
                     buy_orders.append(self.prepare_order(-i))
             else:
                 logger.info(
-                    f"- skipping adding to longs, current position {self.positions[0].net_size}"
+                    f"- skipping adding to longs, current position {self.positions[0].size}"
                 )
             if not self.short_position_limit_exceeded():
                 for i in reversed(range(1, MAX_ORDERS + 1)):
                     sell_orders.append(self.prepare_order(i))
             else:
                 logger.info(
-                    f"- skipping adding to shorts, current position {self.positions[0].net_size}"
+                    f"- skipping adding to shorts, current position {self.positions[0].size}"
                 )
             return self.converge_orders(buy_orders, sell_orders)
 
