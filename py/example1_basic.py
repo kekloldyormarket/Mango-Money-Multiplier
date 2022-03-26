@@ -11,8 +11,8 @@ if __name__ == "__main__":
     for balance in mango_service_v3_client.get_balances():
         print(balance.json(indent=4, sort_keys=True))
 
-    for market in mango_service_v3_client.get_markets():
-        print(market.json(indent=4, sort_keys=True))
+#    for market in mango_service_v3_client.get_markets():
+#        print(market.json(indent=4, sort_keys=True))
     """
     print(
         mango_service_v3_client.get_market_by_market_name("BTC/USDC").json(

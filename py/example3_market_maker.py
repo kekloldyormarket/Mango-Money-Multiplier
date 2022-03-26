@@ -45,6 +45,7 @@ class MM:
     def __init__(self, market):
         self.mango_service_v3_client = MangoServiceV3Client()
         self.balances = {}
+        self.balances2 = None
         self.balance = 0
         self.market = market
         self.MARKET = market
@@ -94,19 +95,39 @@ class MM:
                     for position in self.mango_service_v3_client.get_open_positions()
                     if position.future == self.MARKET
                 ]
+                print(1)
+                self.balances2 = [
+                     balance
+                     for balance in self.mango_service_v3_client.get_balances()
+                     if balance.coin.split('-')[0] == self.MARKET.split('-')[0]
+                ]
+                print(2)
                 other = "SPOT"
                 if 'SPOT' in self.MARKET:
                     other = 'PERP'
-                otherpos = [
-                    position
-                    for position in self.mango_service_v3_client.get_open_positions()
-                    if position.future == self.MARKET.split('-')[0] + '-' + other
-                ]
+                if other == 'PERP':
+                    otherpos = [
+                        position
+                        for position in self.mango_service_v3_client.get_open_positions()
+                        if position.future == self.MARKET.split('-')[0] + '-' + other
+                    ]
+                    print(3)
+                else:
+                    otherpos = [
+                        balance
+                        for balance in self.mango_service_v3_client.get_balances()
+                        if balance.coin == self.MARKET.split('-')[0] + '-' + other
+                    ]
+                    print(31)
                 diff = 0
+
                 if otherpos != None and self.positions != None:
                     if len(otherpos) > 0 and len(self.positions) > 0:
-                        diff = abs(otherpos[0].net_size) -  abs(self.positions[0].net_size)
-                
+                        try:
+                            diff = abs(otherpos[0].spot_borrow) -  abs(self.positions[0].net_size)
+                        except: 
+                            diff = abs(otherpos[0].net_size) -  abs(self.balances2[0].spot_borrow)
+                print(4)
                 mid = (self.market.bid + self.market.ask) / 2
                 self.MAX_LONG_POSITION = 0
                 self.MAX_SHORT_POSITION = 0
@@ -361,7 +382,7 @@ def aThread(market):
         logger.error(f"Exception: {e}")
 
     while True:
-        CYCLE_INTERVAL = random.randint(1,30) * 10#mm.mango_service_v3_client.lenAccs
+        CYCLE_INTERVAL = random.randint(1,30) * 5#mm.mango_service_v3_client.lenAccs
         
 
         logger.info("next cycle...")
