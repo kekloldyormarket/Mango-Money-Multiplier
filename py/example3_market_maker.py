@@ -154,16 +154,28 @@ class MM:
                     wantsInKind[self.MARKET] = (LALA['wants'][self.MARKET] * self.balance) / mid
                     print('2: ' + str(wantsInKind[self.MARKET]))
                 print('diff: ' + str(diff))
-                if diff >= 0: #-1 * (self.balance / 350 * 5) / mid:
+                if abs(diff) <= (self.balance / 2.5) / self.mid:
                     if wantsInKind[self.MARKET] > 0:
                         self.MAX_LONG_POSITION = wantsInKind[self.MARKET]
-                        self.SIZE = abs(self.MAX_LONG_POSITION / 100 * 50)
+                        self.SIZE = abs(self.MAX_LONG_POSITION / 100 * 2)
+#                        if  self.long_position_limit_exceeded():
+#                            self.MAX_SHORT_POSITION = wantsInKind[self.MARKET] / 10 * -1
+                    else:
+
+                        self.MAX_SHORT_POSITION =  wantsInKind[self.MARKET]
+                        self.SIZE = abs(self.MAX_SHORT_POSITION / 100 * 2)
+#                        if  self.short_position_limit_exceeded():
+#                            self.MAX_LONG_POSITION = wantsInKind[self.MARKET] / 10 * -1
+                """ elif diff >= -1 * (self.balance / 100) / mid:
+                    if wantsInKind[self.MARKET] > 0:
+                        self.MAX_LONG_POSITION = wantsInKind[self.MARKET]
+                        self.SIZE = abs(self.MAX_LONG_POSITION / 100 * 2)
                         if  self.long_position_limit_exceeded():
                             self.MAX_SHORT_POSITION = wantsInKind[self.MARKET] / 10 * -1
                     else:
 
                         self.MAX_SHORT_POSITION =  wantsInKind[self.MARKET]
-                        self.SIZE = abs(self.MAX_SHORT_POSITION / 100 * 50)
+                        self.SIZE = abs(self.MAX_SHORT_POSITION / 100 * 2)
                         if  self.short_position_limit_exceeded():
                             self.MAX_LONG_POSITION = wantsInKind[self.MARKET] / 10 * -1
                 else:
@@ -178,6 +190,7 @@ class MM:
                         self.SIZE = abs(self.MAX_SHORT_POSITION / 100 * 1)
                         if  self.short_position_limit_exceeded():
                             self.MAX_LONG_POSITION = wantsInKind[self.MARKET] / 100 * -1
+                """
                 print(self.MAX_LONG_POSITION)
                 print(self.MAX_SHORT_POSITION)
         except:
@@ -337,7 +350,7 @@ class MM:
                 print(self.balance)#
                 print(abs(to_create[0].size) * to_create[0].price )
                 #sleep(100)#print(self.balance)
-                if market == True and abs(to_create[0].size) > 0: #* to_create[0].price > 0: #self.balance / (100 * 25):# * 10:
+                if market == True and abs(to_create[0].size) * to_create[0].price > self.balance / (100 * 100):# * 10:
                     print(1381)
                     for order in to_create:
                         self.mango_service_v3_client.place_order(
@@ -353,7 +366,7 @@ price=order.price,
                                 client_id=123,
                             )
                         )
-                elif market == False and abs(to_create[0].size) > 0: # * to_create[0].price > 0: #self.balance / (100 * 25):# * 10:
+                elif market == False and abs(to_create[0].size) * to_create[0].price > self.balance / (100 * 100):# * 10:
                     print(1831)
                     for order in to_create:
                         self.mango_service_v3_client.place_order(
@@ -440,6 +453,7 @@ def aThread(market):
     logger.info("cancelling all orders...")
 
     try:
+        sleep(random.randint(1,20))
         mm.mango_service_v3_client.cancel_all_orders()
     except Exception as e:
         
