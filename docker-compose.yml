@@ -21,7 +21,7 @@ services:
       - "8005:8005"
     environment:
       - MB_PORT=8005
-      - MB_ENDPOINT=CLUSTER_URL=https://solana--mainnet.datahub.figment.io/apikey/24c64e276fc5db6ff73da2f59bac40f2 # configure custom RPC node
+      - MB_ENDPOINT=https://solana--mainnet.datahub.figment.io/apikey/24c64e276fc5db6ff73da2f59bac40f2 # configure custom RPC node
   reverse-proxy:
     build: .
     
