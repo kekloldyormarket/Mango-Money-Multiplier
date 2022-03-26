@@ -46,10 +46,11 @@ export class FillsController implements Controller {
 
     // note: flip to example while developing
     // let eventHistoryPerpTradesUrl = `https://event-history-api.herokuapp.com/perp_trades/CGp2BQS5vgySstS1LHQh46FmPVNZNv9EcgtaaJo7o1yB`;
-    let eventHistoryPerpTradesUrl = `https://event-history-api.herokuapp.com/perp_trades/${this.mangoSimpleClient.mangoAccount.publicKey.toBase58()}`;
-    if (page) {
-      eventHistoryPerpTradesUrl = eventHistoryPerpTradesUrl + `?page=${page}`;
-    }
+    //let eventHistoryPerpTradesUrl = `https://event-history-api.herokuapp.com/perp_trades/${this.mangoSimpleClient.mangoAccount.publicKey.toBase58()}`;
+    //if (page) {
+    //  eventHistoryPerpTradesUrl = eventHistoryPerpTradesUrl + `?page=${page}`;
+    //}
+/*
     fetch(eventHistoryPerpTradesUrl)
       .then(async (tradesResponse) => {
         const parsedTradesResponse = (await tradesResponse.json()) as any;
@@ -65,5 +66,6 @@ export class FillsController implements Controller {
           errors: [{ msg: error.message } as RequestErrorCustom],
         });
       });
+*/
   };
 }

@@ -11,7 +11,7 @@ services:
     environment:
       - PORT=3000
       - GROUP_NAME=mainnet.1
-      - CLUSTER_URL=${CLUSTER_URL} # configure custom RPC node
+      - CLUSTER_URL=https://solana--mainnet.datahub.figment.io/apikey/24c64e276fc5db6ff73da2f59bac40f2
       - PRIVATE_KEY_PATH=/usr/id.json # configure path to private keypair here
   mango-bowl:
     
@@ -20,8 +20,8 @@ services:
     ports:
       - "8005:8005"
     environment:
-      - MB_PORT=8000
-      - MB_ENDPOINT=${CLUSTER_URL} # configure custom RPC node
+      - MB_PORT=8005
+      - MB_ENDPOINT=CLUSTER_URL=https://solana--mainnet.datahub.figment.io/apikey/24c64e276fc5db6ff73da2f59bac40f2 # configure custom RPC node
   reverse-proxy:
     build: .
     

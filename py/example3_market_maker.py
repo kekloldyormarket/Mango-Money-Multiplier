@@ -250,8 +250,8 @@ class MM:
                     else:
                         if abs((self.positions[0].net_size) / self.mid) / abs(self.MAX_SHORT_POSITION) > 0.5:
                             market = True
-                else:
-                    market = True 
+                #else:
+                #    market = True 
                 logger.info("market?")
                 logger.info(str(market))
                 if market == True and (order.size) > 0:
@@ -384,13 +384,15 @@ if __name__ == "__main__":
     done = False 
     while done == False:
         try:
-            shutil.copy("../lala.json", "./lala2.json")
+            shutil.copy("./lala.json", "./lala2.json")
+            shutil.copy("./lala.json", "../lala2.json")
+            
             with open("./lala2.json", "r") as f:
                 LALA = json.loads(f.read())
                 done = True
         except Exception as e:
             try:
-                with open("../lala.json", "r") as f:
+                with open("./lala.json", "r") as f:
                     LALA = json.loads(f.read())
                 done = True
             except Exception as e:
@@ -406,13 +408,15 @@ if __name__ == "__main__":
         done = False 
         while done == False:
             try:
-                shutil.copy("../lala.json", "./lala2.json")
+                shutil.copy("./lala.json", "./lala2.json")
+                shutil.copy("./lala.json", "../lala2.json")
+                
                 with open("./lala2.json", "r") as f:
                     LALA = json.loads(f.read())
                     done = True
             except Exception as e:
                 try:
-                    with open("../lala.json", "r") as f:
+                    with open("./lala.json", "r") as f:
                         LALA = json.loads(f.read())
                     done = True
                 except Exception as e:

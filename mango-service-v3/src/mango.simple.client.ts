@@ -352,7 +352,8 @@ class MangoSimpleClient {
     // 1. latest fills from on-chain
     let allRecentMangoAccountPerpFills: any[] = [];
     // 2. historic from off-chain REST service
-    const response = await fetch(
+/*    
+const response = await fetch(
       `https://event-history-api.herokuapp.com/perp_trades/${this.mangoAccount.publicKey.toBase58()}`
     );
     const responseJson = await response.json();
@@ -388,8 +389,8 @@ class MangoSimpleClient {
           }
         })
     );
-
-    return [...newMangoAccountPerpFills, ...allButRecentMangoAccountPerpFills];
+*/
+    return [];
   }
 
   public async placeOrder(
