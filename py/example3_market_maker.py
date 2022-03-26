@@ -122,13 +122,13 @@ class MM:
                 if diff >= -1 * 5 / mid:
                     if wantsInKind[self.MARKET] > 0:
                         self.MAX_LONG_POSITION = wantsInKind[self.MARKET]
-                        self.SIZE = abs(self.MAX_LONG_POSITION / 100 * 5)
+                        self.SIZE = abs(self.MAX_LONG_POSITION / 100 * 15)
                         if  self.long_position_limit_exceeded():
                             self.MAX_SHORT_POSITION = wantsInKind[self.MARKET] / 10 * -1
                     else:
 
                         self.MAX_SHORT_POSITION =  wantsInKind[self.MARKET]
-                        self.SIZE = abs(self.MAX_SHORT_POSITION / 100 * 5)
+                        self.SIZE = abs(self.MAX_SHORT_POSITION / 100 * 15)
                         if  self.short_position_limit_exceeded():
                             self.MAX_LONG_POSITION = wantsInKind[self.MARKET] / 10 * -1
 

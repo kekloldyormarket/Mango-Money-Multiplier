@@ -1,6 +1,8 @@
 version: "3.3"
 services:
   mango-service-v3:
+    
+    restart: always
     build: mango-service-v3
     ports:
       - "3000:3000"
@@ -12,6 +14,8 @@ services:
       - CLUSTER_URL=${CLUSTER_URL} # configure custom RPC node
       - PRIVATE_KEY_PATH=/usr/id.json # configure path to private keypair here
   mango-bowl:
+    
+    restart: always
     build: "mango-bowl"
     ports:
       - "8005:8005"
@@ -20,6 +24,8 @@ services:
       - MB_ENDPOINT=${CLUSTER_URL} # configure custom RPC node
   reverse-proxy:
     build: .
+    
+    restart: always
     ports:
       - "80:80"
     volumes:
