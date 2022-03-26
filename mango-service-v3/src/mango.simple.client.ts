@@ -38,7 +38,7 @@ import os from "os";
 import { OrderInfo } from "types";
 import { logger, zipDict } from "./utils";
 
-let meAndTheBoys = ["5sBpMQgTi7phxqRnErfbwx29vUsbUZoy1MLgY7aXuqeo", "GvSCxCi3y2Mt4JPExhLEZXTbYVGBXv9DNXYomvwRVEak"]
+let meAndTheBoys = ["4TSs6vzXucFNvtXcQTZN3RXMceKEtgRsZzManBZyC2Qb"]//5sBpMQgTi7phxqRnErfbwx29vUsbUZoy1MLgY7aXuqeo", "GvSCxCi3y2Mt4JPExhLEZXTbYVGBXv9DNXYomvwRVEak"]
 
 class MangoSimpleClient {
   constructor(
