@@ -83,7 +83,7 @@ console.log(markets[m] + ' midprice: ' + mid.toString())
     bids,
     asks
   ) * 24 * 365 * 100 * 2
-  if (Math.abs(rate) > 50){
+  if (Math.abs(rate) > 25){
   // @ts-ignore
   rates[markets[m]] = rate;
   // @ts-ignore

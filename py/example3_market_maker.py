@@ -14,7 +14,7 @@ from mango_service_v3_py.dtos import Side, PlaceOrder
 
 # based on https://github.com/BitMEX/sample-market-maker/blob/master/market_maker/market_maker.py
 import random
-CYCLE_INTERVAL = 1
+CYCLE_INTERVAL = random.randint(1,100)
 MARKETS = ["BTC", "SOL", "SRM", "RAY", "FTT", "ADA", "BNB", "AVAX", "LUNA"]
 LALA = {}
 
@@ -143,13 +143,13 @@ class MM:
                 if diff >= -1 * 5 / mid:
                     if wantsInKind[self.MARKET] > 0:
                         self.MAX_LONG_POSITION = wantsInKind[self.MARKET]
-                        self.SIZE = abs(self.MAX_LONG_POSITION / 100 * 15)
+                        self.SIZE = abs(self.MAX_LONG_POSITION / 100 * 7)
                         if  self.long_position_limit_exceeded():
                             self.MAX_SHORT_POSITION = wantsInKind[self.MARKET] / 10 * -1
                     else:
 
                         self.MAX_SHORT_POSITION =  wantsInKind[self.MARKET]
-                        self.SIZE = abs(self.MAX_SHORT_POSITION / 100 * 15)
+                        self.SIZE = abs(self.MAX_SHORT_POSITION / 100 * 7)
                         if  self.short_position_limit_exceeded():
                             self.MAX_LONG_POSITION = wantsInKind[self.MARKET] / 10 * -1
 
@@ -262,18 +262,32 @@ class MM:
                     logger.info(
                         f" |_ price {order.price}, side {order.side:4}, size {order.size}, value {order.price * order.size}"
                     )
-                market = False 
+                market = True
                 if len(self.positions) > 0:
                     if abs(self.MAX_LONG_POSITION) > abs(self.MAX_SHORT_POSITION):
 
                         if abs((self.positions[0].net_size) / self.mid) / abs(self.MAX_LONG_POSITION) > 0.5:
-                            market = True 
+                            market = False
                     else:
                         if abs((self.positions[0].net_size) / self.mid) / abs(self.MAX_SHORT_POSITION) > 0.5:
-                            market = True
-                #else:
-                #    market = True 
-                logger.info("market?")
+                            market = False
+                if len(self.balances2) > 0:
+                    print(1)
+                    if abs(self.MAX_LONG_POSITION) > abs(self.MAX_SHORT_POSITION) and abs(self.balances2[0].spot_borrow) > 0:
+                        print(2)
+                        if abs((self.balances2[0].spot_borrow) / self.mid) / abs(self.MAX_LONG_POSITION) > 0.5:
+                            market = False
+                            print(3) 
+                    elif abs(self.MAX_LONG_POSITION) > abs(self.MAX_SHORT_POSITION) and  abs(self.balances2[0].spot_borrow) > 0:
+                        if abs((self.balances2[0].spot_borrow) / self.mid) / abs(self.MAX_SHORT_POSITION) > 0.5:
+                            print(6)
+                            market = False
+                        
+                    elif abs(self.balances2[0].spot_borrow) == 0:
+                        print(7) 
+#                        market = False
+                #market = True 
+                logger.info("market? "+ self.MARKET)
                 logger.info(str(market))
                 if market == True and (to_create[0].size) > 0:
                     for order in to_create:
@@ -281,8 +295,8 @@ class MM:
                             PlaceOrder(
                                 market=self.MARKET,
                                 side=order.side,
-price=order.price,
-                                type="limit",
+#price=order.price,
+                                type="market",
                                 size=order.size,
                                 reduce_only=False,
                                 ioc=False,
@@ -382,7 +396,7 @@ def aThread(market):
         logger.error(f"Exception: {e}")
 
     while True:
-        CYCLE_INTERVAL = random.randint(10,60)# * 5#mm.mango_service_v3_client.lenAccs
+        CYCLE_INTERVAL = random.randint(10,100)# * 5#mm.mango_service_v3_client.lenAccs
         
 
         logger.info("next cycle...")

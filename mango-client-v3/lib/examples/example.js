@@ -82,7 +82,7 @@ function examplePerp() {
                     rates.mids[markets[m] + '-PERP'] = mid;
                     console.log(markets[m] + ' midprice: ' + mid.toString());
                     let rate = (yield perpMarket.getCurrentFundingRate(mangoGroup, cache, perpMarketConfig.marketIndex, bids, asks)) * 24 * 365 * 100 * 2;
-                    if (Math.abs(rate) > 50) {
+                    if (Math.abs(rate) > 25) {
                         // @ts-ignore
                         rates[markets[m]] = rate;
                         // @ts-ignore
