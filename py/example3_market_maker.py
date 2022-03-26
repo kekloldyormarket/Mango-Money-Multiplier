@@ -88,9 +88,12 @@ class MM:
                 self.start_position_buy = self.market.bid #- self.market.price_increment
                 self.start_position_sell = self.market.ask#+ self.market.price_increment
                 self.balances = self.mango_service_v3_client.get_account()['marketMarginAvailable']
+                self.balance = 0 #print(self.mango_service_v3_client.get_account())
                 for a in self.balances:
-                    if self.MARKET.replace('PERP', 'SPOT') == a['name']:
-                        self.balance = (a['marginAvailable'] / 1.138)
+                    #print(a)
+                    if self.balance < a['marginAvailable']:
+                        self.balance = (a['marginAvailable']) #/ 1.138)
+                #sleep(100)
                 self.positions = [
                     position
                     for position in self.mango_service_v3_client.get_open_positions()
@@ -154,13 +157,13 @@ class MM:
                 if diff >= 0: #-1 * (self.balance / 350 * 5) / mid:
                     if wantsInKind[self.MARKET] > 0:
                         self.MAX_LONG_POSITION = wantsInKind[self.MARKET]
-                        self.SIZE = abs(self.MAX_LONG_POSITION / 100 * 20)
+                        self.SIZE = abs(self.MAX_LONG_POSITION / 100 * 50)
                         if  self.long_position_limit_exceeded():
                             self.MAX_SHORT_POSITION = wantsInKind[self.MARKET] / 10 * -1
                     else:
 
                         self.MAX_SHORT_POSITION =  wantsInKind[self.MARKET]
-                        self.SIZE = abs(self.MAX_SHORT_POSITION / 100 * 20)
+                        self.SIZE = abs(self.MAX_SHORT_POSITION / 100 * 50)
                         if  self.short_position_limit_exceeded():
                             self.MAX_LONG_POSITION = wantsInKind[self.MARKET] / 10 * -1
                 else:
