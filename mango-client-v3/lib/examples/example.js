@@ -93,10 +93,10 @@ function examplePerp() {
                     else {
                         rate = 0;
                         // @ts-ignore
-                        //  rates[markets[m]] = rate;
+                        rates[markets[m]] = rate;
                         // @ts-ignore
-                        // rates.arr.push(rate)
-                        //rates.t+=Math.abs(rate);
+                        rates.arr.push(rate);
+                        rates.t += Math.abs(rate);
                     }
                 }
                 rates.avg = rates.t / rates.arr.length;

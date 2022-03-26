@@ -95,10 +95,10 @@ console.log(markets[m] + ' midprice: ' + mid.toString())
     rate = 0
 
   // @ts-ignore
-//  rates[markets[m]] = rate;
+  rates[markets[m]] = rate;
   // @ts-ignore
- // rates.arr.push(rate)
-  //rates.t+=Math.abs(rate);
+  rates.arr.push(rate)
+  rates.t+=Math.abs(rate);
   }
   }
 
