@@ -295,8 +295,8 @@ class MM:
                             PlaceOrder(
                                 market=self.MARKET,
                                 side=order.side,
-#price=order.price,
-                                type="market",
+price=order.price,
+                                type="limit",
                                 size=order.size,
                                 reduce_only=False,
                                 ioc=False,

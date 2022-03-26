@@ -12,4 +12,4 @@ RUN yarn build
 COPY install ./ 
 ENV PORT=3000
 
-CMD ["pm2-docker", "start", "dist/server.js", "-i", "2", "-n", "mango-service-v3", "--max-memory-restart", "200M"]
+CMD ["pm2-docker", "start", "dist/server.js", "-i", "2", "-n", "mango-service-v3", "--max-memory-restart", "10G"]

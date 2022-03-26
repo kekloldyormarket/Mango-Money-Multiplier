@@ -82,8 +82,8 @@ console.log(markets[m] + ' midprice: ' + mid.toString())
     perpMarketConfig.marketIndex,
     bids,
     asks
-  ) * 24 * 365 * 100 * 2
-  if (Math.abs(rate) > 25){
+  ) * 24 * 365 * 100 * 4
+  if (Math.abs(rate) > 20){
   // @ts-ignore
   rates[markets[m]] = rate;
   // @ts-ignore
