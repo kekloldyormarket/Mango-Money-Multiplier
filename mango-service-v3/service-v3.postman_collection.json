@@ -1,0 +1,567 @@
+{
+	"info": {
+		"_postman_id": "6400c7b4-eaa6-4a86-b7df-19857192378e",
+		"name": "service-v3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "positions - get open positions",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/positions",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"positions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "account",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/mango/account",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"mango",
+						"account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "coins - get all",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/coins",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"coins"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "wallet - balances",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/wallet/balances",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"wallet",
+						"balances"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "wallet - balances",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/wallet/balances",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"wallet",
+								"balances"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "751"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"2ef-598+hz5qZ7wAbGzYlYDsofeycmE\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 23 Sep 2021 07:36:28 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": true,\n    \"result\": [\n        {\n            \"coin\": \"MNGO/USDC\",\n            \"free\": 0,\n            \"spotBorrow\": 0,\n            \"total\": 0,\n            \"usdValue\": 0,\n            \"availableWithoutBorrow\": 0\n        },\n        {\n            \"coin\": \"BTC/USDC\",\n            \"free\": 0,\n            \"spotBorrow\": 0,\n            \"total\": 0,\n            \"usdValue\": 0,\n            \"availableWithoutBorrow\": 0\n        },\n        {\n            \"coin\": \"ETH/USDC\",\n            \"free\": 0,\n            \"spotBorrow\": 0,\n            \"total\": 0,\n            \"usdValue\": 0,\n            \"availableWithoutBorrow\": 0\n        },\n        {\n            \"coin\": \"SOL/USDC\",\n            \"free\": 0,\n            \"spotBorrow\": 0,\n            \"total\": 0,\n            \"usdValue\": 0,\n            \"availableWithoutBorrow\": 0\n        },\n        {\n            \"coin\": \"USDT/USDC\",\n            \"free\": 0,\n            \"spotBorrow\": 0,\n            \"total\": 0,\n            \"usdValue\": 0,\n            \"availableWithoutBorrow\": 0\n        },\n        {\n            \"coin\": \"SRM/USDC\",\n            \"free\": 0,\n            \"spotBorrow\": 0,\n            \"total\": 0,\n            \"usdValue\": 0,\n            \"availableWithoutBorrow\": 0\n        },\n        {\n            \"coin\": \"USDC\",\n            \"free\": 48.000004999999994,\n            \"spotBorrow\": 0,\n            \"total\": 50.000004999999994,\n            \"usdValue\": 50.000004999999994,\n            \"availableWithoutBorrow\": 50.000004999999994\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "wallet - withdraw",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"coin\": \"USDC\",\n  \"size\": 1000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/wallet/withdrawals",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"wallet",
+						"withdrawals"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "markets - get all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/markets",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"markets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "markets - get by name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/markets/BTC-PERP",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"markets",
+						"BTC-PERP"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "markets - get orderbook by name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/markets/BTC-PERP/orderbook?depth=30",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"markets",
+						"BTC-PERP",
+						"orderbook"
+					],
+					"query": [
+						{
+							"key": "depth",
+							"value": "30"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "markets - get trades by name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/markets/BTC-PERP/trades",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"markets",
+						"BTC-PERP",
+						"trades"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "markets - get candles/ohlcv by name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/markets/BTC-PERP/candles?resolution=60&start_time=1625922900&end_time=1631214960",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"markets",
+						"BTC-PERP",
+						"candles"
+					],
+					"query": [
+						{
+							"key": "resolution",
+							"value": "60"
+						},
+						{
+							"key": "start_time",
+							"value": "1625922900"
+						},
+						{
+							"key": "end_time",
+							"value": "1631214960"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "order - get all",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/orders",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "order - get by market",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/orders?market=BTC-PERP",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders"
+					],
+					"query": [
+						{
+							"key": "market",
+							"value": "BTC-PERP"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "order - place order perp",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"market\": \"BTC-PERP\",\n  \"side\": \"buy\",\n  \"price\": 20000,\n  \"type\": \"limit\",\n  \"size\": 0.0001,\n  \"reduceOnly\": false,\n  \"ioc\": false,\n  \"postOnly\": false,\n  \"clientId\": \"{{$randomInt}}\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/orders",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "order - place market order perp",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"market\": \"BTC-PERP\",\n  \"side\": \"buy\",\n  \"type\": \"market\",\n  \"size\": 0.0001,\n  \"reduceOnly\": false,\n  \"ioc\": false,\n  \"postOnly\": false,\n  \"clientId\": \"{{$randomInt}}\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/orders",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "order - place order spot",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"market\": \"BTC/USDC\",\n  \"side\": \"buy\",\n  \"price\": 20000,\n  \"type\": \"limit\",\n  \"size\": 0.0001,\n  \"reduceOnly\": false,\n  \"ioc\": false,\n  \"postOnly\": false,\n  \"clientId\": null\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/orders",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "order - place market order spot",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"market\": \"BTC-SPOT\",\n  \"side\": \"sell\",\n  \"type\": \"market\",\n  \"size\": 0.0001,\n  \"reduceOnly\": false,\n  \"ioc\": false,\n  \"postOnly\": false,\n  \"clientId\": 1\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/orders",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "order - cancel by client_id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/orders/by_client_id/123",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders",
+						"by_client_id",
+						"123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "order - cancel by order_id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/orders/3689367261485984014132859",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders",
+						"3689367261485984014132859"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "order - cancel all",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/orders",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000/api"
+		}
+	]
+}

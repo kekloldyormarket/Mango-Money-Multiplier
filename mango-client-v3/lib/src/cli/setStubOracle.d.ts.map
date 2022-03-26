@@ -1,0 +1,1 @@
+{"version":3,"file":"setStubOracle.d.ts","sourceRoot":"","sources":["../../../src/cli/setStubOracle.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,UAAU,EAAE,MAAM,iBAAiB,CAAC;AAEtD,OAAO,EAAqB,WAAW,EAAgB,MAAM,WAAW,CAAC;AAEzE,wBAA8B,aAAa,CACzC,UAAU,EAAE,UAAU,EACtB,KAAK,EAAE,OAAO,EACd,WAAW,EAAE,WAAW,EACxB,MAAM,EAAE,MAAM,EACd,KAAK,EAAE,MAAM,iBAUd"}

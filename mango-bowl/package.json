@@ -1,0 +1,83 @@
+{
+  "name": "mango-bowl",
+  "version": "0.1.1",
+  "engines": {
+    "node": ">=15"
+  },
+  "description": "Real-time WebSocket market data API server for Mango DEX",
+  "main": "dist/index.js",
+  "source": "src/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "tardis-dev/mango-bowl",
+  "homepage": "https://github.com/tardis-dev/mango-bowl",
+  "scripts": {
+    "build": "tsc",
+    "precommit": "lint-staged",
+    "test": "npm run build && jest --forceExit",
+    "prepare": "npm run build",
+    "start:debug": "npm run build && node ./bin/mango-bowl.js --log-level=debug",
+    "format": "prettier --write .",
+    "check-format": "prettier --check ."
+  },
+  "bin": {
+    "mango-bowl": "bin/mango-bowl.js"
+  },
+  "files": [
+    "src",
+    "dist",
+    "bin"
+  ],
+  "keywords": [
+    "mango dex",
+    "mango api",
+    "API client",
+    "solana",
+    "cryptocurrency API",
+    "exchange",
+    "defi",
+    "real-time market data API",
+    "DEX API"
+  ],
+  "license": "MPL-2.0",
+  "dependencies": {
+    "@blockworks-foundation/mango-client": "^3.2.14",
+    "@solana/web3.js": "^1.31.0",
+    "@types/bintrees": "^1.0.3",
+    "@types/bn.js": "^5.1.0",
+    "abort-controller": "^3.0.0",
+    "bintrees": "^1.0.2",
+    "bn.js": "^5.2.0",
+    "didyoumean2": "^5.0.0",
+    "is-docker": "^2.2.1",
+    "node-fetch": "^2.6.1",
+    "uWebSockets.js": "git+https://git@github.com/uNetworking/uWebSockets.js.git#v20.4.0",
+    "winston": "^3.3.3",
+    "ws": "^8.3.0",
+    "yargs": "^17.3.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.0.3",
+    "@types/node": "^16.11.11",
+    "@types/node-fetch": "^2.5.12",
+    "@types/ws": "^8.2.1",
+    "cross-var": "^1.1.0",
+    "husky": "^7.0.4",
+    "jest": "^27.4.3",
+    "lint-staged": "^12.1.2",
+    "prettier": "^2.5.0",
+    "ts-jest": "^27.0.7",
+    "typescript": "^4.5.2"
+  },
+  "lint-staged": {
+    "*.{ts}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "jest": {
+    "transform": {
+      "\\.(ts|tsx)?$": "ts-jest"
+    },
+    "testEnvironment": "node"
+  }
+}

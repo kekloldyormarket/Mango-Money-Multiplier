@@ -1,0 +1,2789 @@
+openapi: 3.0.0
+info:
+  title: service-v3
+  version: 1.0.0
+servers:
+  - url: http://{{baseurl}}
+paths:
+  /positions:
+    get:
+      tags:
+        - default
+      summary: positions - get open positions
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '201'
+            ETag:
+              schema:
+                type: string
+                example: W/"c9-lXVNPOifywr2dkOvjRFkYN+3Sjc"
+            Date:
+              schema:
+                type: string
+                example: Thu, 23 Sep 2021 07:35:59 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+                result:
+                  - cost: 4.4113252
+                    entryPrice: '50195.9'
+                    future: BTC-PERP
+                    netSize: 0.0001
+                    recentBreakEvenPrice: 50195.9
+                    side: long
+                    size: 0.0001
+                    unrealizedPnl: -0.6082648000000002
+  /coins:
+    get:
+      tags:
+        - default
+      summary: coins - get all
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '269'
+            ETag:
+              schema:
+                type: string
+                example: W/"10d-Anlhnoh/EcbivfhlZpCuuV8mqsU"
+            Date:
+              schema:
+                type: string
+                example: Thu, 23 Sep 2021 20:29:38 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+                result:
+                  - name: USDC
+                    id: USDC
+                  - name: MNGO
+                    id: MNGO
+                  - name: BTC
+                    id: BTC
+                  - name: ETH
+                    id: ETH
+                  - name: SOL
+                    id: SOL
+                  - name: USDT
+                    id: USDT
+                  - name: SRM
+                    id: SRM
+                  - name: RAY
+                    id: RAY
+                  - name: COPE
+                    id: COPE
+  /wallet/balances:
+    get:
+      tags:
+        - default
+      summary: wallet - balances
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '751'
+            ETag:
+              schema:
+                type: string
+                example: W/"2ef-598+hz5qZ7wAbGzYlYDsofeycmE"
+            Date:
+              schema:
+                type: string
+                example: Thu, 23 Sep 2021 07:36:28 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+                result:
+                  - coin: MNGO/USDC
+                    free: 0
+                    spotBorrow: 0
+                    total: 0
+                    usdValue: 0
+                    availableWithoutBorrow: 0
+                  - coin: BTC/USDC
+                    free: 0
+                    spotBorrow: 0
+                    total: 0
+                    usdValue: 0
+                    availableWithoutBorrow: 0
+                  - coin: ETH/USDC
+                    free: 0
+                    spotBorrow: 0
+                    total: 0
+                    usdValue: 0
+                    availableWithoutBorrow: 0
+                  - coin: SOL/USDC
+                    free: 0
+                    spotBorrow: 0
+                    total: 0
+                    usdValue: 0
+                    availableWithoutBorrow: 0
+                  - coin: USDT/USDC
+                    free: 0
+                    spotBorrow: 0
+                    total: 0
+                    usdValue: 0
+                    availableWithoutBorrow: 0
+                  - coin: SRM/USDC
+                    free: 0
+                    spotBorrow: 0
+                    total: 0
+                    usdValue: 0
+                    availableWithoutBorrow: 0
+                  - coin: USDC
+                    free: 48.000004999999994
+                    spotBorrow: 0
+                    total: 50.000004999999994
+                    usdValue: 50.000004999999994
+                    availableWithoutBorrow: 50.000004999999994
+  /wallet/withdrawals:
+    post:
+      tags:
+        - default
+      summary: wallet - withdraw
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                coin: USDC
+                size: 1000
+      responses:
+        '400':
+          description: Bad Request
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '98'
+            ETag:
+              schema:
+                type: string
+                example: W/"62-a5tgkKEcwWc3BLd/jTRTDN5QwDI"
+            Date:
+              schema:
+                type: string
+                example: Fri, 24 Sep 2021 14:00:15 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                errors:
+                  - msg: >-
+                      Transaction failed: MangoErrorCode::InsufficientFunds;
+                      src/processor.rs:831
+  /markets:
+    get:
+      tags:
+        - default
+      summary: markets - get all
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '3586'
+            ETag:
+              schema:
+                type: string
+                example: W/"e02-YRmxFLVXSYLthxhkA8fbq9xtHVM"
+            Date:
+              schema:
+                type: string
+                example: Thu, 23 Sep 2021 20:22:58 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+                result:
+                  - name: MNGO/USDC
+                    baseCurrency: MNGO
+                    quoteCurrency: USDC
+                    quoteVolume24h: 0
+                    change1h: 0.011748958194213307
+                    change24h: 0.10497017397919645
+                    changeBod: -0.06941209645738362
+                    type: spot
+                    underlying: MNGO
+                    ask: 0.3014
+                    bid: 0.3009
+                    last: 0.3010999858379364
+                    price: 0.3010999858379364
+                    priceIncrement: 0.0001
+                    sizeIncrement: 1
+                    volumeUsd24h: 0
+                  - name: BTC/USDC
+                    baseCurrency: BTC
+                    quoteCurrency: USDC
+                    quoteVolume24h: 0
+                    change1h: -0.0006023196102002198
+                    change24h: 0.07534008825160178
+                    changeBod: -0.023842158866775508
+                    type: spot
+                    underlying: BTC
+                    ask: 44548.9
+                    bid: 44542.5
+                    last: 44651.8984375
+                    price: 44651.8984375
+                    priceIncrement: 0.1
+                    sizeIncrement: 0.0001
+                    volumeUsd24h: 0
+                  - name: ETH/USDC
+                    baseCurrency: ETH
+                    quoteCurrency: USDC
+                    quoteVolume24h: 0
+                    change1h: -0.0011764022806535397
+                    change24h: 0.11286709397685381
+                    changeBod: -0.015943185029389125
+                    type: spot
+                    underlying: ETH
+                    ask: 3128.36
+                    bid: 3128.35
+                    last: 3129.22998046875
+                    price: 3129.22998046875
+                    priceIncrement: 0.01
+                    sizeIncrement: 0.001
+                    volumeUsd24h: 0
+                  - name: SOL/USDC
+                    baseCurrency: SOL
+                    quoteCurrency: USDC
+                    quoteVolume24h: 0
+                    change1h: 0.005815162979254202
+                    change24h: 0.19738252608394014
+                    changeBod: 0.0008962996612425303
+                    type: spot
+                    underlying: SOL
+                    ask: 147.977
+                    bid: 147.976
+                    last: 148.39999389648438
+                    price: 148.39999389648438
+                    priceIncrement: 0.001
+                    sizeIncrement: 0.1
+                    volumeUsd24h: 0
+                  - name: USDT/USDC
+                    baseCurrency: USDT
+                    quoteCurrency: USDC
+                    quoteVolume24h: 0
+                    change1h: -0.0002998106640841958
+                    change24h: 0.0004001268051988224
+                    changeBod: 0
+                    type: spot
+                    underlying: USDT
+                    ask: 1.0002
+                    bid: 1.0001
+                    last: 1.000100016593933
+                    price: 1.000100016593933
+                    priceIncrement: 0.0001
+                    sizeIncrement: 1
+                    volumeUsd24h: 0
+                  - name: SRM/USDC
+                    baseCurrency: SRM
+                    quoteCurrency: USDC
+                    quoteVolume24h: 0
+                    change1h: 0.0055427640345401905
+                    change24h: 0.17148090555117187
+                    changeBod: -0.03061106244377288
+                    type: spot
+                    underlying: SRM
+                    ask: 8.584
+                    bid: 8.581
+                    last: 8.586999893188477
+                    price: 8.586999893188477
+                    priceIncrement: 0.001
+                    sizeIncrement: 0.1
+                    volumeUsd24h: 0
+                  - name: RAY/USDC
+                    baseCurrency: RAY
+                    quoteCurrency: USDC
+                    quoteVolume24h: 0
+                    change1h: 0.005089718359209593
+                    change24h: 0.13928952392352087
+                    changeBod: -0.07953655366580142
+                    type: spot
+                    underlying: RAY
+                    ask: 11.576
+                    bid: 11.513
+                    last: 11.460000038146973
+                    price: 11.460000038146973
+                    priceIncrement: 0.001
+                    sizeIncrement: 0.1
+                    volumeUsd24h: 0
+                  - name: COPE/USDC
+                    baseCurrency: COPE
+                    quoteCurrency: USDC
+                    quoteVolume24h: 0
+                    change1h: 0.010653081408407839
+                    change24h: 0.16617556935957428
+                    changeBod: -0.07962964986577366
+                    type: spot
+                    underlying: COPE
+                    ask: 2.17
+                    bid: 2.154
+                    last: 2.1600000858306885
+                    price: 2.1600000858306885
+                    priceIncrement: 0.001
+                    sizeIncrement: 0.001
+                    volumeUsd24h: 0
+                  - name: BTC-PERP
+                    baseCurrency: BTC
+                    quoteCurrency: USDC
+                    quoteVolume24h: 1281273.38619
+                    change1h: 0.00005133289030753979
+                    change24h: 0.07514224962752904
+                    changeBod: -0.022951987551960477
+                    type: futures
+                    underlying: BTC
+                    ask: 44701.7
+                    bid: 44701.6
+                    last: 44841.3984375
+                    price: 44841.3984375
+                    priceIncrement: 0.1
+                    sizeIncrement: 0.0001
+                    volumeUsd24h: 1281273.38619
+                  - name: SOL-PERP
+                    baseCurrency: SOL
+                    quoteCurrency: USDC
+                    quoteVolume24h: 2712627.9067
+                    change1h: 0.0004682451126406075
+                    change24h: 0.17839077057911942
+                    changeBod: -0.00013510009773373964
+                    type: futures
+                    underlying: SOL
+                    ask: 148.91
+                    bid: 148.35
+                    last: 148.07000732421875
+                    price: 148.07000732421875
+                    priceIncrement: 0.01
+                    sizeIncrement: 0.01
+                    volumeUsd24h: 2712627.9067
+  /markets/BTC-PERP:
+    get:
+      tags:
+        - default
+      summary: markets - get by name
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '382'
+            ETag:
+              schema:
+                type: string
+                example: W/"17e-z9W038dzxfdr4BfXX+bWq16SDlg"
+            Date:
+              schema:
+                type: string
+                example: Thu, 23 Sep 2021 07:36:51 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+                result:
+                  - name: BTC-PERP
+                    baseCurrency: BTC
+                    quoteCurrency: USDC
+                    quoteVolume24h: 2655725.30683
+                    change1h: 0.013732274607999357
+                    change24h: 0.07514224962752904
+                    changeBod: -0.009334104720180893
+                    type: futures
+                    underlying: BTC
+                    ask: 44180.1
+                    bid: 44136
+                    last: 44225
+                    price: 44225
+                    priceIncrement: 0.1
+                    sizeIncrement: 0.0001
+                    volumeUsd24h: 2655725.30683
+  /markets/BTC-PERP/orderbook:
+    get:
+      tags:
+        - default
+      summary: markets - get orderbook by name
+      parameters:
+        - name: depth
+          in: query
+          schema:
+            type: integer
+          example: '30'
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '938'
+            ETag:
+              schema:
+                type: string
+                example: W/"3aa-Ccs7Ua2tiiO/lkO7VymHA7B1P14"
+            Date:
+              schema:
+                type: string
+                example: Thu, 23 Sep 2021 07:36:55 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+                result:
+                  asks:
+                    - - 44170.6
+                      - 0.0251
+                    - - 44197.1
+                      - 1.2613
+                    - - 44289.7
+                      - 4
+                    - - 44289.8
+                      - 0.1614
+                    - - 44295.6
+                      - 0.8055
+                    - - 44319.1
+                      - 18.352
+                    - - 44382.5
+                      - 0.0022
+                    - - 44399.8
+                      - 0.0022
+                    - - 44444
+                      - 0.1
+                    - - 44444
+                      - 0.1168
+                    - - 44500
+                      - 0.005
+                    - - 44500
+                      - 0.0022
+                    - - 44665.5
+                      - 0.0006
+                    - - 44750
+                      - 0.005
+                    - - 44800
+                      - 0.0025
+                    - - 45000
+                      - 0.005
+                    - - 45000
+                      - 0.0055
+                    - - 45250
+                      - 0.005
+                    - - 45265
+                      - 0.0044
+                    - - 45500
+                      - 0.005
+                    - - 45500
+                      - 0.0065
+                    - - 45750
+                      - 0.005
+                    - - 45762
+                      - 0.025
+                    - - 46000
+                      - 0.005
+                    - - 46250
+                      - 0.005
+                    - - 46500
+                      - 0.005
+                    - - 46662
+                      - 2.8458
+                    - - 47000
+                      - 0.005
+                    - - 47250
+                      - 0.005
+                    - - 47500
+                      - 0.005
+                  bids:
+                    - - 44126.4
+                      - 0.0251
+                    - - 44108.8
+                      - 1.2613
+                    - - 44030.7
+                      - 0.8055
+                    - - 44013
+                      - 4
+                    - - 43326.1
+                      - 0.0026
+                    - - 43326.1
+                      - 0.0026
+                    - - 43326.1
+                      - 0.0026
+                    - - 43095
+                      - 0.5
+                    - - 42790
+                      - 0.001
+                    - - 42750
+                      - 0.001
+                    - - 42500
+                      - 0.0005
+                    - - 42500
+                      - 0.05
+                    - - 42400
+                      - 0.0002
+                    - - 42300
+                      - 0.0002
+                    - - 42300
+                      - 0.0002
+                    - - 42250
+                      - 0.005
+                    - - 42200
+                      - 0.0002
+                    - - 42100
+                      - 0.0002
+                    - - 42000
+                      - 0.005
+                    - - 42000
+                      - 0.0002
+                    - - 41900
+                      - 0.0002
+                    - - 41800
+                      - 0.0002
+                    - - 41750
+                      - 0.005
+                    - - 41700
+                      - 0.0002
+                    - - 41600
+                      - 0.0002
+                    - - 41500
+                      - 0.0002
+                    - - 41500
+                      - 0.005
+                    - - 41400
+                      - 0.0002
+                    - - 41300
+                      - 0.0002
+                    - - 41200
+                      - 0.0002
+  /markets/BTC-PERP/trades:
+    get:
+      tags:
+        - default
+      summary: markets - get trades by name
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '5312'
+            ETag:
+              schema:
+                type: string
+                example: W/"14c0-m9KQO5LD/I0Uw6cCaUCV19BzvEU"
+            Date:
+              schema:
+                type: string
+                example: Thu, 23 Sep 2021 07:37:00 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+                result:
+                  - id: ''
+                    price: 44225
+                    side: buy
+                    size: 0.00009999999747378752
+                    time: '2021-09-23T07:35:48.000Z'
+                  - id: ''
+                    price: 44066.5
+                    side: buy
+                    size: 0.0031999999191612005
+                    time: '2021-09-23T07:15:00.000Z'
+                  - id: ''
+                    price: 44168.8984375
+                    side: buy
+                    size: 0.0008999999845400453
+                    time: '2021-09-23T07:12:01.000Z'
+                  - id: ''
+                    price: 44359.30078125
+                    side: buy
+                    size: 0.03799999877810478
+                    time: '2021-09-23T06:58:40.000Z'
+                  - id: ''
+                    price: 44321.8984375
+                    side: buy
+                    size: 0.02500000037252903
+                    time: '2021-09-23T06:58:38.000Z'
+                  - id: ''
+                    price: 44315.80078125
+                    side: buy
+                    size: 0.002199999988079071
+                    time: '2021-09-23T06:58:38.000Z'
+                  - id: ''
+                    price: 44280.8984375
+                    side: buy
+                    size: 0.002199999988079071
+                    time: '2021-09-23T06:58:38.000Z'
+                  - id: ''
+                    price: 44229.3984375
+                    side: buy
+                    size: 0.002199999988079071
+                    time: '2021-09-23T06:58:12.000Z'
+                  - id: ''
+                    price: 44218
+                    side: buy
+                    size: 0.002199999988079071
+                    time: '2021-09-23T06:57:38.000Z'
+                  - id: ''
+                    price: 44199.8984375
+                    side: buy
+                    size: 0.002199999988079071
+                    time: '2021-09-23T06:57:38.000Z'
+                  - id: ''
+                    price: 44176
+                    side: buy
+                    size: 0.0010000000474974513
+                    time: '2021-09-23T06:57:38.000Z'
+                  - id: ''
+                    price: 44121.8984375
+                    side: buy
+                    size: 0.0020000000949949026
+                    time: '2021-09-23T06:51:31.000Z'
+                  - id: ''
+                    price: 44084
+                    side: buy
+                    size: 0.01360000018030405
+                    time: '2021-09-23T06:51:00.000Z'
+                  - id: ''
+                    price: 44065.69921875
+                    side: buy
+                    size: 0.03799999877810478
+                    time: '2021-09-23T06:50:40.000Z'
+                  - id: ''
+                    price: 43934
+                    side: buy
+                    size: 0.0044999998062849045
+                    time: '2021-09-23T06:50:22.000Z'
+                  - id: ''
+                    price: 43758.3984375
+                    side: sell
+                    size: 0.00009999999747378752
+                    time: '2021-09-23T06:26:19.000Z'
+                  - id: ''
+                    price: 43844.3984375
+                    side: sell
+                    size: 0.00019999999494757503
+                    time: '2021-09-23T05:41:04.000Z'
+                  - id: ''
+                    price: 43832.8984375
+                    side: sell
+                    size: 0.00019999999494757503
+                    time: '2021-09-23T05:40:48.000Z'
+                  - id: ''
+                    price: 43832.6015625
+                    side: sell
+                    size: 0.0024999999441206455
+                    time: '2021-09-23T05:37:04.000Z'
+                  - id: ''
+                    price: 43805.5
+                    side: buy
+                    size: 0.0020000000949949026
+                    time: '2021-09-23T05:34:50.000Z'
+                  - id: ''
+                    price: 43782
+                    side: sell
+                    size: 0.0142000000923872
+                    time: '2021-09-23T05:33:53.000Z'
+                  - id: ''
+                    price: 43780.69921875
+                    side: sell
+                    size: 0.0066999997943639755
+                    time: '2021-09-23T05:32:50.000Z'
+                  - id: ''
+                    price: 43800
+                    side: sell
+                    size: 0.003000000026077032
+                    time: '2021-09-23T05:32:50.000Z'
+                  - id: ''
+                    price: 43806.1015625
+                    side: sell
+                    size: 0.025299999862909317
+                    time: '2021-09-23T05:32:50.000Z'
+                  - id: ''
+                    price: 43850
+                    side: sell
+                    size: 0.003000000026077032
+                    time: '2021-09-23T05:32:50.000Z'
+                  - id: ''
+                    price: 43906.6015625
+                    side: sell
+                    size: 0.015699999406933784
+                    time: '2021-09-23T05:24:40.000Z'
+                  - id: ''
+                    price: 43920
+                    side: sell
+                    size: 0.0020000000949949026
+                    time: '2021-09-23T05:24:40.000Z'
+                  - id: ''
+                    price: 43990.8984375
+                    side: buy
+                    size: 0.07750000059604645
+                    time: '2021-09-23T05:24:15.000Z'
+                  - id: ''
+                    price: 43955.19921875
+                    side: buy
+                    size: 0.025200000032782555
+                    time: '2021-09-23T05:24:15.000Z'
+                  - id: ''
+                    price: 43948.3984375
+                    side: sell
+                    size: 0.012600000016391277
+                    time: '2021-09-23T05:24:01.000Z'
+                  - id: ''
+                    price: 44121.8984375
+                    side: buy
+                    size: 0.00019999999494757503
+                    time: '2021-09-23T05:13:32.000Z'
+                  - id: ''
+                    price: 44059.8984375
+                    side: sell
+                    size: 0.05000000074505806
+                    time: '2021-09-23T05:04:25.000Z'
+                  - id: ''
+                    price: 44121.80078125
+                    side: sell
+                    size: 0.025100000202655792
+                    time: '2021-09-23T05:04:25.000Z'
+                  - id: ''
+                    price: 44159.5
+                    side: buy
+                    size: 0.009999999776482582
+                    time: '2021-09-23T04:49:23.000Z'
+                  - id: ''
+                    price: 44358
+                    side: buy
+                    size: 0.04619999974966049
+                    time: '2021-09-23T04:40:41.000Z'
+                  - id: ''
+                    price: 44295.19921875
+                    side: buy
+                    size: 0.0044999998062849045
+                    time: '2021-09-23T04:40:41.000Z'
+                  - id: ''
+                    price: 44295.19921875
+                    side: buy
+                    size: 0.0010999999940395355
+                    time: '2021-09-23T04:40:41.000Z'
+                  - id: ''
+                    price: 44282.3984375
+                    side: buy
+                    size: 0.06750000268220901
+                    time: '2021-09-23T04:37:42.000Z'
+                  - id: ''
+                    price: 44271.1015625
+                    side: buy
+                    size: 0.025100000202655792
+                    time: '2021-09-23T04:37:42.000Z'
+                  - id: ''
+                    price: 44267.80078125
+                    side: buy
+                    size: 0.0010999999940395355
+                    time: '2021-09-23T04:37:42.000Z'
+                  - id: ''
+                    price: 44242.80078125
+                    side: buy
+                    size: 0.0032999999821186066
+                    time: '2021-09-23T04:37:42.000Z'
+                  - id: ''
+                    price: 44215.6015625
+                    side: buy
+                    size: 0.002199999988079071
+                    time: '2021-09-23T04:37:42.000Z'
+                  - id: ''
+                    price: 44242.80078125
+                    side: buy
+                    size: 0.0012000000569969416
+                    time: '2021-09-23T04:34:17.000Z'
+                  - id: ''
+                    price: 44231.6015625
+                    side: buy
+                    size: 0.002199999988079071
+                    time: '2021-09-23T04:34:17.000Z'
+                  - id: ''
+                    price: 44222.19921875
+                    side: buy
+                    size: 0.002199999988079071
+                    time: '2021-09-23T04:34:17.000Z'
+                  - id: ''
+                    price: 44163.8984375
+                    side: sell
+                    size: 0.03359999880194664
+                    time: '2021-09-23T04:30:30.000Z'
+                  - id: ''
+                    price: 44200
+                    side: sell
+                    size: 0.04129999876022339
+                    time: '2021-09-23T04:30:30.000Z'
+                  - id: ''
+                    price: 44215.6015625
+                    side: sell
+                    size: 0.025100000202655792
+                    time: '2021-09-23T04:30:30.000Z'
+                  - id: ''
+                    price: 44243.6015625
+                    side: buy
+                    size: 0.05420000106096268
+                    time: '2021-09-23T04:28:07.000Z'
+                  - id: ''
+                    price: 44239.69921875
+                    side: buy
+                    size: 0.025100000202655792
+                    time: '2021-09-23T04:28:07.000Z'
+  /markets/BTC-PERP/candles:
+    get:
+      tags:
+        - default
+      summary: markets - get candles/ohlcv by name
+      parameters:
+        - name: resolution
+          in: query
+          schema:
+            type: integer
+          example: '60'
+        - name: start_time
+          in: query
+          schema:
+            type: integer
+          example: '1625922900'
+        - name: end_time
+          in: query
+          schema:
+            type: integer
+          example: '1631214960'
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '34002'
+            ETag:
+              schema:
+                type: string
+                example: W/"84d2-Zq2XDImXPAq27houhhi6VqGKoa8"
+            Date:
+              schema:
+                type: string
+                example: Thu, 23 Sep 2021 07:37:05 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+                result:
+                  - time: 1629914400
+                    open: 49000.80078125
+                    high: 49000.80078125
+                    low: 49000.80078125
+                    close: 49000.80078125
+                    volume: 0.00009999999747378752
+                  - time: 1629918000
+                    open: 48846.19921875
+                    high: 48846.19921875
+                    low: 48846.19921875
+                    close: 48846.19921875
+                    volume: 0.00019999999494757503
+                  - time: 1629921600
+                    open: 48846.19921875
+                    high: 48846.19921875
+                    low: 48846.19921875
+                    close: 48846.19921875
+                    volume: 0.0017999999690800905
+                  - time: 1629925200
+                    open: 48799.69921875
+                    high: 48799.69921875
+                    low: 48799.69921875
+                    close: 48799.69921875
+                    volume: 0.013199999928474426
+                  - time: 1629928800
+                    open: 49016.80078125
+                    high: 49016.80078125
+                    low: 49016.80078125
+                    close: 49016.80078125
+                    volume: 0.0010000000474974513
+                  - time: 1629939600
+                    open: 49323.30078125
+                    high: 49323.30078125
+                    low: 48858.19921875
+                    close: 48858.19921875
+                    volume: 0.00019999999494757503
+                  - time: 1629957600
+                    open: 47031.1015625
+                    high: 47031.1015625
+                    low: 46957.19921875
+                    close: 47001.30078125
+                    volume: 0.1702000005170703
+                  - time: 1629961200
+                    open: 46749.80078125
+                    high: 46749.80078125
+                    low: 46749.80078125
+                    close: 46749.80078125
+                    volume: 0.019999999552965164
+                  - time: 1629990000
+                    open: 46896.80078125
+                    high: 46896.80078125
+                    low: 46772.3984375
+                    close: 46772.3984375
+                    volume: 0.0009999999747378752
+                  - time: 1630004400
+                    open: 46844.6015625
+                    high: 46844.6015625
+                    low: 46844.6015625
+                    close: 46844.6015625
+                    volume: 0.00009999999747378752
+                  - time: 1630008000
+                    open: 46902.1015625
+                    high: 46902.1015625
+                    low: 46902.1015625
+                    close: 46902.1015625
+                    volume: 0.0020000000949949026
+                  - time: 1630011600
+                    open: 47225.3984375
+                    high: 47225.3984375
+                    low: 47158
+                    close: 47158
+                    volume: 0.00019999999494757503
+                  - time: 1630033200
+                    open: 47114.69921875
+                    high: 47114.69921875
+                    low: 47079.8984375
+                    close: 47079.8984375
+                    volume: 0.00019999999494757503
+                  - time: 1630065600
+                    open: 47388.69921875
+                    high: 47388.69921875
+                    low: 47388.69921875
+                    close: 47388.69921875
+                    volume: 0.002099999925121665
+                  - time: 1630072800
+                    open: 47288.19921875
+                    high: 47288.19921875
+                    low: 47288.19921875
+                    close: 47288.19921875
+                    volume: 0.0019000000320374966
+                  - time: 1630101600
+                    open: 48885.80078125
+                    high: 48888
+                    low: 48885.80078125
+                    close: 48888
+                    volume: 0.03079999948386103
+                  - time: 1630108800
+                    open: 48932
+                    high: 49262.5
+                    low: 48919.1015625
+                    close: 49220
+                    volume: 0.2243000006856164
+                  - time: 1630155600
+                    open: 48804.3984375
+                    high: 48884
+                    low: 48761.80078125
+                    close: 48775.1015625
+                    volume: 0.047300000791437924
+                  - time: 1630162800
+                    open: 48664.5
+                    high: 48664.5
+                    low: 48664.5
+                    close: 48664.5
+                    volume: 0.00019999999494757503
+                  - time: 1630166400
+                    open: 48809.5
+                    high: 48809.5
+                    low: 48809.5
+                    close: 48809.5
+                    volume: 0.00019999999494757503
+                  - time: 1630173600
+                    open: 48992.3984375
+                    high: 48996.19921875
+                    low: 48992.3984375
+                    close: 48996.19921875
+                    volume: 0.006199999945238233
+                  - time: 1630177200
+                    open: 48647.8984375
+                    high: 48656.1015625
+                    low: 48625.80078125
+                    close: 48625.80078125
+                    volume: 0.009000000078231096
+                  - time: 1630180800
+                    open: 48712.69921875
+                    high: 48712.69921875
+                    low: 48712.69921875
+                    close: 48712.69921875
+                    volume: 0.002400000113993883
+                  - time: 1630188000
+                    open: 48746.3984375
+                    high: 48751.6015625
+                    low: 48746.3984375
+                    close: 48751.6015625
+                    volume: 0.0024000000848900527
+                  - time: 1630191600
+                    open: 48834.1015625
+                    high: 48834.1015625
+                    low: 48805.19921875
+                    close: 48805.19921875
+                    volume: 0.004000000189989805
+                  - time: 1630195200
+                    open: 48972
+                    high: 48972
+                    low: 48961.80078125
+                    close: 48961.80078125
+                    volume: 0.0005999999848427251
+                  - time: 1630198800
+                    open: 48972
+                    high: 48972
+                    low: 48972
+                    close: 48972
+                    volume: 0.019600000232458115
+                  - time: 1630213200
+                    open: 48187.80078125
+                    high: 48187.80078125
+                    low: 48187.80078125
+                    close: 48187.80078125
+                    volume: 0.0017999999690800905
+                  - time: 1630216800
+                    open: 48333.30078125
+                    high: 48463
+                    low: 48333.30078125
+                    close: 48463
+                    volume: 0.0012000000569969416
+                  - time: 1630227600
+                    open: 48530.5
+                    high: 48530.5
+                    low: 48517.5
+                    close: 48517.5
+                    volume: 0.00039999998989515007
+                  - time: 1630231200
+                    open: 48503.1015625
+                    high: 48503.1015625
+                    low: 48503.1015625
+                    close: 48503.1015625
+                    volume: 0.00139999995008111
+                  - time: 1630234800
+                    open: 48496.1015625
+                    high: 48496.1015625
+                    low: 48496.1015625
+                    close: 48496.1015625
+                    volume: 0.3871999979019165
+                  - time: 1630238400
+                    open: 48496
+                    high: 48534.8984375
+                    low: 48246.5
+                    close: 48534.8984375
+                    volume: 0.4375999973999569
+                  - time: 1630260000
+                    open: 48782.5
+                    high: 48795.5
+                    low: 48782.5
+                    close: 48795.5
+                    volume: 0.0023999999393709004
+                  - time: 1630263600
+                    open: 48845.80078125
+                    high: 48864.3984375
+                    low: 48825.69921875
+                    close: 48856.30078125
+                    volume: 0.023799999660695903
+                  - time: 1630267200
+                    open: 48972.69921875
+                    high: 48972.69921875
+                    low: 48972.69921875
+                    close: 48972.69921875
+                    volume: 0.004999999888241291
+                  - time: 1630274400
+                    open: 49012.5
+                    high: 49399.8984375
+                    low: 49012.5
+                    close: 49393.5
+                    volume: 0.024599999756901525
+                  - time: 1630285200
+                    open: 49028.3984375
+                    high: 49028.3984375
+                    low: 48512.80078125
+                    close: 48545.80078125
+                    volume: 0.0221999998902902
+                  - time: 1630292400
+                    open: 48500
+                    high: 48500
+                    low: 48500
+                    close: 48500
+                    volume: 0.0009999999747378752
+                  - time: 1630296000
+                    open: 48000
+                    high: 48000
+                    low: 47870
+                    close: 47870
+                    volume: 0.010600000168778934
+                  - time: 1630299600
+                    open: 48053.30078125
+                    high: 48053.30078125
+                    low: 48053.30078125
+                    close: 48053.30078125
+                    volume: 0.00039999998989515007
+                  - time: 1630303200
+                    open: 47970
+                    high: 48020.69921875
+                    low: 47858.30078125
+                    close: 47858.30078125
+                    volume: 0.0021999999444233254
+                  - time: 1630332000
+                    open: 47842.1015625
+                    high: 47842.1015625
+                    low: 47820.19921875
+                    close: 47820.19921875
+                    volume: 0.0020000000367872417
+                  - time: 1630335600
+                    open: 47889.80078125
+                    high: 48108.69921875
+                    low: 47889.80078125
+                    close: 48108.69921875
+                    volume: 0.003000000142492354
+                  - time: 1630350000
+                    open: 48322.3984375
+                    high: 48322.3984375
+                    low: 48322.3984375
+                    close: 48322.3984375
+                    volume: 0.0007999999797903001
+                  - time: 1630353600
+                    open: 48697.5
+                    high: 48697.5
+                    low: 48647
+                    close: 48647
+                    volume: 0.004799999995157123
+                  - time: 1630357200
+                    open: 48356.6015625
+                    high: 48356.6015625
+                    low: 48356.6015625
+                    close: 48356.6015625
+                    volume: 0.00019999999494757503
+                  - time: 1630360800
+                    open: 47881.5
+                    high: 47881.5
+                    low: 47881.5
+                    close: 47881.5
+                    volume: 0.0007999999797903001
+                  - time: 1630364400
+                    open: 47584.8984375
+                    high: 47594.5
+                    low: 47584.8984375
+                    close: 47594.5
+                    volume: 0.0019999999494757503
+                  - time: 1630368000
+                    open: 47151.80078125
+                    high: 47151.80078125
+                    low: 47151.80078125
+                    close: 47151.80078125
+                    volume: 0.00039999998989515007
+                  - time: 1630371600
+                    open: 46933.19921875
+                    high: 46933.19921875
+                    low: 46933.19921875
+                    close: 46933.19921875
+                    volume: 0.0026000000070780516
+                  - time: 1630389600
+                    open: 46877
+                    high: 46877
+                    low: 46877
+                    close: 46877
+                    volume: 0.005799999926239252
+                  - time: 1630407600
+                    open: 46877
+                    high: 47715.5
+                    low: 46877
+                    close: 47702.3984375
+                    volume: 0.8079999990295619
+                  - time: 1630425600
+                    open: 47468
+                    high: 47468
+                    low: 47468
+                    close: 47468
+                    volume: 0.00019999999494757503
+                  - time: 1630432800
+                    open: 47064.3984375
+                    high: 47302.6015625
+                    low: 47064.3984375
+                    close: 47255.8984375
+                    volume: 0.011600000318139791
+                  - time: 1630436400
+                    open: 47334.6015625
+                    high: 47359.80078125
+                    low: 47326.6015625
+                    close: 47337.3984375
+                    volume: 5.89269996189978
+                  - time: 1630440000
+                    open: 47337.5
+                    high: 47338.30078125
+                    low: 47125
+                    close: 47125
+                    volume: 1.106599988808739
+                  - time: 1630443600
+                    open: 47125
+                    high: 47251.80078125
+                    low: 46923.19921875
+                    close: 47154.1015625
+                    volume: 4.789599977448233
+                  - time: 1630447200
+                    open: 47138.80078125
+                    high: 47138.80078125
+                    low: 46956.69921875
+                    close: 47093.5
+                    volume: 0.43509999627713114
+                  - time: 1630450800
+                    open: 47187.3984375
+                    high: 47275
+                    low: 47179
+                    close: 47274.5
+                    volume: 0.4232999963860493
+                  - time: 1630454400
+                    open: 47177.19921875
+                    high: 47177.19921875
+                    low: 46875
+                    close: 46875
+                    volume: 1.840599970659241
+                  - time: 1630458000
+                    open: 46875
+                    high: 46901.80078125
+                    low: 46619.5
+                    close: 46901.80078125
+                    volume: 0.4684000070847105
+                  - time: 1630461600
+                    open: 46910.1015625
+                    high: 47108.69921875
+                    low: 46834.1015625
+                    close: 46914.3984375
+                    volume: 1.7004999950149795
+                  - time: 1630465200
+                    open: 46921.30078125
+                    high: 46967
+                    low: 46793.1015625
+                    close: 46966.80078125
+                    volume: 2.370599990419578
+                  - time: 1630468800
+                    open: 47066.30078125
+                    high: 47249.3984375
+                    low: 47066.30078125
+                    close: 47118
+                    volume: 16.093300388347416
+                  - time: 1630472400
+                    open: 47275
+                    high: 47472.8984375
+                    low: 47275
+                    close: 47468.30078125
+                    volume: 1.2473999824142084
+                  - time: 1630476000
+                    open: 47475
+                    high: 47505.1015625
+                    low: 47272.69921875
+                    close: 47350
+                    volume: 9.030000110033143
+                  - time: 1630479600
+                    open: 47350
+                    high: 47350
+                    low: 47235.69921875
+                    close: 47237.5
+                    volume: 1.2152000038186088
+                  - time: 1630483200
+                    open: 47206
+                    high: 47349.5
+                    low: 47206
+                    close: 47302.8984375
+                    volume: 4.199999954551458
+                  - time: 1630486800
+                    open: 47326.30078125
+                    high: 47350
+                    low: 47326.30078125
+                    close: 47350
+                    volume: 2.2224000468850136
+                  - time: 1630490400
+                    open: 47349.8984375
+                    high: 47762.6015625
+                    low: 47349.80078125
+                    close: 47619.30078125
+                    volume: 145.18420038506156
+                  - time: 1630494000
+                    open: 47620
+                    high: 47756.19921875
+                    low: 47620
+                    close: 47701.80078125
+                    volume: 0.2995000052615069
+                  - time: 1630501200
+                    open: 47770
+                    high: 47770.1015625
+                    low: 47566
+                    close: 47566
+                    volume: 66.64100000823964
+                  - time: 1630504800
+                    open: 47560.5
+                    high: 47581.1015625
+                    low: 47475
+                    close: 47486
+                    volume: 2.855699992767768
+                  - time: 1630508400
+                    open: 47485
+                    high: 47490
+                    low: 47485
+                    close: 47486.3984375
+                    volume: 4.628300077478343
+                  - time: 1630512000
+                    open: 47487
+                    high: 48500
+                    low: 47487
+                    close: 48465.6015625
+                    volume: 59.558000268094474
+                  - time: 1630515600
+                    open: 48453.5
+                    high: 48799
+                    low: 48404.30078125
+                    close: 48762.69921875
+                    volume: 8.928400024102302
+                  - time: 1630519200
+                    open: 48775.6015625
+                    high: 48996.30078125
+                    low: 48708.80078125
+                    close: 48708.80078125
+                    volume: 21.64030013726733
+                  - time: 1630522800
+                    open: 48708.8984375
+                    high: 48709.6015625
+                    low: 48137.1015625
+                    close: 48233.19921875
+                    volume: 10.90820001521206
+                  - time: 1630526400
+                    open: 48224
+                    high: 48331.19921875
+                    low: 48186.6015625
+                    close: 48297
+                    volume: 1.1281000038725324
+                  - time: 1630530000
+                    open: 48358.69921875
+                    high: 48520.69921875
+                    low: 48358.69921875
+                    close: 48422
+                    volume: 1.7427000110474182
+                  - time: 1630533600
+                    open: 48421
+                    high: 48730
+                    low: 48390.3984375
+                    close: 48461
+                    volume: 3.303799980225449
+                  - time: 1630537200
+                    open: 48513.69921875
+                    high: 48903.1015625
+                    low: 48513.69921875
+                    close: 48893.8984375
+                    volume: 3.9552999951629317
+                  - time: 1630540800
+                    open: 48873.6015625
+                    high: 49000
+                    low: 48647
+                    close: 48804.19921875
+                    volume: 6.724900090783194
+                  - time: 1630544400
+                    open: 48774.6015625
+                    high: 49867.8984375
+                    low: 48773.80078125
+                    close: 49777.1015625
+                    volume: 10.64920006939792
+                  - time: 1630548000
+                    open: 49767.80078125
+                    high: 49944
+                    low: 49664.5
+                    close: 49743.6015625
+                    volume: 20.50760002808238
+                  - time: 1630551600
+                    open: 49679
+                    high: 49747
+                    low: 49663.1015625
+                    close: 49672.1015625
+                    volume: 5.578999946592376
+                  - time: 1630555200
+                    open: 49671.8984375
+                    high: 49671.8984375
+                    low: 49417.5
+                    close: 49494.80078125
+                    volume: 3.271000010499847
+                  - time: 1630558800
+                    open: 49486
+                    high: 49764
+                    low: 49486
+                    close: 49613
+                    volume: 11.560300198456389
+                  - time: 1630562400
+                    open: 49598.69921875
+                    high: 50059.5
+                    low: 49598.69921875
+                    close: 50041.3984375
+                    volume: 12.885400013045
+                  - time: 1630566000
+                    open: 50052.19921875
+                    high: 50396.3984375
+                    low: 49803.1015625
+                    close: 49937.80078125
+                    volume: 12.853199913253775
+                  - time: 1630569600
+                    open: 49953.8984375
+                    high: 50249.1015625
+                    low: 49837.80078125
+                    close: 50225.1015625
+                    volume: 25.987799906695727
+                  - time: 1630573200
+                    open: 50167
+                    high: 50173.3984375
+                    low: 49863.30078125
+                    close: 49874.1015625
+                    volume: 23.33379987513763
+                  - time: 1630576800
+                    open: 49886.3984375
+                    high: 50148.8984375
+                    low: 49829.80078125
+                    close: 50099
+                    volume: 28.80849987934198
+                  - time: 1630580400
+                    open: 50082.8984375
+                    high: 50223.3984375
+                    low: 50000
+                    close: 50178.80078125
+                    volume: 27.062800369458273
+                  - time: 1630584000
+                    open: 50175
+                    high: 50249.80078125
+                    low: 50000.19921875
+                    close: 50049.6015625
+                    volume: 2.4840000096155563
+                  - time: 1630587600
+                    open: 50030.3984375
+                    high: 50305.69921875
+                    low: 50030.3984375
+                    close: 50238.8984375
+                    volume: 12.24089990255743
+                  - time: 1630591200
+                    open: 50269.80078125
+                    high: 50489.30078125
+                    low: 49728.80078125
+                    close: 49740
+                    volume: 25.581399907598097
+                  - time: 1630594800
+                    open: 49770
+                    high: 49895.5
+                    low: 49690.1015625
+                    close: 49769.80078125
+                    volume: 1.6132000114084803
+                  - time: 1630598400
+                    open: 49680
+                    high: 49843.1015625
+                    low: 49680
+                    close: 49806.8984375
+                    volume: 0.3160000038915314
+                  - time: 1630602000
+                    open: 49754
+                    high: 49754
+                    low: 49448.80078125
+                    close: 49495.3984375
+                    volume: 3.7046999479352962
+                  - time: 1630605600
+                    open: 49600
+                    high: 49650.1015625
+                    low: 49474.5
+                    close: 49476.1015625
+                    volume: 4.322600083200086
+                  - time: 1630609200
+                    open: 49512.3984375
+                    high: 49512.3984375
+                    low: 49474.5
+                    close: 49485.69921875
+                    volume: 0.5881999931298196
+                  - time: 1630612800
+                    open: 49474.6015625
+                    high: 50019.19921875
+                    low: 49474.6015625
+                    close: 49832.5
+                    volume: 8.865199977517477
+                  - time: 1630616400
+                    open: 49882
+                    high: 49946.80078125
+                    low: 49641
+                    close: 49731.5
+                    volume: 0.9658999845632934
+                  - time: 1630620000
+                    open: 50017.19921875
+                    high: 50033.3984375
+                    low: 49897.80078125
+                    close: 49951.3984375
+                    volume: 0.8953000212350162
+                  - time: 1630623600
+                    open: 49889.1015625
+                    high: 49889.19921875
+                    low: 49526
+                    close: 49526
+                    volume: 1.7919999784135143
+                  - time: 1630627200
+                    open: 49525
+                    high: 49525.8984375
+                    low: 48776.5
+                    close: 48776.5
+                    volume: 6.658399991451006
+                  - time: 1630630800
+                    open: 48775.1015625
+                    high: 48909.3984375
+                    low: 48540.80078125
+                    close: 48699.19921875
+                    volume: 4.969800008220773
+                  - time: 1630634400
+                    open: 48668.6015625
+                    high: 49161.1015625
+                    low: 48668.6015625
+                    close: 49161.1015625
+                    volume: 2.2210000505438074
+                  - time: 1630638000
+                    open: 49142.8984375
+                    high: 49526.1015625
+                    low: 49076.1015625
+                    close: 49526.1015625
+                    volume: 0.4632999935784028
+                  - time: 1630641600
+                    open: 49575.30078125
+                    high: 49654.5
+                    low: 49575.30078125
+                    close: 49654.5
+                    volume: 0.1081999996677041
+                  - time: 1630645200
+                    open: 49787.1015625
+                    high: 49788.19921875
+                    low: 49578.3984375
+                    close: 49578.3984375
+                    volume: 2.192299953181646
+                  - time: 1630648800
+                    open: 49571.3984375
+                    high: 49571.3984375
+                    low: 49469.3984375
+                    close: 49469.3984375
+                    volume: 0.019999999552965164
+                  - time: 1630652400
+                    open: 49449.80078125
+                    high: 49608.5
+                    low: 49347.8984375
+                    close: 49348.19921875
+                    volume: 0.359400000423193
+                  - time: 1630656000
+                    open: 49384.69921875
+                    high: 49899
+                    low: 49283.3984375
+                    close: 49899
+                    volume: 0.34619999676942825
+                  - time: 1630659600
+                    open: 49898.8984375
+                    high: 50163.30078125
+                    low: 49828.1015625
+                    close: 49903.8984375
+                    volume: 3.1260999344376614
+                  - time: 1630663200
+                    open: 50022.3984375
+                    high: 50441.6015625
+                    low: 49747.69921875
+                    close: 49747.69921875
+                    volume: 0.640700007788837
+                  - time: 1630666800
+                    open: 49707.3984375
+                    high: 50182.8984375
+                    low: 49707.3984375
+                    close: 50182.8984375
+                    volume: 0.008900000131689012
+                  - time: 1630670400
+                    open: 50222.8984375
+                    high: 50800
+                    low: 50080.30078125
+                    close: 50770.6015625
+                    volume: 1.8428999744792236
+                  - time: 1630674000
+                    open: 50799.8984375
+                    high: 51004.69921875
+                    low: 50720
+                    close: 50797.19921875
+                    volume: 0.2186000037472695
+                  - time: 1630677600
+                    open: 50900
+                    high: 50900
+                    low: 50476.8984375
+                    close: 50715.8984375
+                    volume: 2.194599997761543
+                  - time: 1630681200
+                    open: 50854.69921875
+                    high: 50891.5
+                    low: 50675.69921875
+                    close: 50675.69921875
+                    volume: 1.1700000129567343
+                  - time: 1630684800
+                    open: 50698.1015625
+                    high: 50897.69921875
+                    low: 50684
+                    close: 50769.19921875
+                    volume: 3.6953999600955285
+                  - time: 1630688400
+                    open: 50719.69921875
+                    high: 50945.30078125
+                    low: 50548.6015625
+                    close: 50658.69921875
+                    volume: 2.7920999882917386
+                  - time: 1630692000
+                    open: 50632.3984375
+                    high: 50764.30078125
+                    low: 50510
+                    close: 50692.80078125
+                    volume: 0.09989999977551633
+                  - time: 1630695600
+                    open: 50673.80078125
+                    high: 50678.80078125
+                    low: 50519.30078125
+                    close: 50602.19921875
+                    volume: 0.08630000049015507
+                  - time: 1630699200
+                    open: 50590.30078125
+                    high: 50602.3984375
+                    low: 50250
+                    close: 50403.5
+                    volume: 0.5305000114894938
+                  - time: 1630702800
+                    open: 50370.30078125
+                    high: 50431.19921875
+                    low: 50252
+                    close: 50283.69921875
+                    volume: 0.6490000138583127
+                  - time: 1630706400
+                    open: 50284.80078125
+                    high: 50338.30078125
+                    low: 49835.1015625
+                    close: 49835.1015625
+                    volume: 2.41000004914531
+                  - time: 1630710000
+                    open: 49860.69921875
+                    high: 50248
+                    low: 49829.19921875
+                    close: 50221.80078125
+                    volume: 1.0680000061402097
+                  - time: 1630713600
+                    open: 50132.5
+                    high: 50228.6015625
+                    low: 49934
+                    close: 50112.6015625
+                    volume: 2.5974999938625842
+                  - time: 1630717200
+                    open: 50113.80078125
+                    high: 50113.80078125
+                    low: 49956.3984375
+                    close: 49956.8984375
+                    volume: 0.5643000049749389
+                  - time: 1630720800
+                    open: 49957
+                    high: 50080.19921875
+                    low: 49915.69921875
+                    close: 50080.19921875
+                    volume: 3.7616999979582033
+                  - time: 1630724400
+                    open: 50080.1015625
+                    high: 50499
+                    low: 50080.1015625
+                    close: 50499
+                    volume: 0.05969999945227755
+                  - time: 1630728000
+                    open: 50483.19921875
+                    high: 50586.69921875
+                    low: 50414.8984375
+                    close: 50585.30078125
+                    volume: 0.8302000143667101
+                  - time: 1630731600
+                    open: 50490.6015625
+                    high: 50490.6015625
+                    low: 50325.5
+                    close: 50375.8984375
+                    volume: 0.13500000134808943
+                  - time: 1630735200
+                    open: 50368.6015625
+                    high: 50511
+                    low: 50368.6015625
+                    close: 50511
+                    volume: 0.8025999846213381
+                  - time: 1630738800
+                    open: 50354.6015625
+                    high: 50354.80078125
+                    low: 50354.6015625
+                    close: 50354.80078125
+                    volume: 0.007799999955750536
+                  - time: 1630742400
+                    open: 50350
+                    high: 50350
+                    low: 50235.1015625
+                    close: 50235.69921875
+                    volume: 0.0009999999747378752
+                  - time: 1630746000
+                    open: 50472
+                    high: 50472.69921875
+                    low: 50472
+                    close: 50472.69921875
+                    volume: 0.03570000079344027
+                  - time: 1630749600
+                    open: 50517.30078125
+                    high: 50618.1015625
+                    low: 49854.69921875
+                    close: 50094.69921875
+                    volume: 11.258199856041756
+                  - time: 1630753200
+                    open: 50028
+                    high: 50154.19921875
+                    low: 49934.69921875
+                    close: 49995.69921875
+                    volume: 0.09149999944202136
+                  - time: 1630756800
+                    open: 50035
+                    high: 50353.80078125
+                    low: 50035
+                    close: 50353.80078125
+                    volume: 0.02150000020628795
+                  - time: 1630760400
+                    open: 50320
+                    high: 50376.5
+                    low: 50320
+                    close: 50376.5
+                    volume: 0.05450000008568168
+                  - time: 1630764000
+                    open: 50289.80078125
+                    high: 50289.80078125
+                    low: 50018.69921875
+                    close: 50069.5
+                    volume: 0.8699000131164212
+                  - time: 1630767600
+                    open: 50129.30078125
+                    high: 50129.3984375
+                    low: 50007.5
+                    close: 50113.69921875
+                    volume: 0.39430000039283186
+                  - time: 1630771200
+                    open: 50013
+                    high: 50124.8984375
+                    low: 50013
+                    close: 50124.8984375
+                    volume: 0.2837000007275492
+                  - time: 1630774800
+                    open: 50031.5
+                    high: 50031.5
+                    low: 49700.1015625
+                    close: 49908.19921875
+                    volume: 13.929600152339844
+                  - time: 1630778400
+                    open: 49985
+                    high: 50181.19921875
+                    low: 49985
+                    close: 50149.1015625
+                    volume: 4.608099994751683
+                  - time: 1630782000
+                    open: 50093.5
+                    high: 50178.19921875
+                    low: 49901.1015625
+                    close: 50178.19921875
+                    volume: 0.426600010941911
+                  - time: 1630785600
+                    open: 50138.8984375
+                    high: 50181.19921875
+                    low: 50138.8984375
+                    close: 50181.1015625
+                    volume: 0.13490000024467008
+                  - time: 1630789200
+                    open: 50181.19921875
+                    high: 50181.19921875
+                    low: 50181.1015625
+                    close: 50181.1015625
+                    volume: 0.45529999549034983
+                  - time: 1630792800
+                    open: 50181.19921875
+                    high: 50369.69921875
+                    low: 50100
+                    close: 50100
+                    volume: 5.718899945284647
+                  - time: 1630796400
+                    open: 50000.19921875
+                    high: 50103.1015625
+                    low: 50000.19921875
+                    close: 50103.1015625
+                    volume: 0.2420000023485045
+                  - time: 1630800000
+                    open: 50000
+                    high: 50089.1015625
+                    low: 49909.30078125
+                    close: 50089.1015625
+                    volume: 3.0399999871006003
+                  - time: 1630803600
+                    open: 50103.1015625
+                    high: 50175
+                    low: 50103.1015625
+                    close: 50175
+                    volume: 0.04690000179107301
+                  - time: 1630807200
+                    open: 50194.30078125
+                    high: 50379
+                    low: 50194.30078125
+                    close: 50343.3984375
+                    volume: 0.5442000126640778
+                  - time: 1630810800
+                    open: 50260
+                    high: 50260
+                    low: 50008.80078125
+                    close: 50008.80078125
+                    volume: 0.43739999923855066
+                  - time: 1630814400
+                    open: 49909.3984375
+                    high: 49946.6015625
+                    low: 49909.3984375
+                    close: 49909.3984375
+                    volume: 0.025699999649077654
+                  - time: 1630818000
+                    open: 49909.3984375
+                    high: 50034.5
+                    low: 49909.30078125
+                    close: 49909.30078125
+                    volume: 0.5611000052886084
+                  - time: 1630821600
+                    open: 49909.30078125
+                    high: 50045.6015625
+                    low: 49750.1015625
+                    close: 50045.6015625
+                    volume: 1.6246000149694737
+                  - time: 1630825200
+                    open: 50017.19921875
+                    high: 50221.30078125
+                    low: 50001.1015625
+                    close: 50058.30078125
+                    volume: 0.14940000496426364
+                  - time: 1630828800
+                    open: 50001
+                    high: 50237
+                    low: 50001
+                    close: 50237
+                    volume: 0.10010000022884924
+                  - time: 1630832400
+                    open: 50265.19921875
+                    high: 50265.19921875
+                    low: 50265.19921875
+                    close: 50265.19921875
+                    volume: 0.000699999975040555
+                  - time: 1630836000
+                    open: 50286.80078125
+                    high: 50365.19921875
+                    low: 50267.69921875
+                    close: 50267.69921875
+                    volume: 0.29400000006717164
+                  - time: 1630839600
+                    open: 50136.5
+                    high: 50437.6015625
+                    low: 50032
+                    close: 50356.69921875
+                    volume: 0.6524999975590617
+                  - time: 1630843200
+                    open: 50281.6015625
+                    high: 50425
+                    low: 50281.6015625
+                    close: 50348.69921875
+                    volume: 0.4712000049839844
+                  - time: 1630846800
+                    open: 50264.80078125
+                    high: 50290.5
+                    low: 50264.80078125
+                    close: 50290.5
+                    volume: 0.01719999982014997
+                  - time: 1630850400
+                    open: 50290.5
+                    high: 50628.8984375
+                    low: 50290.5
+                    close: 50408.5
+                    volume: 4.538999995100312
+                  - time: 1630854000
+                    open: 50402.3984375
+                    high: 50443.19921875
+                    low: 50336.8984375
+                    close: 50434.19921875
+                    volume: 0.03419999983452726
+                  - time: 1630857600
+                    open: 50387.19921875
+                    high: 50590.19921875
+                    low: 50330.6015625
+                    close: 50590.19921875
+                    volume: 0.7367000239464687
+                  - time: 1630861200
+                    open: 50589.1015625
+                    high: 50645
+                    low: 50468
+                    close: 50498.69921875
+                    volume: 0.38489999435842037
+                  - time: 1630864800
+                    open: 50417.6015625
+                    high: 50571.30078125
+                    low: 50417.6015625
+                    close: 50571.30078125
+                    volume: 0.1723999996247585
+                  - time: 1630868400
+                    open: 50557.5
+                    high: 51036.80078125
+                    low: 50557.5
+                    close: 50934.6015625
+                    volume: 3.4354000232488033
+                  - time: 1630872000
+                    open: 50934.6015625
+                    high: 51909.69921875
+                    low: 50934.6015625
+                    close: 51909.69921875
+                    volume: 4.818599965801695
+                  - time: 1630875600
+                    open: 52000
+                    high: 52000
+                    low: 51744.6015625
+                    close: 51889.8984375
+                    volume: 0.1397999987093499
+                  - time: 1630879200
+                    open: 51862.69921875
+                    high: 51935.6015625
+                    low: 51667
+                    close: 51935.6015625
+                    volume: 1.572500037480495
+                  - time: 1630882800
+                    open: 51948.6015625
+                    high: 51982.8984375
+                    low: 51765.30078125
+                    close: 51773
+                    volume: 0.5462999984592898
+                  - time: 1630886400
+                    open: 51886.80078125
+                    high: 52000
+                    low: 51717.1015625
+                    close: 51900
+                    volume: 0.6010999966674717
+                  - time: 1630890000
+                    open: 51900
+                    high: 52001.30078125
+                    low: 51898.30078125
+                    close: 51947.30078125
+                    volume: 0.19060000429453794
+                  - time: 1630893600
+                    open: 51940.6015625
+                    high: 51967.30078125
+                    low: 51823.80078125
+                    close: 51823.80078125
+                    volume: 0.3475000136604649
+                  - time: 1630897200
+                    open: 51873.30078125
+                    high: 51873.30078125
+                    low: 51703.1015625
+                    close: 51703.1015625
+                    volume: 0.0397000001030392
+                  - time: 1630900800
+                    open: 51738.3984375
+                    high: 51875
+                    low: 51738.3984375
+                    close: 51755.1015625
+                    volume: 0.21059999882709235
+                  - time: 1630904400
+                    open: 51788.69921875
+                    high: 51979.6015625
+                    low: 51759
+                    close: 51938.69921875
+                    volume: 0.40100000442180317
+                  - time: 1630908000
+                    open: 51966.1015625
+                    high: 52000
+                    low: 51907.1015625
+                    close: 52000
+                    volume: 2.2103999895916786
+                  - time: 1630911600
+                    open: 52000
+                    high: 52000.5
+                    low: 51850
+                    close: 51850
+                    volume: 0.9482000147982035
+                  - time: 1630915200
+                    open: 51875.8984375
+                    high: 51922.69921875
+                    low: 51830
+                    close: 51830
+                    volume: 0.34470001014415175
+                  - time: 1630918800
+                    open: 51861.80078125
+                    high: 52037.3984375
+                    low: 51861.80078125
+                    close: 52037.3984375
+                    volume: 0.7843999927281402
+                  - time: 1630922400
+                    open: 52028.19921875
+                    high: 52028.19921875
+                    low: 51806
+                    close: 51967.6015625
+                    volume: 1.4348999798239674
+                  - time: 1630926000
+                    open: 51921.5
+                    high: 51990.3984375
+                    low: 51667
+                    close: 51667
+                    volume: 2.17120001045987
+                  - time: 1630929600
+                    open: 51600
+                    high: 51696.1015625
+                    low: 51269.1015625
+                    close: 51575.80078125
+                    volume: 2.662400011642603
+                  - time: 1630933200
+                    open: 51568.1015625
+                    high: 51671.69921875
+                    low: 51435.1015625
+                    close: 51671.69921875
+                    volume: 1.2533999641018454
+                  - time: 1630936800
+                    open: 51672.80078125
+                    high: 51964.69921875
+                    low: 51672.80078125
+                    close: 51939.5
+                    volume: 1.606000007595867
+                  - time: 1630940400
+                    open: 51968.8984375
+                    high: 51968.8984375
+                    low: 51815
+                    close: 51948
+                    volume: 3.1822000236425083
+                  - time: 1630944000
+                    open: 51930.8984375
+                    high: 51948.1015625
+                    low: 51750.19921875
+                    close: 51750.19921875
+                    volume: 4.37320006761729
+                  - time: 1630947600
+                    open: 51750.6015625
+                    high: 51840.6015625
+                    low: 51690
+                    close: 51795.6015625
+                    volume: 5.386599992241827
+                  - time: 1630951200
+                    open: 51791.19921875
+                    high: 51941.8984375
+                    low: 51768.30078125
+                    close: 51911.5
+                    volume: 0.039200000173877925
+                  - time: 1630954800
+                    open: 51925.6015625
+                    high: 52155.69921875
+                    low: 51925.6015625
+                    close: 51998.69921875
+                    volume: 4.368900060086162
+                  - time: 1630958400
+                    open: 51986.5
+                    high: 52203.19921875
+                    low: 51986.5
+                    close: 52203.19921875
+                    volume: 0.4382000008263276
+                  - time: 1630962000
+                    open: 52185.8984375
+                    high: 52241.80078125
+                    low: 52112.1015625
+                    close: 52230
+                    volume: 0.7014999898819951
+                  - time: 1630965600
+                    open: 52230
+                    high: 52749.3984375
+                    low: 52230
+                    close: 52749.3984375
+                    volume: 0.6173999998136424
+                  - time: 1630969200
+                    open: 52767.80078125
+                    high: 52914.80078125
+                    low: 52643
+                    close: 52861.3984375
+                    volume: 1.4669999990510405
+                  - time: 1630972800
+                    open: 52899.80078125
+                    high: 52914.69921875
+                    low: 52702.19921875
+                    close: 52702.19921875
+                    volume: 0.4732000038638944
+                  - time: 1630976400
+                    open: 52686.1015625
+                    high: 52745.6015625
+                    low: 52682
+                    close: 52745.6015625
+                    volume: 0.7128999995911727
+                  - time: 1630980000
+                    open: 52744.8984375
+                    high: 52914.80078125
+                    low: 52684
+                    close: 52823.6015625
+                    volume: 7.756500077812234
+                  - time: 1630983600
+                    open: 52835.8984375
+                    high: 52952.19921875
+                    low: 52771.80078125
+                    close: 52771.80078125
+                    volume: 0.8646000040389481
+                  - time: 1630987200
+                    open: 52743.1015625
+                    high: 52743.1015625
+                    low: 52655.6015625
+                    close: 52655.6015625
+                    volume: 0.5112000162916956
+                  - time: 1630990800
+                    open: 52571
+                    high: 52810.8984375
+                    low: 52571
+                    close: 52810.8984375
+                    volume: 1.4314999890411855
+                  - time: 1630994400
+                    open: 52748.8984375
+                    high: 52772.6015625
+                    low: 52726.3984375
+                    close: 52772.6015625
+                    volume: 0.20039999976143008
+                  - time: 1630998000
+                    open: 52600
+                    high: 52600
+                    low: 52250.1015625
+                    close: 52483.69921875
+                    volume: 2.3199000097592943
+                  - time: 1631001600
+                    open: 52447.19921875
+                    high: 52447.19921875
+                    low: 51461.8984375
+                    close: 51502.6015625
+                    volume: 0.7129999989119824
+                  - time: 1631005200
+                    open: 51466.8984375
+                    high: 51475
+                    low: 50950.19921875
+                    close: 50950.19921875
+                    volume: 3.9457000347902067
+                  - time: 1631008800
+                    open: 51014.6015625
+                    high: 51225.19921875
+                    low: 50942.3984375
+                    close: 51225.19921875
+                    volume: 0.30339999683201313
+                  - time: 1631012400
+                    open: 51205.19921875
+                    high: 51244.6015625
+                    low: 51205
+                    close: 51205
+                    volume: 0.1818000005732756
+                  - time: 1631016000
+                    open: 51205
+                    high: 51205
+                    low: 50800
+                    close: 51094.69921875
+                    volume: 0.23250000140978955
+                  - time: 1631019600
+                    open: 51089.1015625
+                    high: 51173.80078125
+                    low: 50905.80078125
+                    close: 50905.80078125
+                    volume: 0.35310000453318935
+                  - time: 1631023200
+                    open: 50865.30078125
+                    high: 50865.30078125
+                    low: 48666
+                    close: 48666.1015625
+                    volume: 5.934499963528651
+                  - time: 1631026800
+                    open: 48666
+                    high: 52504.1015625
+                    low: 44000
+                    close: 46849.3984375
+                    volume: 59.03620015519846
+                  - time: 1631030400
+                    open: 46974
+                    high: 47700
+                    low: 46800
+                    close: 47600
+                    volume: 9.72979988509178
+                  - time: 1631034000
+                    open: 47460.30078125
+                    high: 47460.30078125
+                    low: 46735
+                    close: 46735
+                    volume: 0.43440000027476344
+                  - time: 1631037600
+                    open: 46684.1015625
+                    high: 47185.80078125
+                    low: 46438.69921875
+                    close: 47103.69921875
+                    volume: 5.85230007825885
+                  - time: 1631041200
+                    open: 47103.69921875
+                    high: 47437.6015625
+                    low: 47103.69921875
+                    close: 47224.8984375
+                    volume: 5.145600007657777
+                  - time: 1631044800
+                    open: 47323.8984375
+                    high: 47323.8984375
+                    low: 46868.1015625
+                    close: 46868.1015625
+                    volume: 0.5214000092528295
+                  - time: 1631048400
+                    open: 47036.6015625
+                    high: 47036.6015625
+                    low: 46602
+                    close: 46602
+                    volume: 0.7480000078794546
+                  - time: 1631052000
+                    open: 46648.69921875
+                    high: 47224.6015625
+                    low: 46648.69921875
+                    close: 47224.6015625
+                    volume: 1.8393000065698288
+                  - time: 1631055600
+                    open: 47088.19921875
+                    high: 47283.80078125
+                    low: 46932.5
+                    close: 46991.69921875
+                    volume: 4.442399992112769
+                  - time: 1631059200
+                    open: 46958.8984375
+                    high: 47239.8984375
+                    low: 46724.19921875
+                    close: 47239.8984375
+                    volume: 1.2096999902278185
+                  - time: 1631062800
+                    open: 47193.80078125
+                    high: 47193.80078125
+                    low: 47000
+                    close: 47156.8984375
+                    volume: 3.1559999629243976
+                  - time: 1631066400
+                    open: 47296.6015625
+                    high: 47360.80078125
+                    low: 47248.3984375
+                    close: 47248.3984375
+                    volume: 0.9930000175154419
+                  - time: 1631070000
+                    open: 47248.30078125
+                    high: 47248.30078125
+                    low: 46411.1015625
+                    close: 46553.80078125
+                    volume: 1.3070999992196448
+                  - time: 1631073600
+                    open: 46621.30078125
+                    high: 46860
+                    low: 46621.30078125
+                    close: 46767.80078125
+                    volume: 2.0531999812083086
+                  - time: 1631077200
+                    open: 46754.6015625
+                    high: 46754.6015625
+                    low: 46152
+                    close: 46442.69921875
+                    volume: 3.2000000434782123
+                  - time: 1631080800
+                    open: 46362.1015625
+                    high: 46362.1015625
+                    low: 46104.80078125
+                    close: 46105.1015625
+                    volume: 2.6379000400047516
+                  - time: 1631084400
+                    open: 46104.80078125
+                    high: 46104.80078125
+                    low: 45874.30078125
+                    close: 45874.30078125
+                    volume: 1.4956999564892612
+                  - time: 1631088000
+                    open: 45791.1015625
+                    high: 46193.30078125
+                    low: 44775.1015625
+                    close: 46193.30078125
+                    volume: 8.615799949417124
+                  - time: 1631091600
+                    open: 46193.5
+                    high: 46377.8984375
+                    low: 46078.69921875
+                    close: 46246.69921875
+                    volume: 1.0224999974452658
+                  - time: 1631095200
+                    open: 46317.69921875
+                    high: 46629.6015625
+                    low: 46104.69921875
+                    close: 46629.6015625
+                    volume: 3.1286999953445047
+                  - time: 1631098800
+                    open: 46649.1015625
+                    high: 46881.69921875
+                    low: 46569.3984375
+                    close: 46569.3984375
+                    volume: 0.26469999540859135
+                  - time: 1631102400
+                    open: 46547.6015625
+                    high: 46638.5
+                    low: 46349
+                    close: 46501
+                    volume: 0.809499997558305
+                  - time: 1631106000
+                    open: 46500.1015625
+                    high: 46759.80078125
+                    low: 45830.30078125
+                    close: 46554.3984375
+                    volume: 1.5922000148202642
+                  - time: 1631109600
+                    open: 46321.6015625
+                    high: 46321.6015625
+                    low: 46020.3984375
+                    close: 46020.3984375
+                    volume: 8.349400053048157
+                  - time: 1631113200
+                    open: 45911.19921875
+                    high: 46172
+                    low: 45911.1015625
+                    close: 46079.80078125
+                    volume: 1.347599982356769
+                  - time: 1631116800
+                    open: 46043.6015625
+                    high: 46604
+                    low: 46043.6015625
+                    close: 46505.6015625
+                    volume: 2.222200039133895
+                  - time: 1631120400
+                    open: 46500.1015625
+                    high: 46500.1015625
+                    low: 46160.5
+                    close: 46281.69921875
+                    volume: 1.2134999719273765
+                  - time: 1631124000
+                    open: 46272.30078125
+                    high: 46453.3984375
+                    low: 46272.30078125
+                    close: 46453.3984375
+                    volume: 0.6186000127345324
+                  - time: 1631127600
+                    open: 46546.6015625
+                    high: 46626.19921875
+                    low: 46450
+                    close: 46512.5
+                    volume: 3.1045000242593233
+                  - time: 1631131200
+                    open: 46484
+                    high: 46512.19921875
+                    low: 46118.8984375
+                    close: 46150.30078125
+                    volume: 2.348599974400713
+                  - time: 1631134800
+                    open: 46150.30078125
+                    high: 46246
+                    low: 46150.30078125
+                    close: 46246
+                    volume: 1.4628000168595463
+                  - time: 1631138400
+                    open: 46245.8984375
+                    high: 46794.8984375
+                    low: 46153.69921875
+                    close: 46788.1015625
+                    volume: 2.819299986353144
+                  - time: 1631142000
+                    open: 46697.1015625
+                    high: 46700
+                    low: 46178.30078125
+                    close: 46185.69921875
+                    volume: 1.0074999884018325
+                  - time: 1631145600
+                    open: 46165.8984375
+                    high: 46320.1015625
+                    low: 46136
+                    close: 46277.69921875
+                    volume: 0.24900000417255796
+                  - time: 1631149200
+                    open: 46241.69921875
+                    high: 46241.69921875
+                    low: 46140.1015625
+                    close: 46186
+                    volume: 0.1665999963224749
+                  - time: 1631152800
+                    open: 46186.1015625
+                    high: 46300
+                    low: 45861.19921875
+                    close: 45955.69921875
+                    volume: 2.5102000173646957
+                  - time: 1631156400
+                    open: 45864
+                    high: 46037.3984375
+                    low: 45818.1015625
+                    close: 45991.5
+                    volume: 1.942700017360039
+                  - time: 1631160000
+                    open: 46012.80078125
+                    high: 46344.8984375
+                    low: 46012.80078125
+                    close: 46344.8984375
+                    volume: 0.44440000620670617
+                  - time: 1631163600
+                    open: 46298.6015625
+                    high: 46298.6015625
+                    low: 46298.6015625
+                    close: 46298.6015625
+                    volume: 0.06689999997615814
+                  - time: 1631167200
+                    open: 46329.8984375
+                    high: 46345
+                    low: 46326.69921875
+                    close: 46326.69921875
+                    volume: 0.08739999782119412
+                  - time: 1631170800
+                    open: 46271.6015625
+                    high: 46383.80078125
+                    low: 46198.1015625
+                    close: 46383.80078125
+                    volume: 1.308399999543326
+                  - time: 1631174400
+                    open: 46328.1015625
+                    high: 46550
+                    low: 46328.1015625
+                    close: 46500
+                    volume: 0.14570000264939154
+                  - time: 1631178000
+                    open: 46426.8984375
+                    high: 46426.8984375
+                    low: 46426.80078125
+                    close: 46426.80078125
+                    volume: 0.003500000006170012
+                  - time: 1631181600
+                    open: 46426.80078125
+                    high: 46426.80078125
+                    low: 46022.3984375
+                    close: 46166.3984375
+                    volume: 2.2165999971912242
+                  - time: 1631185200
+                    open: 46244.19921875
+                    high: 46461.3984375
+                    low: 46244.19921875
+                    close: 46461.3984375
+                    volume: 0.4140000073239207
+                  - time: 1631188800
+                    open: 46422.1015625
+                    high: 46647.8984375
+                    low: 45799.80078125
+                    close: 46647.8984375
+                    volume: 4.724600019850186
+                  - time: 1631192400
+                    open: 46675.5
+                    high: 47200
+                    low: 46675.5
+                    close: 47009
+                    volume: 1.4821999786872766
+                  - time: 1631196000
+                    open: 46997.5
+                    high: 47196.19921875
+                    low: 46997.5
+                    close: 47119.5
+                    volume: 1.118599985144101
+                  - time: 1631199600
+                    open: 47119.5
+                    high: 47119.5
+                    low: 46897.8984375
+                    close: 46981.8984375
+                    volume: 1.0080999912024708
+                  - time: 1631203200
+                    open: 47009.1015625
+                    high: 47242.80078125
+                    low: 47009.1015625
+                    close: 47242.80078125
+                    volume: 0.566900002741022
+                  - time: 1631206800
+                    open: 47275
+                    high: 47275
+                    low: 46954.3984375
+                    close: 46954.3984375
+                    volume: 0.9366999858684721
+                  - time: 1631210400
+                    open: 46954.3984375
+                    high: 46954.3984375
+                    low: 46455.30078125
+                    close: 46675.69921875
+                    volume: 1.5358000127598643
+                  - time: 1631214000
+                    open: 46749.80078125
+                    high: 46749.80078125
+                    low: 46656.5
+                    close: 46686.3984375
+                    volume: 0.1715000006443006
+  /orders:
+    get:
+      tags:
+        - default
+      summary: order - get by market
+      parameters:
+        - name: market
+          in: query
+          schema:
+            type: string
+          example: BTC-PERP
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '213'
+            ETag:
+              schema:
+                type: string
+                example: W/"d5-teDVknx96LsRu3nJr8xRFTeW7c4"
+            Date:
+              schema:
+                type: string
+                example: Thu, 23 Sep 2021 07:37:19 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+                result:
+                  - createdAt: '2021-09-23T07:35:23.000Z'
+                    future: BTC-PERP
+                    id: '3689367261485984029873284'
+                    market: BTC-PERP
+                    price: 20000
+                    side: buy
+                    size: 0.0001
+                    status: open
+                    type: limit
+    post:
+      tags:
+        - default
+      summary: order - place order spot
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                market: BTC/USDC
+                side: buy
+                price: 20000
+                type: limit
+                size: 0.0001
+                reduceOnly: false
+                ioc: false
+                postOnly: false
+                clientId: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - default
+      summary: order - cancel all
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /orders/by_client_id/123:
+    delete:
+      tags:
+        - default
+      summary: order - cancel by client_id
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /orders/3689367261485984032012990:
+    delete:
+      tags:
+        - default
+      summary: order - cancel by order_id
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
