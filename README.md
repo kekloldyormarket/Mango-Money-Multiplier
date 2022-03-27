@@ -27,3 +27,9 @@ I forgot you need to do this: mango-client-v3$ ts-node examples/example.ts  it e
 Finally sat down and had time to work thru kinks, this has been running a few hours - gonna leave this here and update after a nap probably :)
 
 ![image](https://user-images.githubusercontent.com/22843601/160265506-eac8aefb-07b8-44e4-8fe1-1a7f23295da8.png)
+
+
+oops aged well :)
+
+![image](https://user-images.githubusercontent.com/22843601/160292441-5d63ba6c-4808-4d0c-8653-ef0c1b23a1d6.png)
+
