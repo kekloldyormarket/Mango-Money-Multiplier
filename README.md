@@ -20,6 +20,15 @@ it's a funding arbitrage bot for mangomarkets
 13. I accept both tips stacc.sol and PRs
 
 
+## Important
+
+1. Risk only what you can afford to lose.
+2. Trading at leverage is extremely risky, and there is a chance you may lose all your funds.
+3. In no way do I or any other party imply let alone assure results.
+4. Historical data is no indication of future activity.
+5. This is extremely alpha software, largely undocumented and completely without tests or helpful comments. Use at your own risk.
+6. Nothing I do or say should ever be misconstrued as financial advice.
+
 
 I forgot you need to do this: mango-client-v3$ ts-node examples/example.ts  it expects your id.json in the default solana dir
 
