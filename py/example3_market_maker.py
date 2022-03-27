@@ -88,7 +88,7 @@ class MM:
                 self.start_position_buy = self.market.bid #- self.market.price_increment
                 self.start_position_sell = self.market.ask#+ self.market.price_increment
                 self.balances = self.mango_service_v3_client.get_account()['marketMarginAvailable']
-                self.balance = 0 #print(self.mango_service_v3_client.get_account())
+                #print(self.mango_service_v3_client.get_account())
                 for a in self.balances:
                     #print(a)
                     if self.balance < a['marginAvailable']:
@@ -157,13 +157,13 @@ class MM:
                 if abs(diff) <= (self.balance / 2.5) / self.mid:
                     if wantsInKind[self.MARKET] > 0:
                         self.MAX_LONG_POSITION = wantsInKind[self.MARKET]
-                        self.SIZE = abs(self.MAX_LONG_POSITION / 100 * 2)
+                        self.SIZE = abs(self.MAX_LONG_POSITION / 100 * 10)
 #                        if  self.long_position_limit_exceeded():
 #                            self.MAX_SHORT_POSITION = wantsInKind[self.MARKET] / 10 * -1
                     else:
 
                         self.MAX_SHORT_POSITION =  wantsInKind[self.MARKET]
-                        self.SIZE = abs(self.MAX_SHORT_POSITION / 100 * 2)
+                        self.SIZE = abs(self.MAX_SHORT_POSITION / 100 * 10)
 #                        if  self.short_position_limit_exceeded():
 #                            self.MAX_LONG_POSITION = wantsInKind[self.MARKET] / 10 * -1
                 """ elif diff >= -1 * (self.balance / 100) / mid:
@@ -460,7 +460,7 @@ def aThread(market):
         logger.error(f"Exception: {e}")
 
     while True:
-        CYCLE_INTERVAL = random.randint(1,69) * 4#mm.mango_service_v3_client.lenAccs
+        CYCLE_INTERVAL = random.randint(10,69) * 4#mm.mango_service_v3_client.lenAccs
         
 
         logger.info("next cycle...")

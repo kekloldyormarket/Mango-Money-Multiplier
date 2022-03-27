@@ -38,7 +38,7 @@ import os from "os";
 import { OrderInfo } from "types";
 import { logger, zipDict } from "./utils";
 
-let meAndTheBoys = ["2TZzWNae7VLPB5hNCZJ4dAMKmWDhZoDAFAPmEwQxoHTU"]//4TSs6vzXucFNvtXcQTZN3RXMceKEtgRsZzManBZyC2Qb"]//5sBpMQgTi7phxqRnErfbwx29vUsbUZoy1MLgY7aXuqeo", "GvSCxCi3y2Mt4JPExhLEZXTbYVGBXv9DNXYomvwRVEak"]
+let meAndThePeeps = ["2TZzWNae7VLPB5hNCZJ4dAMKmWDhZoDAFAPmEwQxoHTU"]//4TSs6vzXucFNvtXcQTZN3RXMceKEtgRsZzManBZyC2Qb"]//5sBpMQgTi7phxqRnErfbwx29vUsbUZoy1MLgY7aXuqeo", "GvSCxCi3y2Mt4JPExhLEZXTbYVGBXv9DNXYomvwRVEak"]
 
 class MangoSimpleClient {
   constructor(
@@ -96,7 +96,7 @@ class MangoSimpleClient {
     const owner = new Account(
       JSON.parse(fs.readFileSync(privateKeyPath, "utf-8"))
     );
-    const pubkey = meAndTheBoys[Math.floor(Math.random() * meAndTheBoys.length)]
+    const pubkey = meAndThePeeps[Math.floor(Math.random() * meAndTheBoys.length)]
     let mangoAccount;
 
     if (process.env.MANGO_ACCOUNT) {
