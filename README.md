@@ -22,3 +22,8 @@ it's a funding arbitrage bot for mangomarkets
 
 
 I forgot you need to do this: mango-client-v3$ ts-node examples/example.ts  it expects your id.json in the default solana dir
+
+
+Finally sat down and had time to work thru kinks, this has been running a few hours - gonna leave this here and update after a nap probably :)
+
+![image](https://user-images.githubusercontent.com/22843601/160265506-eac8aefb-07b8-44e4-8fe1-1a7f23295da8.png)
