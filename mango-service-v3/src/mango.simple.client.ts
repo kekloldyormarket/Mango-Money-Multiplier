@@ -96,7 +96,7 @@ class MangoSimpleClient {
     const owner = new Account(
       JSON.parse(fs.readFileSync(privateKeyPath, "utf-8"))
     );
-    const pubkey = meAndThePeeps[Math.floor(Math.random() * meAndTheBoys.length)]
+    const pubkey = meAndThePeeps[Math.floor(Math.random() * meAndThePeeps.length)]
     let mangoAccount;
 
     if (process.env.MANGO_ACCOUNT) {

@@ -84,16 +84,14 @@ class MM:
     def get_ticker(self):
         try:
                 self.market = self.mango_service_v3_client.get_market_by_market_name(self.MARKET)[0]
-            
                 self.start_position_buy = self.market.bid #- self.market.price_increment
                 self.start_position_sell = self.market.ask#+ self.market.price_increment
                 self.balances = self.mango_service_v3_client.get_account()['marketMarginAvailable']
-                #print(self.mango_service_v3_client.get_account())
-                for a in self.balances:
-                    #print(a)
-                    if self.balance < a['marginAvailable']:
-                        self.balance = (a['marginAvailable']) #/ 1.138)
-                #sleep(100)
+                self.balance = 0
+                for balance in self.mango_service_v3_client.get_balances():
+                    ab = (balance.json())
+                    self.balance = self.balance + (json.loads(ab)['usd_value'])
+                self.balance = self.balance * 4.138
                 self.positions = [
                     position
                     for position in self.mango_service_v3_client.get_open_positions()
@@ -154,7 +152,7 @@ class MM:
                     wantsInKind[self.MARKET] = (LALA['wants'][self.MARKET] * self.balance) / mid
                     print('2: ' + str(wantsInKind[self.MARKET]))
                 print('diff: ' + str(diff))
-                if abs(diff) <= (self.balance / 2.5) / self.mid:
+                if abs(diff) <= (self.balance / 50.5) / self.mid:
                     if wantsInKind[self.MARKET] > 0:
                         self.MAX_LONG_POSITION = wantsInKind[self.MARKET]
                         self.SIZE = abs(self.MAX_LONG_POSITION / 100 * 10)
@@ -350,7 +348,7 @@ class MM:
                 print(self.balance)#
                 print(abs(to_create[0].size) * to_create[0].price )
                 #sleep(100)#print(self.balance)
-                if market == True and abs(to_create[0].size) * to_create[0].price > self.balance / (100 * 100):# * 10:
+                if market == True and abs(to_create[0].size) * to_create[0].price > self.balance / (100 * 100) * 4:# * 10:
                     print(1381)
                     for order in to_create:
                         self.mango_service_v3_client.place_order(
@@ -362,11 +360,11 @@ price=order.price,
                                 size=order.size,
                                 reduce_only=False,
                                 ioc=False,
-                                post_only=True,
+                                post_only=False,
                                 client_id=123,
                             )
                         )
-                elif market == False and abs(to_create[0].size) * to_create[0].price > self.balance / (100 * 100):# * 10:
+                elif market == False and abs(to_create[0].size) * to_create[0].price > self.balance / (100 * 100) * 4:# * 10:
                     print(1831)
                     for order in to_create:
                         self.mango_service_v3_client.place_order(
@@ -460,7 +458,7 @@ def aThread(market):
         logger.error(f"Exception: {e}")
 
     while True:
-        CYCLE_INTERVAL = random.randint(10,69) * 4#mm.mango_service_v3_client.lenAccs
+        CYCLE_INTERVAL = random.randint(10,69) * 2#mm.mango_service_v3_client.lenAccs
         
 
         logger.info("next cycle...")
