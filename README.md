@@ -29,6 +29,7 @@ it's a funding arbitrage bot for mangomarkets
 5. This is extremely alpha software, largely undocumented and completely without tests or helpful comments. Use at your own risk.
 6. Nothing I do or say should ever be misconstrued as financial advice.
 
+## Back to your scheduled programming...
 
 I forgot you need to do this: mango-client-v3$ ts-node examples/example.ts  it expects your id.json in the default solana dir
 
