@@ -91,7 +91,7 @@ class MM:
                 for balance in self.mango_service_v3_client.get_balances():
                     ab = (balance.json())
                     self.balance = self.balance + (json.loads(ab)['usd_value'])
-                self.balance = self.balance * 4.138
+                self.balance = self.balance * 3.138
                 self.positions = [
                     position
                     for position in self.mango_service_v3_client.get_open_positions()
@@ -134,6 +134,11 @@ class MM:
                         except: 
                             diff = abs(otherpos[0].net_size) -  abs(self.balances2[0].total)
                 #print(4)
+                diff = diff / mid 
+
+                print(123)
+                print(diff)
+                sleep(100)
                 mid = (self.market.bid + self.market.ask) / 2
                 self.mid = mid
                 print(self.market)
@@ -152,18 +157,18 @@ class MM:
                     wantsInKind[self.MARKET] = (LALA['wants'][self.MARKET] * self.balance) / mid
                     print('2: ' + str(wantsInKind[self.MARKET]))
                 print('diff: ' + str(diff))
-                if abs(diff) <= (self.balance / 50.5) / self.mid:
+                if abs(diff) <= 0: #(self.balance / 50.5) / self.mid:
                     if wantsInKind[self.MARKET] > 0:
                         self.MAX_LONG_POSITION = wantsInKind[self.MARKET]
                         self.SIZE = abs(self.MAX_LONG_POSITION / 100 * 10)
-#                        if  self.long_position_limit_exceeded():
-#                            self.MAX_SHORT_POSITION = wantsInKind[self.MARKET] / 10 * -1
+                        if  self.long_position_limit_exceeded():
+                            self.MAX_SHORT_POSITION = wantsInKind[self.MARKET] / 10 * -1
                     else:
 
                         self.MAX_SHORT_POSITION =  wantsInKind[self.MARKET]
                         self.SIZE = abs(self.MAX_SHORT_POSITION / 100 * 10)
-#                        if  self.short_position_limit_exceeded():
-#                            self.MAX_LONG_POSITION = wantsInKind[self.MARKET] / 10 * -1
+                        if  self.short_position_limit_exceeded():
+                            self.MAX_LONG_POSITION = wantsInKind[self.MARKET] / 10 * -1
                 """ elif diff >= -1 * (self.balance / 100) / mid:
                     if wantsInKind[self.MARKET] > 0:
                         self.MAX_LONG_POSITION = wantsInKind[self.MARKET]
@@ -337,10 +342,11 @@ class MM:
                             print(7) 
                 except:
                     abc=123
-#                        market = False
+                    market = False
                 #market = True 
                 logger.info("market? "+ self.MARKET)
                 logger.info(str(market))
+                #sleep(100)
                 print(138)
                 print(to_create[0].size)
                 print(self.mid)
@@ -348,6 +354,7 @@ class MM:
                 print(self.balance)#
                 print(abs(to_create[0].size) * to_create[0].price )
                 #sleep(100)#print(self.balance)
+                sleep(random.randint(1,10))
                 if market == True and abs(to_create[0].size) * to_create[0].price > self.balance / (100 * 100) * 4:# * 10:
                     print(1381)
                     for order in to_create:
@@ -380,6 +387,36 @@ price=order.price,
                                 client_id=123,
                             )
                         )
+                sleep(random.randint(1,10))
+                if True:# * 10:
+                    for order in to_create:
+                        self.mango_service_v3_client.place_order(
+                            PlaceOrder(
+                                market=self.MARKET,
+                                side=order.side,
+price=order.price,
+                                type="limit",
+                                size=order.size,
+                                reduce_only=True,
+                                post_only=False,
+                                client_id=1231,
+                            )
+                        )
+                sleep(random.randint(1,10))
+                if True:# * 10:
+                    for order in to_create:
+                        self.mango_service_v3_client.place_order(
+                            PlaceOrder(
+                                market=self.MARKET,
+                                side=order.side,
+                                price=order.price,
+                                type="limit",
+                                size=order.size,
+                                reduce_only=True,
+                                post_only=True,
+                                client_id=1231,
+                            )
+                        )
                 print('wat')
                 logger.info("")
             else:
@@ -395,20 +432,34 @@ price=order.price,
             sleep(10)
     def long_position_limit_exceeded(self):
         try:
-            if len(self.positions) == 0:
-                return False
-            return False #self.positions[0].net_size >= self.MAX_LONG_POSITION
+            if 'SPOT' in self.MARKET:
+                if len(self.balances2) == 0:
+                    return False
+                return self.balances2[0].total <= self.MAX_LONG_POSITION
+
+            else: 
+
+                if len(self.positions) == 0:
+                    return False
+                return self.positions[0].net_size <= self.MAX_LONG_POSITION
 
         except:
-            sleep(10)
+            sleep(1)
     def short_position_limit_exceeded(self):
         try:
-            if len(self.positions) == 0:
-                return False
-            return False #self.positions[0].net_size <= self.MAX_SHORT_POSITION
+            if 'SPOT' in self.MARKET:
+                if len(self.balances2) == 0:
+                    return False
+                return self.balances2[0].total <= self.MAX_SHORT_POSITION
+
+            else: 
+
+                if len(self.positions) == 0:
+                    return False
+                return self.positions[0].net_size <= self.MAX_SHORT_POSITION
 
         except:
-            sleep(10)
+            sleep(1)
     def place_orders(self):
         try:    
             buy_orders = []
@@ -458,7 +509,7 @@ def aThread(market):
         logger.error(f"Exception: {e}")
 
     while True:
-        CYCLE_INTERVAL = random.randint(10,69) * 2#mm.mango_service_v3_client.lenAccs
+        CYCLE_INTERVAL = random.randint(2,49) * 2#mm.mango_service_v3_client.lenAccs
         
 
         logger.info("next cycle...")
