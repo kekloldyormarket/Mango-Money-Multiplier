@@ -80,7 +80,7 @@ class MM:
                     )
                 logger.info("")
         except:
-            sleep(100)
+            sleep(1)
     def get_ticker(self):
         try:
                 self.market = self.mango_service_v3_client.get_market_by_market_name(self.MARKET)[0]
@@ -134,15 +134,16 @@ class MM:
                         except: 
                             diff = abs(otherpos[0].net_size) -  abs(self.balances2[0].total)
                 #print(4)
-                diff = diff / mid 
+                if diff != 0:
+                    diff = diff / mid 
 
                 print(123)
                 print(diff)
-                sleep(100)
+                #sleep(1))
                 mid = (self.market.bid + self.market.ask) / 2
                 self.mid = mid
                 print(self.market)
-                #sleep(100)
+                #sleep(1))
                 self.bid = self.market.bid
                 self.ask = self.market.ask
  
@@ -227,7 +228,7 @@ class MM:
                 price = self.ask
             print(price
        )
-            #sleep(100)
+            #sleep(1))
             return SimpleOrder(price=price, size=size, side="buy" if index < 0 else "sell")
 
         except:
@@ -346,15 +347,15 @@ class MM:
                 #market = True 
                 logger.info("market? "+ self.MARKET)
                 logger.info(str(market))
-                #sleep(100)
+                #sleep(1))
                 print(138)
                 print(to_create[0].size)
                 print(self.mid)
                 print(abs(to_create[0].size)) 
                 print(self.balance)#
                 print(abs(to_create[0].size) * to_create[0].price )
-                #sleep(100)#print(self.balance)
-                sleep(random.randint(1,10))
+                #sleep(1))#print(self.balance)
+                #sleep(random.randint(1,10))
                 if market == True and abs(to_create[0].size) * to_create[0].price > self.balance / (100 * 100) * 4:# * 10:
                     print(1381)
                     for order in to_create:
@@ -387,7 +388,7 @@ price=order.price,
                                 client_id=123,
                             )
                         )
-                sleep(random.randint(1,10))
+                #sleep(random.randint(1,10))
                 if True:# * 10:
                     for order in to_create:
                         self.mango_service_v3_client.place_order(
@@ -402,7 +403,7 @@ price=order.price,
                                 client_id=1231,
                             )
                         )
-                sleep(random.randint(1,10))
+                #sleep(random.randint(1,10))
                 if True:# * 10:
                     for order in to_create:
                         self.mango_service_v3_client.place_order(
@@ -443,7 +444,8 @@ price=order.price,
                     return False
                 return self.positions[0].net_size <= self.MAX_LONG_POSITION
 
-        except:
+        except Exception as e: 
+            print(str(e))
             sleep(1)
     def short_position_limit_exceeded(self):
         try:
@@ -458,8 +460,9 @@ price=order.price,
                     return False
                 return self.positions[0].net_size <= self.MAX_SHORT_POSITION
 
-        except:
-            sleep(1)
+        except Exception as e: 
+            print(str(e))
+            sleep(1)    
     def place_orders(self):
         try:    
             buy_orders = []
@@ -471,6 +474,8 @@ price=order.price,
                 logger.info(
                     f"- skipping adding to longs, current position {self.positions[0].size}"
                 )
+                for i in reversed(range(1, MAX_ORDERS + 1)):
+                    sell_orders.append(self.prepare_order(i))
             if not self.short_position_limit_exceeded():
                 for i in reversed(range(1, MAX_ORDERS + 1)):
                     sell_orders.append(self.prepare_order(i))
@@ -478,6 +483,8 @@ price=order.price,
                 logger.info(
                     f"- skipping adding to shorts, current position {self.positions[0].size}"
                 )
+                for i in reversed(range(1, MAX_ORDERS + 1)):
+                    buy_orders.append(self.prepare_order(-i))
             return self.converge_orders(buy_orders, sell_orders)
 
         except:
