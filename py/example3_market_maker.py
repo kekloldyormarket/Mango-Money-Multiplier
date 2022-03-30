@@ -39,7 +39,7 @@ class SimpleOrder:
 
 import math
 def toNearest(num, tickDec):
-    return  Decimal(round(num / tickDec, 0)) * tickDec
+    return  (round(num / tickDec, 0)) * tickDec
 import threading
 
 class MM:
@@ -153,8 +153,8 @@ class MM:
                 if diff != 0:
                     diff = diff / mid 
                 self.mid = mid
-                print(self.market)
-                #sleep(1))
+                #print(self.market)
+                #sleep(1000)
                 self.bid = self.market.bid
                 self.ask = self.market.ask
  
@@ -225,8 +225,8 @@ class MM:
             else:
                 return self.ask
             return toNearest(
-                Decimal(start_position) * Decimal(1 + self.market.price_increment) ** index,
-                Decimal(str(self.market.price_increment)),
+                (start_position) * (1 + self.market.price_increment) * index,
+                (str(self.market.price_increment)),
             )
 
         except:
@@ -235,10 +235,6 @@ class MM:
         try:
             size = Decimal(str(self.SIZE)) + ((abs(index) - 1) * Decimal(str(self.SIZE)))
             price = abs(self.get_price_offset(index))
-            if index < 0:
-                price = self.bid
-            else:
-                price = self.ask
             
             #sleep(1))
             return SimpleOrder(price=price, size=size, side="buy" if index < 0 else "sell")
@@ -267,8 +263,8 @@ class MM:
                         sells_matched += 1
 
                     if desired_order.size != Decimal(str(order.size)) or (
-                        desired_order.price != Decimal(str(order.price))
-                        and abs((desired_order.price / Decimal(str(order.price))) - 1)
+                        desired_order.price != ((order.price))
+                        and abs((desired_order.price / ((order.price))) - 1)
                         > 0.01
                     ):
                         to_cancel.append(order)
@@ -330,7 +326,7 @@ class MM:
                     )
                 market = True
                 try:
-                    if len(self.positions) > 0:
+                    if len(self.positions) > 0 and 'PERP' in  self.MARKET:
                         if abs(self.MAX_LONG_POSITION) > abs(self.MAX_SHORT_POSITION):
 
                             if abs((self.positions[0].net_size) * self.mid) / abs(self.MAX_LONG_POSITION) > 0.5:
@@ -339,7 +335,7 @@ class MM:
                             if abs((self.positions[0].net_size) * self.mid) / abs(self.MAX_SHORT_POSITION) > 0.5:
                                 market = False
                     print(self.balances2)
-                    if len(self.balances2) > 0:
+                    if len(self.balances2) > 0 and 'SPOT' in  self.MARKET:
                         print(1)
                         if abs(self.MAX_LONG_POSITION) > abs(self.MAX_SHORT_POSITION) and abs(self.balances2[0].total) > 0:
                             print(2)
@@ -356,20 +352,13 @@ class MM:
                 except:
                     abc=123
                     market = False
-                #market = True 
-                logger.info("market? "+ self.MARKET)
-                logger.info(str(market))
-                #sleep(1))
-                print(138)
-                print(self.mid)
-                print(self.balance)#
                 amarket = self.MARKET
                 
                 #sleep(138)
                 #sleep(1))#print(self.balance)
                 #sleep(random.randint(1,10))
                 if len(to_create) > 0:
-                    if market == True and abs(to_create[0].size) * to_create[0].price > self.balance / (100 * 100) * 4:# * 10:
+                    if market == True and abs(to_create[0].size) * to_create[0].price > self.balance / (100 * 100) * 1:# * 10:
                         print(1381)
                         for order in to_create:
                             try:
@@ -388,7 +377,7 @@ class MM:
                                 )
                             except Exception as e :
                                 print(str(e))
-                    elif market == False and abs(to_create[0].size) >  to_create[0].price > self.balance / (100 * 100) * 4:# * 10:
+                    elif market == False and abs(to_create[0].size) >  to_create[0].price > self.balance / (100 * 100) * 1:# * 10:
                         print(1831)
                         for order in to_create:
                             try:
@@ -409,7 +398,7 @@ class MM:
                             except Exception as e :
                                 print(str(e))
                     #sleep(random.randint(1,10))
-                    if True:# * 10:
+                    if  abs(to_create[0].size) >  to_create[0].price > self.balance / (100 * 100) * 1:
                         for order in to_create:
                             try:
                                 self.mango_service_v3_client.place_order(
@@ -419,7 +408,7 @@ class MM:
         price=order.price,
                                         type="limit",
                                         ioc=False,
-                                        size=order.size / 3,
+                                        size=order.size ,
                                         reduce_only=True,
                                         post_only=False,
                                         client_id=1231,
@@ -429,6 +418,7 @@ class MM:
                             except Exception as e :
                                 print(str(e))
                     #sleep(random.randint(1,10))
+                    """
                     if True:# * 10:
                         for order in to_create:
                             try:
@@ -438,7 +428,7 @@ class MM:
                                         side=order.side,
                                         price=order.price,
                                         type="limit",
-                                        size=order.size / 3,
+                                        size=order.size ,
                                         ioc=False,
                                         reduce_only=True,
                                         post_only=True,
@@ -448,6 +438,7 @@ class MM:
                             
                             except Exception as e :
                                 print(str(e))
+                    """
                     print('wat')
                     logger.info("")
             else:
@@ -501,14 +492,12 @@ class MM:
                 for i in reversed(range(1, MAX_ORDERS + 1)):
                     buy_orders.append(self.prepare_order(-i))
             else:
-                for i in reversed(range(1, MAX_ORDERS + 1)):
-                    sell_orders.append(self.prepare_order(i))
+                sell_orders.append(self.prepare_order(1))
             if not self.short_position_limit_exceeded():
                 for i in reversed(range(1, MAX_ORDERS + 1)):
                     sell_orders.append(self.prepare_order(i))
             else:
-                for i in reversed(range(1, MAX_ORDERS + 1)):
-                    buy_orders.append(self.prepare_order(-i))
+                buy_orders.append(self.prepare_order(-1))
             return self.converge_orders(buy_orders, sell_orders)
 
         except:
@@ -554,7 +543,7 @@ def aThread(market):
                     mm.place_orders()
                     time.sleep(CYCLE_INTERVAL)
 
-                    mm.mango_service_v3_client = MangoServiceV3Client()
+                    #mm.mango_service_v3_client = MangoServiceV3Client()
                     logger.info("")
                 except Exception as e:
                     logger.error(f"Exception: {e}")

@@ -42,8 +42,8 @@ class Market(CamelCaseModel):
     type: str
     underlying: Optional[str]
     enabled: Optional[bool]
-    ask: Optional[int]  # optional for devnet
-    bid: Optional[int]  # optional for devnet
+    ask: Optional[float]  # optional for devnet
+    bid: Optional[float]  # optional for devnet
     last: Optional[float]  # optional for devnet
     post_only: Optional[bool]
     price: Optional[float]  # optional for devnet
