@@ -92,6 +92,7 @@ class MM:
                     )
                 logger.info("")
         except:
+            PrintException()
             sleep(1)
     def get_ticker(self):
         try:    
@@ -112,6 +113,7 @@ class MM:
                         ab = (balance.json())
                         self.balance = self.balance + (json.loads(ab)['usd_value'])
                     except:
+                        PrintException()
                         abc=123
                 self.balance = self.balance * 1.138
                 self.positions = [
@@ -162,15 +164,20 @@ class MM:
                 #print(123)
                 #print(diff)
                 #sleep(1))
+                mid = 0
                 try:
                     mid = (self.market.bid + self.market.ask) / 2
                 except:
                     try:
                         mid = self.market.bid + 0
                     except:
-                        mid = self.market.ask + 0
-                if diff != 0:
+                        try:
+                            mid = self.market.ask + 0
+                        except:
+                            lala123 = 123
+                if diff != 0 and mid != 0:
                     diff = diff / mid 
+                
                 self.mid = mid
                 #print(self.market)
                 #sleep(1000)
@@ -180,54 +187,59 @@ class MM:
                 self.MAX_LONG_POSITION = 0
                 self.MAX_SHORT_POSITION = 0
                 wantsInKind = {}
-                if 'PERP' in self.MARKET:
+                wantsInKind[self.MARKET] = 0
+                try:
+                    if 'PERP' in self.MARKET:
 
-                    wantsInKind[self.MARKET] = (LALA['wants'][self.MARKET] * self.balance) / mid
-                    #print('1: ' + str(wantsInKind[self.MARKET]))
-                else:
-                    wantsInKind[self.MARKET] = (LALA['wants'][self.MARKET] * self.balance) / mid
-                    #print('2: ' + str(wantsInKind[self.MARKET]))
+                        wantsInKind[self.MARKET] = (LALA['wants'][self.MARKET] * self.balance) / mid
+                        #print('1: ' + str(wantsInKind[self.MARKET]))
+                    else:
+                        wantsInKind[self.MARKET] = (LALA['wants'][self.MARKET] * self.balance) / mid
+                        #print('2: ' + str(wantsInKind[self.MARKET]))
+                except:
+                    abc=123
                 #print('diff: ' + str(diff))
-                if abs(diff) <= (self.balance / 50.5) / self.mid:
-                    if wantsInKind[self.MARKET] > 0:
-                        self.MAX_LONG_POSITION = wantsInKind[self.MARKET]
-                        self.SIZE = abs(self.MAX_LONG_POSITION / 100 * 20)
-                        if  self.long_position_limit_exceeded():
-                            self.MAX_SHORT_POSITION = wantsInKind[self.MARKET] / 100 * 20 * -1
-                    else:
+                if self.mid != 0:
+                    if abs(diff) <= (self.balance / 50.5) / self.mid:
+                        if wantsInKind[self.MARKET] > 0:
+                            self.MAX_LONG_POSITION = wantsInKind[self.MARKET]
+                            self.SIZE = abs(self.MAX_LONG_POSITION / 100 * 20)
+                            if  self.long_position_limit_exceeded():
+                                self.MAX_SHORT_POSITION = wantsInKind[self.MARKET] / 100 * 20 * -1
+                        else:
 
-                        self.MAX_SHORT_POSITION =  wantsInKind[self.MARKET]
-                        self.SIZE = abs(self.MAX_SHORT_POSITION / 100 * 10)
-                        if  self.short_position_limit_exceeded():
-                            self.MAX_LONG_POSITION = wantsInKind[self.MARKET] / 100 * 2 * -1
-                """ elif diff >= -1 * (self.balance / 100) / mid:
-                    if wantsInKind[self.MARKET] > 0:
-                        self.MAX_LONG_POSITION = wantsInKind[self.MARKET]
-                        self.SIZE = abs(self.MAX_LONG_POSITION / 100 * 2)
-                        if  self.long_position_limit_exceeded():
-                            self.MAX_SHORT_POSITION = wantsInKind[self.MARKET] / 10 * -1
-                    else:
+                            self.MAX_SHORT_POSITION =  wantsInKind[self.MARKET]
+                            self.SIZE = abs(self.MAX_SHORT_POSITION / 100 * 10)
+                            if  self.short_position_limit_exceeded():
+                                self.MAX_LONG_POSITION = wantsInKind[self.MARKET] / 100 * 2 * -1
+                    """ elif diff >= -1 * (self.balance / 100) / mid:
+                        if wantsInKind[self.MARKET] > 0:
+                            self.MAX_LONG_POSITION = wantsInKind[self.MARKET]
+                            self.SIZE = abs(self.MAX_LONG_POSITION / 100 * 2)
+                            if  self.long_position_limit_exceeded():
+                                self.MAX_SHORT_POSITION = wantsInKind[self.MARKET] / 10 * -1
+                        else:
 
-                        self.MAX_SHORT_POSITION =  wantsInKind[self.MARKET]
-                        self.SIZE = abs(self.MAX_SHORT_POSITION / 100 * 2)
-                        if  self.short_position_limit_exceeded():
-                            self.MAX_LONG_POSITION = wantsInKind[self.MARKET] / 10 * -1
-                else:
-                    if wantsInKind[self.MARKET] > 0:
-                        self.MAX_LONG_POSITION = wantsInKind[self.MARKET]
-                        self.SIZE = abs(self.MAX_LONG_POSITION / 100 * 1)
-                        if  self.long_position_limit_exceeded():
-                            self.MAX_SHORT_POSITION = wantsInKind[self.MARKET] / 100 * -1
+                            self.MAX_SHORT_POSITION =  wantsInKind[self.MARKET]
+                            self.SIZE = abs(self.MAX_SHORT_POSITION / 100 * 2)
+                            if  self.short_position_limit_exceeded():
+                                self.MAX_LONG_POSITION = wantsInKind[self.MARKET] / 10 * -1
                     else:
+                        if wantsInKind[self.MARKET] > 0:
+                            self.MAX_LONG_POSITION = wantsInKind[self.MARKET]
+                            self.SIZE = abs(self.MAX_LONG_POSITION / 100 * 1)
+                            if  self.long_position_limit_exceeded():
+                                self.MAX_SHORT_POSITION = wantsInKind[self.MARKET] / 100 * -1
+                        else:
 
-                        self.MAX_SHORT_POSITION =  wantsInKind[self.MARKET]
-                        self.SIZE = abs(self.MAX_SHORT_POSITION / 100 * 1)
-                        if  self.short_position_limit_exceeded():
-                            self.MAX_LONG_POSITION = wantsInKind[self.MARKET] / 100 * -1
-                """
-                #print(self.MAX_LONG_POSITION)
-                #print(self.MAX_SHORT_POSITION)
-        
+                            self.MAX_SHORT_POSITION =  wantsInKind[self.MARKET]
+                            self.SIZE = abs(self.MAX_SHORT_POSITION / 100 * 1)
+                            if  self.short_position_limit_exceeded():
+                                self.MAX_LONG_POSITION = wantsInKind[self.MARKET] / 100 * -1
+                    """
+                    #print(self.MAX_LONG_POSITION)
+                    #print(self.MAX_SHORT_POSITION)
+            
         except Exception as e :
             print(49)
             PrintException()
@@ -238,20 +250,24 @@ class MM:
             index =index if index < 0 else index
             #print('111: ' + str(index))
             if index >= 0:
-                return self.market.bid
-            else:
                 return self.market.ask
+            else:
+                return self.market.bid
         except Exception  as e:
             PrintException()
             sleep(10)
     def prepare_order(self, index) -> SimpleOrder:
         try:
             size = Decimal(str(self.SIZE)) + ((abs(index) - 1) * Decimal(str(self.SIZE)))
-            price = abs(self.get_price_offset(index))
+            lala2 = (self.get_price_offset(index))
+            if lala2:
+                price = lala2
             
-            return SimpleOrder(price=price, size=size, side="buy" if index < 0 else "sell")
-
+                return SimpleOrder(price=price, size=size, side="buy" if index < 0 else "sell")
+            else:
+                return False
         except:
+            PrintException()
             sleep(10)
     def converge_orders(self, buy_orders, sell_orders):
         try:
@@ -297,10 +313,7 @@ class MM:
                 roll = random.randint(1,10)
                 if roll >= 0:
                     logger.info(f"- cancelling {len(to_cancel)} orders...")
-                    for order in sorted(to_create, key=lambda order: order.price, reverse=True):
-                        logger.info(
-                            f" |_ side {order.side:4}, size {order.size}, price {order.price}, value {order.price * order.size}"
-                        )
+                      
                     for order in to_cancel:
                     
                         try:
@@ -444,6 +457,7 @@ class MM:
                     )
 
         except:
+            PrintException()
             sleep(10)
     def long_position_limit_exceeded(self):
         try:
@@ -485,17 +499,26 @@ class MM:
             sell_orders = []
             if not self.long_position_limit_exceeded():
                 for i in reversed(range(1, MAX_ORDERS + 1)):
-                    buy_orders.append(self.prepare_order(-i))
+                    lala1 = self.prepare_order(-i)
+                    if lala1 != False:
+                        buy_orders.append(lala1)
             else:
-                sell_orders.append(self.prepare_order(1))
+                lala1 = self.prepare_order(1)
+                if lala1 != False:
+                    sell_orders.append(lala1)
             if not self.short_position_limit_exceeded():
                 for i in reversed(range(1, MAX_ORDERS + 1)):
-                    sell_orders.append(self.prepare_order(i))
+                    lala1 = self.prepare_order(1)
+                    if lala1 != False:
+                        sell_orders.append(lala1)
             else:
-                buy_orders.append(self.prepare_order(-1))
+                lala1 = self.prepare_order(-1)
+                if lala1 != False:
+                    buy_orders.append(lala1)    
             return self.converge_orders(buy_orders, sell_orders)
 
         except:
+            PrintException()
             sleep(10)
     def check_file_change(self):
         try:
@@ -522,12 +545,13 @@ def aThread(market):
                 sleep(random.randint(1,20))
                 mm.mango_service_v3_client.cancel_all_orders()
             except Exception as e:
+                PrintException()
                 print(6)
                 
                 logger.error(f"Exception: {e}")
 
             while True:
-                CYCLE_INTERVAL = random.randint(2,11) * 2#mm.mango_service_v3_client.lenAccs
+                CYCLE_INTERVAL = random.randint(2,41) * 2#mm.mango_service_v3_client.lenAccs
                 
 
                 logger.info("next cycle...")
@@ -545,6 +569,7 @@ def aThread(market):
                     #mm.mango_service_v3_client = MangoServiceV3Client()
                     logger.info("")
                 except Exception as e:
+                    PrintException()
                     print(7)
                     logger.error(f"Exception: {e}")
                     time.sleep(CYCLE_INTERVAL * 100)
