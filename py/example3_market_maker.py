@@ -356,7 +356,7 @@ class MM:
                 print(abs(to_create[0].size) * to_create[0].price )
                 #sleep(1))#print(self.balance)
                 #sleep(random.randint(1,10))
-                if market == True and abs(to_create[0].size) * to_create[0].price > self.balance / (100 * 100) * 4:# * 10:
+                if market == True and abs(to_create[0].size) > 0:# * to_create[0].price > self.balance / (100 * 100) * 4:# * 10:
                     print(1381)
                     for order in to_create:
                         self.mango_service_v3_client.place_order(
@@ -372,7 +372,7 @@ price=order.price,
                                 client_id=123,
                             )
                         )
-                elif market == False and abs(to_create[0].size) * to_create[0].price > self.balance / (100 * 100) * 4:# * 10:
+                elif market == False and abs(to_create[0].size) > 0:#* to_create[0].price > self.balance / (100 * 100) * 4:# * 10:
                     print(1831)
                     for order in to_create:
                         self.mango_service_v3_client.place_order(
