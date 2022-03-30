@@ -8,13 +8,13 @@ import RootBank from '../RootBank';
 // e.g. SYMBOL=MNGO CLUSTER=devnet GROUP=devnet.3 yarn ts-node src/markets.ts
 async function main() {
   const config = Config.ids();
-  const cluster = (process.env.CLUSTER || 'mainnet') as Cluster;
+  const cluster = (process.env.CLUSTER || 'devnet') as Cluster;
   const connection = new Connection(
     config.cluster_urls[cluster],
     'processed' as Commitment,
   );
 
-  const groupName = process.env.GROUP || 'mainnet.1';
+  const groupName = process.env.GROUP || 'devnet.2';
   const groupIds = config.getGroup(cluster, groupName);
   if (!groupIds) {
     throw new Error(`Group ${groupName} not found`);

@@ -64,7 +64,7 @@ class MangoSimpleClient {
     let sortedMangoAccounts;
     const groupName = process.env.GROUP_NAME || "mainnet.1";
     const clusterUrl =
-      process.env.CLUSTER_URL || "https://solana--mainnet--rpc.datahub.figment.io/apikey/995d9d62662252c679a6e673fb31b392";
+      process.env.CLUSTER_URL || "https://solana--mainnet--rpc.datahub.figment.io/apikey/995d9d62662252c679a6e673fb31b392i";
 
     logger.info(`Creating mango client for ${groupName} using ${clusterUrl}`);
 

@@ -18,9 +18,9 @@ const config_1 = require("../config");
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         const config = config_1.Config.ids();
-        const cluster = (process.env.CLUSTER || 'mainnet');
+        const cluster = (process.env.CLUSTER || 'devnet');
         const connection = new web3_js_1.Connection(config.cluster_urls[cluster], 'processed');
-        const groupName = process.env.GROUP || 'mainnet.1';
+        const groupName = process.env.GROUP || 'devnet.2';
         const groupIds = config.getGroup(cluster, groupName);
         if (!groupIds) {
             throw new Error(`Group ${groupName} not found`);

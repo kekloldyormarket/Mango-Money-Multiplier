@@ -47,7 +47,7 @@ const config_1 = require("../config");
 const __1 = require("..");
 const config = new config_1.Config(ids_json_1.default);
 const cluster = (process.env.CLUSTER || 'devnet');
-const groupName = process.env.GROUP || 'mainnet.1';
+const groupName = process.env.GROUP || 'devnet.2';
 const groupIds = config.getGroup(cluster, groupName);
 if (!groupIds) {
     throw new Error(`Group ${groupName} not found`);

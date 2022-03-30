@@ -21,7 +21,7 @@ const layout_1 = require("../layout");
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         const config = new config_1.Config(ids_json_1.default);
-        const groupName = process.env.GROUP || 'mainnet.1';
+        const groupName = process.env.GROUP || 'devnet.2';
         const groupIds = config.getGroupWithName(groupName);
         const cluster = groupIds.cluster;
         const mangoProgramId = groupIds.mangoProgramId;

@@ -7,7 +7,7 @@ import { QUOTE_INDEX } from '../layout';
 
 async function main() {
   const config = new Config(configFile);
-  const groupName = process.env.GROUP || 'mainnet.1';
+  const groupName = process.env.GROUP || 'devnet.2';
   const groupIds = config.getGroupWithName(groupName) as GroupConfig;
   const cluster = groupIds.cluster;
   const mangoProgramId = groupIds.mangoProgramId;

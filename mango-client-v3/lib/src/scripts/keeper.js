@@ -51,7 +51,7 @@ const layout_1 = require("../layout");
 const __1 = require("..");
 const PerpEventQueue_1 = __importDefault(require("../PerpEventQueue"));
 let lastRootBankCacheUpdate = 0;
-const groupName = process.env.GROUP || 'mainnet.1';
+const groupName = process.env.GROUP || 'devnet.2';
 const updateCacheInterval = parseInt(process.env.UPDATE_CACHE_INTERVAL || '3000');
 const updateRootBankCacheInterval = parseInt(process.env.UPDATE_ROOT_BANK_CACHE_INTERVAL || '5000');
 const processKeeperInterval = parseInt(process.env.PROCESS_KEEPER_INTERVAL || '10000');
@@ -61,7 +61,7 @@ const consumeEventsLimit = new bn_js_1.default(process.env.CONSUME_EVENTS_LIMIT 
 const consumeEvents = process.env.CONSUME_EVENTS
     ? process.env.CONSUME_EVENTS === 'true'
     : true;
-const cluster = (process.env.CLUSTER || 'mainnet');
+const cluster = (process.env.CLUSTER || 'devnet');
 const config = new config_1.Config(ids_json_1.default);
 const groupIds = config.getGroup(cluster, groupName);
 if (!groupIds) {

@@ -26,7 +26,7 @@ function mm() {
     return __awaiter(this, void 0, void 0, function* () {
         // load mango group and clients
         const config = new config_1.Config(ids_json_1.default);
-        const groupName = process.env.GROUP || 'mainnet.1';
+        const groupName = process.env.GROUP || 'devnet.2';
         const mangoAccountName = process.env.MANGO_ACCOUNT_NAME;
         const groupIds = config.getGroupWithName(groupName);
         if (!groupIds) {

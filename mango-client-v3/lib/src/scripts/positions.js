@@ -13,9 +13,9 @@ const web3_js_1 = require("@solana/web3.js");
 const client_1 = require("../client");
 const config_1 = require("../config");
 const config = config_1.Config.ids();
-const cluster = (process.env.CLUSTER || 'mainnet');
+const cluster = (process.env.CLUSTER || 'devnet');
 const connection = new web3_js_1.Connection(config.cluster_urls[cluster], 'processed');
-const groupName = process.env.GROUP || 'mainnet.1';
+const groupName = process.env.GROUP || 'devnet.2';
 const groupIds = config.getGroup(cluster, groupName);
 if (!groupIds) {
     throw new Error(`Group ${groupName} not found`);

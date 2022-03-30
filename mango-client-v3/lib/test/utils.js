@@ -48,7 +48,7 @@ function _sendTransaction(connection, transaction, signers) {
 }
 exports._sendTransaction = _sendTransaction;
 function createDevnetConnection() {
-    return new web3_js_1.Connection('https://solana--mainnet--rpc.datahub.figment.io/apikey/995d9d62662252c679a6e673fb31b392', 'processed');
+    return new web3_js_1.Connection('https://solana--mainnet--rpc.datahub.figment.io/apikey/995d9d62662252c679a6e673fb31b392i', 'processed');
 }
 exports.createDevnetConnection = createDevnetConnection;
 function airdropSol(connection, account, amount) {

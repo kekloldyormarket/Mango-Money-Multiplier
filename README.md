@@ -1,9 +1,25 @@
 it's a funding arbitrage bot for mangomarkets
 
 0. you must have a Solana private key in id.json in a few spots, and in ~/.config/solana/id.json. it's a mess, I know
-1. replace meAndThePeeps with the publickeys of wallets you wish to trade (not Mango account pubkeys) and replace any instance of https://solana--mainnet--rpc.datahub.figment.io/apikey/995d9d62662252c679a6e673fb31b392i with your own private RPC. notably it won't even work with the one here if you don't change it ;) ctrl+shift+h change everywhere :)
+1. replace meAndThePeeps with the publickeys of wallets you wish to trade (not Mango account pubkeys) and replace any instance of https://solana--mainnet--rpc.datahub.figment.io/apikey/995d9d62662252c679a6e673fb31b392ii with your own private RPC. notably it won't even work with the one here if you don't change it ;) ctrl+shift+h change everywhere :)
 2. run sudo docker-compose up --build
 3. voila
+
+
+I went on an absolute hunch and got it working on devnet.2 :)
+
+
+@mangomarkets plz sers can we have some market makers running on devnet cuz otherwise shit be ridiculous lol
+
+
+https://devnet.mango.markets/account?pubkey=2bHBrmieh96QMy4ptxW1GPxM3rxKV5yrryg2Cc6WibQo
+
+
+https://riptide.fair3d.me
+
+
+it's either that or @dboures puts his thing mainnet.1 ??
+
 
 ## Important
 

@@ -34,7 +34,7 @@ const control = { isRunning: true, interval: interval };
 async function mm() {
   // load mango group and clients
   const config = new Config(configFile);
-  const groupName = process.env.GROUP || 'mainnet.1';
+  const groupName = process.env.GROUP || 'devnet.2';
   const mangoAccountName = process.env.MANGO_ACCOUNT_NAME;
 
   const groupIds = config.getGroupWithName(groupName);

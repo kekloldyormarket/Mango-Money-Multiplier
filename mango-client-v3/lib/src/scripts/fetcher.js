@@ -28,8 +28,8 @@ class Fetcher {
             const interval = process.env.INTERVAL || 5000;
             const config = new config_1.Config(ids_json_1.default);
             // defaults to mainnet since there's more going on there
-            const cluster = (process.env.CLUSTER || 'mainnet');
-            const groupName = process.env.GROUP || 'mainnet.1';
+            const cluster = (process.env.CLUSTER || 'devnet');
+            const groupName = process.env.GROUP || 'devnet.2';
             const groupIds = config.getGroup(cluster, groupName);
             if (!groupIds) {
                 throw new Error(`Group ${groupName} not found`);

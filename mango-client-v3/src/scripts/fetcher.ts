@@ -19,8 +19,8 @@ export class Fetcher {
     const config = new Config(configFile);
 
     // defaults to mainnet since there's more going on there
-    const cluster = (process.env.CLUSTER || 'mainnet') as Cluster;
-    const groupName = process.env.GROUP || 'mainnet.1';
+    const cluster = (process.env.CLUSTER || 'devnet') as Cluster;
+    const groupName = process.env.GROUP || 'devnet.2';
     const groupIds = config.getGroup(cluster, groupName);
 
     if (!groupIds) {

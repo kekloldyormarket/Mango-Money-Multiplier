@@ -1,6 +1,6 @@
 {
   "cluster_urls": {
-    "devnet": "https://solana--mainnet--rpc.datahub.figment.io/apikey/995d9d62662252c679a6e673fb31b392",
+    "devnet": "https://solana--mainnet--rpc.datahub.figment.io/apikey/995d9d62662252c679a6e673fb31b392i",
     "localnet": "http://127.0.0.1:8899",
     "mainnet": "https://mango.rpcpool.com/946ef7337da3f5b8d3e4a34e7f88",
     "testnet": "https://testnet.solana.com"
@@ -630,7 +630,7 @@
     },
     {
       "cluster": "devnet",
-      "name": "mainnet.1",
+      "name": "devnet.2",
       "publicKey": "Ec2enZyoC4nGpEfu2sUNAa2nUGJHWxoUWYSEJ2hNTWTA",
       "quoteSymbol": "USDC",
       "mangoProgramId": "4skJ85cdxQAFVKbcGgfun8iZPL7BadVYXG3kGEGkufqA",
