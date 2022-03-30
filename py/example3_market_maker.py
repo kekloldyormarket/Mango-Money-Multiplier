@@ -98,12 +98,11 @@ class MM:
                 try:
                     self.market = self.mango_service_v3_client.get_market_by_market_name(self.MARKET)[0]
                 except:
-                    sleep(random.randint(1,3))
                     try:
                         self.market = self.mango_service_v3_client.get_market_by_market_name(self.MARKET.replace('-SPOT','/USDC'))[0]
                     except:
                         print(self.MARKET)
-                        return
+                        return  False
                 self.start_position_buy = self.market.bid #- self.market.price_increment
                 self.start_position_sell = self.market.ask#+ self.market.price_increment
                 self.balances = self.mango_service_v3_client.get_account()['marketMarginAvailable']
@@ -238,9 +237,10 @@ class MM:
         try:
             index =index if index < 0 else index
             #print('111: ' + str(index))
-            if self.bid:
-                return self.bid if index <= 0 else self.ask
-
+            if index >= 0:
+                return self.market.bid
+            else:
+                return self.market.ask
         except Exception  as e:
             PrintException()
             sleep(10)
@@ -342,7 +342,7 @@ class MM:
                     PrintException()
                    # abc=123
                     market = False
-                amarket = self.MARKET#.replace('-SPOT','/USDC')
+                amarket = self.MARKET
                 
                 #sleep(138)
                 #sleep(1))#print(self.balance)
@@ -532,11 +532,14 @@ def aThread(market):
 
                 logger.info("next cycle...")
                 try:
-                    mm.check_file_change()
-                    mm.log_recent_trades()
-                    mm.get_ticker()
-                    
-                    mm.place_orders()
+                    eh = mm.get_ticker()
+                    if eh != False:
+                        mm.check_file_change()
+                        mm.log_recent_trades()
+                        
+                        mm.place_orders()
+                    else:
+                        time.sleep(CYCLE_INTERVAL * 20)
                     time.sleep(CYCLE_INTERVAL)
 
                     #mm.mango_service_v3_client = MangoServiceV3Client()
