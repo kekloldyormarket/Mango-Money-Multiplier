@@ -19,7 +19,7 @@ setInterval(async function(){
     }
     catch(err){
       console.log(err)
-    }}, 1500)
+    }}, 15000)
     setInterval(async function(){
         try {
           app.fc.doing = false;

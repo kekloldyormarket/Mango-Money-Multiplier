@@ -3,6 +3,7 @@ import datetime
 import logging
 import os
 import sys
+from time import sleep
 import time
 from dataclasses import dataclass
 from decimal import Decimal
@@ -15,6 +16,15 @@ from mango_service_v3_py.dtos import Side, PlaceOrder
 
 # based on https://github.com/BitMEX/sample-market-maker/blob/master/market_maker/market_maker.py
 import random
+def PrintException():
+    exc_type, exc_obj, tb = sys.exc_info()
+    f = tb.tb_frame
+    lineno = tb.tb_lineno
+    filename = f.f_code.co_filename
+    linecache.checkcache(filename)
+    line = linecache.getline(filename, lineno, f.f_globals)
+    string = 'EXCEPTION IN ({}, LINE {} "{}"): {}'.format(filename, lineno, line.strip(), exc_obj)
+    print    (string)
 CYCLE_INTERVAL = random.randint(1,100)
 MARKETS = ["BTC", "SOL", "SRM", "RAY", "FTT", "ADA", "BNB", "AVAX", "LUNA"]
 LALA = {}
@@ -40,13 +50,15 @@ class SimpleOrder:
 import math
 def toNearest(num, tickDec):
     return  (round(num / tickDec, 0)) * tickDec
-import threading
 
+import sys
+import threading
+import linecache
 class MM:
     def __init__(self, market):
         self.mango_service_v3_client = MangoServiceV3Client()
         self.balances = {}
-        self.balances2 = None
+        self.balances2 = {}
         self.balance = 0
         self.market = market
         self.MARKET = market
@@ -55,7 +67,7 @@ class MM:
         self.MAX_SHORT_POSITION = 0
         self.start_position_buy = None
         self.start_position_sell = None
-        self.positions = None
+        self.positions = {}
         LALA = {}
     # todo unused
     @retry(stop=(stop_after_delay(10) | stop_after_attempt(5)), wait=wait_fixed(5))
@@ -82,8 +94,16 @@ class MM:
         except:
             sleep(1)
     def get_ticker(self):
-        try:
-                self.market = self.mango_service_v3_client.get_market_by_market_name(self.MARKET)[0]
+        try:    
+                try:
+                    self.market = self.mango_service_v3_client.get_market_by_market_name(self.MARKET)[0]
+                except:
+                    sleep(random.randint(1,3))
+                    try:
+                        self.market = self.mango_service_v3_client.get_market_by_market_name(self.MARKET.replace('-SPOT','/USDC'))[0]
+                    except:
+                        print(self.MARKET)
+                        return
                 self.start_position_buy = self.market.bid #- self.market.price_increment
                 self.start_position_sell = self.market.ask#+ self.market.price_increment
                 self.balances = self.mango_service_v3_client.get_account()['marketMarginAvailable']
@@ -117,17 +137,17 @@ class MM:
                         for position in self.mango_service_v3_client.get_open_positions()
                         if position.future == self.MARKET.split('-')[0] + '-' + other
                     ]
-                 #   print(3)
+                 #   #print(3)
                 else:
                     otherpos = [
                         balance
                         for balance in self.mango_service_v3_client.get_balances()
                         if balance.coin == self.MARKET.split('-')[0] + '-' + other
                     ]
-                  #  print(31)
-                print(self.MARKET)
-                print(self.positions)
-                print(otherpos)
+                  #  #print(31)
+                #print(self.MARKET)
+                #print(self.positions)
+                #print(otherpos)
                 diff = 0
                 if 'PERP' in self.MARKET:
                     if otherpos != None and self.positions != None:
@@ -140,8 +160,8 @@ class MM:
                             diff = abs(otherpos[0].net_size) -  abs(self.balances2[0].total)
                 #print(4)
 
-                print(123)
-                print(diff)
+                #print(123)
+                #print(diff)
                 #sleep(1))
                 try:
                     mid = (self.market.bid + self.market.ask) / 2
@@ -164,11 +184,11 @@ class MM:
                 if 'PERP' in self.MARKET:
 
                     wantsInKind[self.MARKET] = (LALA['wants'][self.MARKET] * self.balance) / mid
-                    print('1: ' + str(wantsInKind[self.MARKET]))
+                    #print('1: ' + str(wantsInKind[self.MARKET]))
                 else:
                     wantsInKind[self.MARKET] = (LALA['wants'][self.MARKET] * self.balance) / mid
-                    print('2: ' + str(wantsInKind[self.MARKET]))
-                print('diff: ' + str(diff))
+                    #print('2: ' + str(wantsInKind[self.MARKET]))
+                #print('diff: ' + str(diff))
                 if abs(diff) <= (self.balance / 50.5) / self.mid:
                     if wantsInKind[self.MARKET] > 0:
                         self.MAX_LONG_POSITION = wantsInKind[self.MARKET]
@@ -206,11 +226,12 @@ class MM:
                         if  self.short_position_limit_exceeded():
                             self.MAX_LONG_POSITION = wantsInKind[self.MARKET] / 100 * -1
                 """
-                print(self.MAX_LONG_POSITION)
-                print(self.MAX_SHORT_POSITION)
+                #print(self.MAX_LONG_POSITION)
+                #print(self.MAX_SHORT_POSITION)
         
         except Exception as e :
-            print(str(e))
+            print(49)
+            PrintException()
             sleep(random.randint(10,30))   
             return self.get_ticker()     
     def get_price_offset(self, index):
@@ -219,7 +240,7 @@ class MM:
                 self.start_position_buy if index < 0 else self.start_position_sell
             )
             index =index if index < 0 else index
-            print('111: ' + str(index))
+            #print('111: ' + str(index))
             if index >= 0:
                 return self.bid
             else:
@@ -334,23 +355,22 @@ class MM:
                         else:
                             if abs((self.positions[0].net_size) * self.mid) / abs(self.MAX_SHORT_POSITION) > 0.5:
                                 market = False
-                    print(self.balances2)
+                    #print(self.balances2)
                     if len(self.balances2) > 0 and 'SPOT' in  self.MARKET:
-                        print(1)
+                        #print(1)
                         if abs(self.MAX_LONG_POSITION) > abs(self.MAX_SHORT_POSITION) and abs(self.balances2[0].total) > 0:
-                            print(2)
+                            #print(2)
                             if abs((self.balances2[0].total) * self.mid) / abs(self.MAX_LONG_POSITION) > 0.5:
                                 market = False
-                                print(3) 
+                                #print(3) 
                         elif abs(self.MAX_LONG_POSITION) > abs(self.MAX_SHORT_POSITION) and  abs(self.balances2[0].total) > 0:
                             if abs((self.balances2[0].total) * self.mid) / abs(self.MAX_SHORT_POSITION) > 0.5:
-                                print(6)
+                                #print(6)
                                 market = False
                         
-                        elif abs(self.balances2[0].total) == 0:
-                            print(7) 
+                        
                 except:
-                    abc=123
+                   # abc=123
                     market = False
                 amarket = self.MARKET
                 
@@ -359,7 +379,7 @@ class MM:
                 #sleep(random.randint(1,10))
                 if len(to_create) > 0:
                     if market == True and abs(to_create[0].size) * to_create[0].price > self.balance / (100 * 100) * 1:# * 10:
-                        print(1381)
+                        #print(1381)
                         for order in to_create:
                             try:
                                 self.mango_service_v3_client.place_order(
@@ -376,9 +396,10 @@ class MM:
                                     )
                                 )
                             except Exception as e :
-                                print(str(e))
+                                print(1)
+                                PrintException()
                     elif market == False and abs(to_create[0].size) >  to_create[0].price > self.balance / (100 * 100) * 1:# * 10:
-                        print(1831)
+                        #print(1831)
                         for order in to_create:
                             try:
                                 self.mango_service_v3_client.place_order(
@@ -396,7 +417,8 @@ class MM:
                                 )
                             
                             except Exception as e :
-                                print(str(e))
+                                print(2)
+                                PrintException()
                     #sleep(random.randint(1,10))
                     if  abs(to_create[0].size) >  to_create[0].price > self.balance / (100 * 100) * 1:
                         for order in to_create:
@@ -416,7 +438,8 @@ class MM:
                                 )
                             
                             except Exception as e :
-                                print(str(e))
+                                print(3)
+                                PrintException()
                     #sleep(random.randint(1,10))
                     """
                     if True:# * 10:
@@ -437,9 +460,9 @@ class MM:
                                 )
                             
                             except Exception as e :
-                                print(str(e))
+                                PrintException()
                     """
-                    print('wat')
+                    #print('wat')
                     logger.info("")
             else:
                 logger.info("- no orders to create, current open orders")
@@ -466,7 +489,8 @@ class MM:
                 return self.positions[0].net_size >= self.MAX_LONG_POSITION
 
         except Exception as e: 
-            print(str(e))
+            print(4)
+            PrintException()
             sleep(1)
     def short_position_limit_exceeded(self):
         try:
@@ -482,7 +506,8 @@ class MM:
                 return self.positions[0].net_size <= self.MAX_SHORT_POSITION
 
         except Exception as e: 
-            print(str(e))
+            print(5)
+            PrintException()
             sleep(1)    
     def place_orders(self):
         try:    
@@ -516,7 +541,7 @@ class MM:
 import shutil, json
 
 def aThread(market):
-    print('starting ' + market)
+    #print('starting ' + market)
     if market.split('-')[0] in LALA:
         if LALA[market.split('-')[0]] > 0 or LALA[market.split('-')[0]] < 0:
             mm = MM(market)
@@ -527,11 +552,12 @@ def aThread(market):
                 sleep(random.randint(1,20))
                 mm.mango_service_v3_client.cancel_all_orders()
             except Exception as e:
+                print(6)
                 
                 logger.error(f"Exception: {e}")
 
             while True:
-                CYCLE_INTERVAL = random.randint(2,3) * 2#mm.mango_service_v3_client.lenAccs
+                CYCLE_INTERVAL = random.randint(2,11) * 2#mm.mango_service_v3_client.lenAccs
                 
 
                 logger.info("next cycle...")
@@ -546,13 +572,13 @@ def aThread(market):
                     #mm.mango_service_v3_client = MangoServiceV3Client()
                     logger.info("")
                 except Exception as e:
+                    print(7)
                     logger.error(f"Exception: {e}")
                     time.sleep(CYCLE_INTERVAL * 100)
                     logger.info("")
     else:
         sleep(random.randint(5,15))
         return aThread(market)
-from time import sleep
 import requests
 if __name__ == "__main__":
     done = False 
@@ -575,7 +601,7 @@ if __name__ == "__main__":
             t.daemon = True 
             t.start()
     while True: 
-       # print(threading.active_count())
+       # #print(threading.active_count())
         done = False 
         while done == False:
             try:
