@@ -60,7 +60,7 @@ class MM:
         self.balances = {}
         self.balances2 = {}
         self.balance = 0
-        self.market = market
+        self.market = None
         self.MARKET = market
         self.MAX_LONG_POSITION = 0
         self.SIZE = 0
@@ -236,28 +236,19 @@ class MM:
             return self.get_ticker()     
     def get_price_offset(self, index):
         try:
-            start_position = (
-                self.start_position_buy if index < 0 else self.start_position_sell
-            )
             index =index if index < 0 else index
             #print('111: ' + str(index))
-            if index >= 0:
-                return self.bid
-            else:
-                return self.ask
-            return toNearest(
-                (start_position) * (1 + self.market.price_increment) * index,
-                (str(self.market.price_increment)),
-            )
+            if self.bid:
+                return self.bid if index <= 0 else self.ask
 
-        except:
+        except Exception  as e:
+            PrintException()
             sleep(10)
     def prepare_order(self, index) -> SimpleOrder:
         try:
             size = Decimal(str(self.SIZE)) + ((abs(index) - 1) * Decimal(str(self.SIZE)))
             price = abs(self.get_price_offset(index))
             
-            #sleep(1))
             return SimpleOrder(price=price, size=size, side="buy" if index < 0 else "sell")
 
         except:

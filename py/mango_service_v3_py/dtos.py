@@ -121,7 +121,7 @@ class Order(CamelCaseModel):
 class PlaceOrder(CamelCaseModel):
     market: str
     side: Side
-    price: int
+    price: float
     type: str
     size: float
     reduce_only: bool
