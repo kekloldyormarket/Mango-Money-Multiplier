@@ -5,6 +5,22 @@ it's a funding arbitrage bot for mangomarkets
 2. run sudo docker-compose up --build
 3. voila
 
+
+I went on an absolute hunch and got it working on devnet.2 :)
+
+
+@mangomarkets plz sers can we have some market makers running on devnet cuz otherwise shit be ridiculous lol
+
+
+https://devnet.mango.markets/account?pubkey=2bHBrmieh96QMy4ptxW1GPxM3rxKV5yrryg2Cc6WibQo
+
+
+https://riptide.fair3d.me
+
+
+it's either that or @dboures puts his thing mainnet.1 ??
+
+
 ## Important
 
 1. Risk only what you can afford to lose.
