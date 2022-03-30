@@ -14,7 +14,7 @@ const config_1 = require("../config");
 function setStubOracle(connection, payer, groupConfig, symbol, value) {
     return __awaiter(this, void 0, void 0, function* () {
         const client = new client_1.MangoClient(connection, groupConfig.mangoProgramId);
-        const oracle = config_1.getOracleBySymbol(groupConfig, symbol);
+        const oracle = (0, config_1.getOracleBySymbol)(groupConfig, symbol);
         yield client.setStubOracle(groupConfig.publicKey, oracle.publicKey, payer, value);
     });
 }

@@ -38,7 +38,7 @@ import os from "os";
 import { OrderInfo } from "types";
 import { logger, zipDict } from "./utils";
 
-let meAndThePeeps = ["2TZzWNae7VLPB5hNCZJ4dAMKmWDhZoDAFAPmEwQxoHTU"]//4TSs6vzXucFNvtXcQTZN3RXMceKEtgRsZzManBZyC2Qb"]//5sBpMQgTi7phxqRnErfbwx29vUsbUZoy1MLgY7aXuqeo", "GvSCxCi3y2Mt4JPExhLEZXTbYVGBXv9DNXYomvwRVEak"]
+let meAndThePeeps = process.env.meAndThePeeps.split(',')//4TSs6vzXucFNvtXcQTZN3RXMceKEtgRsZzManBZyC2Qb"]//5sBpMQgTi7phxqRnErfbwx29vUsbUZoy1MLgY7aXuqeo", "GvSCxCi3y2Mt4JPExhLEZXTbYVGBXv9DNXYomvwRVEak"]
 
 class MangoSimpleClient {
   constructor(
@@ -64,7 +64,7 @@ class MangoSimpleClient {
     let sortedMangoAccounts;
     const groupName = process.env.GROUP_NAME || "mainnet.1";
     const clusterUrl =
-      process.env.CLUSTER_URL || "https://solana--mainnet.datahub.figment.io/apikey/24c64e276fc5db6ff73da2f59bac40f2";
+      process.env.CLUSTER_URL || "https://solana--mainnet--rpc.datahub.figment.io/apikey/995d9d62662252c679a6e673fb31b392";
 
     logger.info(`Creating mango client for ${groupName} using ${clusterUrl}`);
 
@@ -98,7 +98,7 @@ class MangoSimpleClient {
     );
     const pubkey = meAndThePeeps[Math.floor(Math.random() * meAndThePeeps.length)]
     let mangoAccount;
-
+  //  process.env.MANGO_ACCOUNT = 'AdrDtyRdVALYifgoK5qGD3g7siF4Gc6aH1f8gcqxrWPY';
     if (process.env.MANGO_ACCOUNT) {
       logger.info(
         `- MANGO_ACCOUNT explicitly specified, fetching mango account ${process.env.MANGO_ACCOUNT}`
@@ -137,7 +137,9 @@ class MangoSimpleClient {
 
       // just select first arbitrarily
       console.log(sortedMangoAccounts.length)
-      mangoAccount = sortedMangoAccounts[0];
+      
+          mangoAccount = sortedMangoAccounts[0];
+      
 
       const debugAccounts = sortedMangoAccounts
         .map((mangoAccount) => mangoAccount.publicKey.toBase58())

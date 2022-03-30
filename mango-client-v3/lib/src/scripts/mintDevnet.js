@@ -184,7 +184,7 @@ const FIXED_IDS = [
         dexPk: 'GhPwZExZ7uT72n5SdWNMxwddxQ8eG7tuEvX2iSUK4MEY',
     },
 ];
-const connection = utils_1.createDevnetConnection();
+const connection = (0, utils_1.createDevnetConnection)();
 const authorityFp = process.env.AUTHORITY || os_1.default.homedir() + '/.config/solana/id.json';
 const authority = new web3_js_1.Account(JSON.parse(fs_1.default.readFileSync(authorityFp, 'utf-8')));
 const wallet = process.env.WALLET

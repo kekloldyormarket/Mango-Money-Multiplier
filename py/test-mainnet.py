@@ -29,7 +29,7 @@ def place_order(mango_service_v3_client, market):
             market=market,
             side="buy",
             price=20000,
-            type="limit",
+            type="limit",   
             size=0.0001,
             reduce_only=False,
             ioc=False,

@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import BN from 'bn.js';
 import {
   Account,

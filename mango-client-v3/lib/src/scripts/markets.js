@@ -77,13 +77,13 @@ function main() {
         }
         for (const m of groupIds.spotMarkets.filter((config) => process.env.SYMBOL ? config.baseSymbol === process.env.SYMBOL : true)) {
             yield dumpSpotMarket(m);
-            const tokenBySymbol = __1.getTokenBySymbol(groupIds, m.baseSymbol);
+            const tokenBySymbol = (0, __1.getTokenBySymbol)(groupIds, m.baseSymbol);
             const tokenIndex = group.getTokenIndex(tokenBySymbol.mintKey);
             const rootBank = rootBanks[tokenIndex];
             yield dumpRootBank(m.baseSymbol, rootBank);
         }
         // usdc
-        const tokenBySymbol = __1.getTokenBySymbol(groupIds, 'USDC');
+        const tokenBySymbol = (0, __1.getTokenBySymbol)(groupIds, 'USDC');
         const tokenIndex = group.getTokenIndex(tokenBySymbol.mintKey);
         const rootBank = rootBanks[tokenIndex];
         yield dumpRootBank('USDC', rootBank);

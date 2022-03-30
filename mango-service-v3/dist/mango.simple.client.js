@@ -26,7 +26,7 @@ class MangoSimpleClient {
     static async create() {
         let sortedMangoAccounts;
         const groupName = process.env.GROUP_NAME || "mainnet.1";
-        const clusterUrl = process.env.CLUSTER_URL || "https://solana--mainnet.datahub.figment.io/apikey/24c64e276fc5db6ff73da2f59bac40f2";
+        const clusterUrl = process.env.CLUSTER_URL || "https://solana--mainnet--rpc.datahub.figment.io/apikey/995d9d62662252c679a6e673fb31b392";
         utils_1.logger.info(`Creating mango client for ${groupName} using ${clusterUrl}`);
         const mangoGroupConfig = mango_client_1.Config.ids().groups.filter((group) => group.name === groupName)[0];
         const connection = new web3_js_1.Connection(clusterUrl, "processed");

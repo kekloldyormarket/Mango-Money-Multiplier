@@ -41,7 +41,7 @@ class Fetcher {
             const client = new client_1.MangoClient(connection, mangoProgramId);
             const mangoGroup = yield client.getMangoGroup(mangoGroupKey);
             const marketName = process.env.MARKET || 'MNGO';
-            const perpMarketConfig = config_1.getPerpMarketByBaseSymbol(groupIds, marketName.toUpperCase());
+            const perpMarketConfig = (0, config_1.getPerpMarketByBaseSymbol)(groupIds, marketName.toUpperCase());
             if (!perpMarketConfig) {
                 throw new Error(`Couldn't find market: ${marketName.toUpperCase()}`);
             }
@@ -51,7 +51,7 @@ class Fetcher {
             let lastSeqNum = __1.ZERO_BN;
             // eslint-disable-next-line
             while (true) {
-                yield utils_1.sleep(interval);
+                yield (0, utils_1.sleep)(interval);
                 const queue = yield perpMarket.loadEventQueue(connection);
                 console.log(queue.eventsSince(lastSeqNum));
                 // -1 here since queue.seqNum is the seqNum for the next (future) event

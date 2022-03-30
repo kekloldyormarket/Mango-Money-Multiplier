@@ -20,7 +20,7 @@ function setUp(client, mangoGroupKey) {
         const rootBanks = yield mangoGroup.loadRootBanks(client.connection);
         const vaults = yield Promise.all(rootBanks.map((rootBank) => {
             if (rootBank === undefined) {
-                return utils_1.promiseUndef();
+                return (0, utils_1.promiseUndef)();
             }
             else {
                 // Assumes only one node bank; Fix if we add more node bank
@@ -54,7 +54,7 @@ function checkSumOfBasePositions(groupConfig, mangoCache, mangoAccounts, perpMar
             absBasePositions = absBasePositions.add(perpAccount.basePosition.abs());
             sumQuote = sumQuote.add(perpAccount.getQuotePosition(perpMarketCache));
         }
-        console.log(`Market: ${(_a = config_1.getPerpMarketByIndex(groupConfig, i)) === null || _a === void 0 ? void 0 : _a.name}
+        console.log(`Market: ${(_a = (0, config_1.getPerpMarketByIndex)(groupConfig, i)) === null || _a === void 0 ? void 0 : _a.name}
       Sum Base Pos: ${sumOfAllBasePositions.toString()}
       Sum Abs Base Pos ${absBasePositions.toString()}
       Open Interest: ${perpMarket.openInterest.toString()}
@@ -72,7 +72,7 @@ function checkSumOfNetDeposit(groupConfig, connection, mangoGroup, mangoCache, v
                 continue;
             }
             console.log('======');
-            console.log((_a = config_1.getTokenByMint(groupConfig, mangoGroup.tokens[i].mint)) === null || _a === void 0 ? void 0 : _a.symbol);
+            console.log((_a = (0, config_1.getTokenByMint)(groupConfig, mangoGroup.tokens[i].mint)) === null || _a === void 0 ? void 0 : _a.symbol);
             console.log('deposit index', mangoCache.rootBankCache[i].depositIndex.toString());
             console.log('borrow index', mangoCache.rootBankCache[i].borrowIndex.toString());
             const sumOfNetDepositsAcrossMAs = mangoAccounts.reduce((sum, mangoAccount) => {

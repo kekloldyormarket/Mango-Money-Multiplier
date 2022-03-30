@@ -98,7 +98,7 @@ class WrappedLayout extends buffer_layout_1.Layout {
 }
 /** @internal */
 function bool(property) {
-    return new WrappedLayout(buffer_layout_1.u8(), decodeBool, encodeBool, property);
+    return new WrappedLayout((0, buffer_layout_1.u8)(), decodeBool, encodeBool, property);
 }
 exports.bool = bool;
 function decodeBool(value) {
@@ -184,18 +184,18 @@ class MangoInstructionsUnion extends buffer_layout_1.Union {
         return super.addVariant(variant, layout, property);
     }
 }
-exports.MangoInstructionLayout = new MangoInstructionsUnion(buffer_layout_1.u32('instruction'));
-exports.MangoInstructionLayout.addVariant(0, buffer_layout_1.struct([
+exports.MangoInstructionLayout = new MangoInstructionsUnion((0, buffer_layout_1.u32)('instruction'));
+exports.MangoInstructionLayout.addVariant(0, (0, buffer_layout_1.struct)([
     u64('signerNonce'),
     u64('validInterval'),
     I80F48Layout('quoteOptimalUtil'),
     I80F48Layout('quoteOptimalRate'),
     I80F48Layout('quoteMaxRate'),
 ]), 'InitMangoGroup');
-exports.MangoInstructionLayout.addVariant(1, buffer_layout_1.struct([]), 'InitMangoAccount');
-exports.MangoInstructionLayout.addVariant(2, buffer_layout_1.struct([u64('quantity')]), 'Deposit');
-exports.MangoInstructionLayout.addVariant(3, buffer_layout_1.struct([u64('quantity'), buffer_layout_1.u8('allowBorrow')]), 'Withdraw');
-exports.MangoInstructionLayout.addVariant(4, buffer_layout_1.struct([
+exports.MangoInstructionLayout.addVariant(1, (0, buffer_layout_1.struct)([]), 'InitMangoAccount');
+exports.MangoInstructionLayout.addVariant(2, (0, buffer_layout_1.struct)([u64('quantity')]), 'Deposit');
+exports.MangoInstructionLayout.addVariant(3, (0, buffer_layout_1.struct)([u64('quantity'), (0, buffer_layout_1.u8)('allowBorrow')]), 'Withdraw');
+exports.MangoInstructionLayout.addVariant(4, (0, buffer_layout_1.struct)([
     I80F48Layout('maintLeverage'),
     I80F48Layout('initLeverage'),
     I80F48Layout('liquidationFee'),
@@ -203,11 +203,11 @@ exports.MangoInstructionLayout.addVariant(4, buffer_layout_1.struct([
     I80F48Layout('optimalRate'),
     I80F48Layout('maxRate'),
 ]), 'AddSpotMarket');
-exports.MangoInstructionLayout.addVariant(5, buffer_layout_1.struct([u64('marketIndex')]), 'AddToBasket');
-exports.MangoInstructionLayout.addVariant(6, buffer_layout_1.struct([u64('quantity')]), 'Borrow');
-exports.MangoInstructionLayout.addVariant(7, buffer_layout_1.struct([]), 'CachePrices');
-exports.MangoInstructionLayout.addVariant(8, buffer_layout_1.struct([]), 'CacheRootBanks');
-exports.MangoInstructionLayout.addVariant(9, buffer_layout_1.struct([
+exports.MangoInstructionLayout.addVariant(5, (0, buffer_layout_1.struct)([u64('marketIndex')]), 'AddToBasket');
+exports.MangoInstructionLayout.addVariant(6, (0, buffer_layout_1.struct)([u64('quantity')]), 'Borrow');
+exports.MangoInstructionLayout.addVariant(7, (0, buffer_layout_1.struct)([]), 'CachePrices');
+exports.MangoInstructionLayout.addVariant(8, (0, buffer_layout_1.struct)([]), 'CacheRootBanks');
+exports.MangoInstructionLayout.addVariant(9, (0, buffer_layout_1.struct)([
     sideLayout(4, 'side'),
     u64('limitPrice'),
     u64('maxBaseQuantity'),
@@ -215,10 +215,10 @@ exports.MangoInstructionLayout.addVariant(9, buffer_layout_1.struct([
     selfTradeBehaviorLayout('selfTradeBehavior', 4),
     orderTypeLayout('orderType', 4),
     u64('clientId'),
-    buffer_layout_1.u16('limit'),
+    (0, buffer_layout_1.u16)('limit'),
 ]), 'PlaceSpotOrder');
-exports.MangoInstructionLayout.addVariant(10, buffer_layout_1.struct([]), 'AddOracle');
-exports.MangoInstructionLayout.addVariant(11, buffer_layout_1.struct([
+exports.MangoInstructionLayout.addVariant(10, (0, buffer_layout_1.struct)([]), 'AddOracle');
+exports.MangoInstructionLayout.addVariant(11, (0, buffer_layout_1.struct)([
     I80F48Layout('maintLeverage'),
     I80F48Layout('initLeverage'),
     I80F48Layout('liquidationFee'),
@@ -230,9 +230,9 @@ exports.MangoInstructionLayout.addVariant(11, buffer_layout_1.struct([
     I80F48Layout('maxDepthBps'),
     u64('targetPeriodLength'),
     u64('mngoPerPeriod'),
-    buffer_layout_1.u8('exp'),
+    (0, buffer_layout_1.u8)('exp'),
 ]), 'AddPerpMarket');
-exports.MangoInstructionLayout.addVariant(12, buffer_layout_1.struct([
+exports.MangoInstructionLayout.addVariant(12, (0, buffer_layout_1.struct)([
     i64('price'),
     i64('quantity'),
     u64('clientOrderId'),
@@ -240,37 +240,37 @@ exports.MangoInstructionLayout.addVariant(12, buffer_layout_1.struct([
     orderTypeLayout('orderType', 1),
     bool('reduceOnly'),
 ]), 'PlacePerpOrder');
-exports.MangoInstructionLayout.addVariant(13, buffer_layout_1.struct([u64('clientOrderId'), bool('invalidIdOk')]), 'CancelPerpOrderByClientId');
-exports.MangoInstructionLayout.addVariant(14, buffer_layout_1.struct([i128('orderId'), bool('invalidIdOk')]), 'CancelPerpOrder');
-exports.MangoInstructionLayout.addVariant(15, buffer_layout_1.struct([u64('limit')]), 'ConsumeEvents');
-exports.MangoInstructionLayout.addVariant(16, buffer_layout_1.struct([]), 'CachePerpMarkets');
-exports.MangoInstructionLayout.addVariant(17, buffer_layout_1.struct([]), 'UpdateFunding');
-exports.MangoInstructionLayout.addVariant(18, buffer_layout_1.struct([I80F48Layout('price')]), 'SetOracle');
-exports.MangoInstructionLayout.addVariant(19, buffer_layout_1.struct([]), 'SettleFunds');
-exports.MangoInstructionLayout.addVariant(20, buffer_layout_1.struct([sideLayout(4, 'side'), u128('orderId')]), 'CancelSpotOrder');
-exports.MangoInstructionLayout.addVariant(21, buffer_layout_1.struct([]), 'UpdateRootBank');
-exports.MangoInstructionLayout.addVariant(22, buffer_layout_1.struct([u64('marketIndex')]), 'SettlePnl');
-exports.MangoInstructionLayout.addVariant(23, buffer_layout_1.struct([u64('tokenIndex'), u64('quantity')]), 'SettleBorrow');
-exports.MangoInstructionLayout.addVariant(24, buffer_layout_1.struct([buffer_layout_1.u8('limit')]), 'ForceCancelSpotOrders');
-exports.MangoInstructionLayout.addVariant(25, buffer_layout_1.struct([buffer_layout_1.u8('limit')]), 'ForceCancelPerpOrders');
-exports.MangoInstructionLayout.addVariant(26, buffer_layout_1.struct([I80F48Layout('maxLiabTransfer')]), 'LiquidateTokenAndToken');
-exports.MangoInstructionLayout.addVariant(27, buffer_layout_1.struct([
-    buffer_layout_1.u8('assetType'),
+exports.MangoInstructionLayout.addVariant(13, (0, buffer_layout_1.struct)([u64('clientOrderId'), bool('invalidIdOk')]), 'CancelPerpOrderByClientId');
+exports.MangoInstructionLayout.addVariant(14, (0, buffer_layout_1.struct)([i128('orderId'), bool('invalidIdOk')]), 'CancelPerpOrder');
+exports.MangoInstructionLayout.addVariant(15, (0, buffer_layout_1.struct)([u64('limit')]), 'ConsumeEvents');
+exports.MangoInstructionLayout.addVariant(16, (0, buffer_layout_1.struct)([]), 'CachePerpMarkets');
+exports.MangoInstructionLayout.addVariant(17, (0, buffer_layout_1.struct)([]), 'UpdateFunding');
+exports.MangoInstructionLayout.addVariant(18, (0, buffer_layout_1.struct)([I80F48Layout('price')]), 'SetOracle');
+exports.MangoInstructionLayout.addVariant(19, (0, buffer_layout_1.struct)([]), 'SettleFunds');
+exports.MangoInstructionLayout.addVariant(20, (0, buffer_layout_1.struct)([sideLayout(4, 'side'), u128('orderId')]), 'CancelSpotOrder');
+exports.MangoInstructionLayout.addVariant(21, (0, buffer_layout_1.struct)([]), 'UpdateRootBank');
+exports.MangoInstructionLayout.addVariant(22, (0, buffer_layout_1.struct)([u64('marketIndex')]), 'SettlePnl');
+exports.MangoInstructionLayout.addVariant(23, (0, buffer_layout_1.struct)([u64('tokenIndex'), u64('quantity')]), 'SettleBorrow');
+exports.MangoInstructionLayout.addVariant(24, (0, buffer_layout_1.struct)([(0, buffer_layout_1.u8)('limit')]), 'ForceCancelSpotOrders');
+exports.MangoInstructionLayout.addVariant(25, (0, buffer_layout_1.struct)([(0, buffer_layout_1.u8)('limit')]), 'ForceCancelPerpOrders');
+exports.MangoInstructionLayout.addVariant(26, (0, buffer_layout_1.struct)([I80F48Layout('maxLiabTransfer')]), 'LiquidateTokenAndToken');
+exports.MangoInstructionLayout.addVariant(27, (0, buffer_layout_1.struct)([
+    (0, buffer_layout_1.u8)('assetType'),
     u64('assetIndex'),
-    buffer_layout_1.u8('liabType'),
+    (0, buffer_layout_1.u8)('liabType'),
     u64('liabIndex'),
     I80F48Layout('maxLiabTransfer'),
 ]), 'LiquidateTokenAndPerp');
-exports.MangoInstructionLayout.addVariant(28, buffer_layout_1.struct([i64('baseTransferRequest')]), 'LiquidatePerpMarket');
-exports.MangoInstructionLayout.addVariant(29, buffer_layout_1.struct([]), 'SettleFees');
-exports.MangoInstructionLayout.addVariant(30, buffer_layout_1.struct([u64('liabIndex'), I80F48Layout('maxLiabTransfer')]), 'ResolvePerpBankruptcy');
-exports.MangoInstructionLayout.addVariant(31, buffer_layout_1.struct([I80F48Layout('maxLiabTransfer')]), 'ResolveTokenBankruptcy');
-exports.MangoInstructionLayout.addVariant(32, buffer_layout_1.struct([]), 'InitSpotOpenOrders');
-exports.MangoInstructionLayout.addVariant(33, buffer_layout_1.struct([]), 'RedeemMngo');
-exports.MangoInstructionLayout.addVariant(34, buffer_layout_1.struct([buffer_layout_1.seq(buffer_layout_1.u8(), exports.INFO_LEN, 'info')]), 'AddMangoAccountInfo');
-exports.MangoInstructionLayout.addVariant(35, buffer_layout_1.struct([u64('quantity')]), 'DepositMsrm');
-exports.MangoInstructionLayout.addVariant(36, buffer_layout_1.struct([u64('quantity')]), 'WithdrawMsrm');
-exports.MangoInstructionLayout.addVariant(37, buffer_layout_1.struct([
+exports.MangoInstructionLayout.addVariant(28, (0, buffer_layout_1.struct)([i64('baseTransferRequest')]), 'LiquidatePerpMarket');
+exports.MangoInstructionLayout.addVariant(29, (0, buffer_layout_1.struct)([]), 'SettleFees');
+exports.MangoInstructionLayout.addVariant(30, (0, buffer_layout_1.struct)([u64('liabIndex'), I80F48Layout('maxLiabTransfer')]), 'ResolvePerpBankruptcy');
+exports.MangoInstructionLayout.addVariant(31, (0, buffer_layout_1.struct)([I80F48Layout('maxLiabTransfer')]), 'ResolveTokenBankruptcy');
+exports.MangoInstructionLayout.addVariant(32, (0, buffer_layout_1.struct)([]), 'InitSpotOpenOrders');
+exports.MangoInstructionLayout.addVariant(33, (0, buffer_layout_1.struct)([]), 'RedeemMngo');
+exports.MangoInstructionLayout.addVariant(34, (0, buffer_layout_1.struct)([(0, buffer_layout_1.seq)((0, buffer_layout_1.u8)(), exports.INFO_LEN, 'info')]), 'AddMangoAccountInfo');
+exports.MangoInstructionLayout.addVariant(35, (0, buffer_layout_1.struct)([u64('quantity')]), 'DepositMsrm');
+exports.MangoInstructionLayout.addVariant(36, (0, buffer_layout_1.struct)([u64('quantity')]), 'WithdrawMsrm');
+exports.MangoInstructionLayout.addVariant(37, (0, buffer_layout_1.struct)([
     bool('maintLeverageOption'),
     I80F48Layout('maintLeverage'),
     bool('initLeverageOption'),
@@ -290,11 +290,11 @@ exports.MangoInstructionLayout.addVariant(37, buffer_layout_1.struct([
     bool('mngoPerPeriodOption'),
     u64('mngoPerPeriod'),
     bool('expOption'),
-    buffer_layout_1.u8('exp'),
+    (0, buffer_layout_1.u8)('exp'),
 ]), 'ChangePerpMarketParams');
-exports.MangoInstructionLayout.addVariant(38, buffer_layout_1.struct([]), 'SetGroupAdmin');
-exports.MangoInstructionLayout.addVariant(39, buffer_layout_1.struct([buffer_layout_1.u8('limit')]), 'CancelAllPerpOrders');
-exports.MangoInstructionLayout.addVariant(41, buffer_layout_1.struct([
+exports.MangoInstructionLayout.addVariant(38, (0, buffer_layout_1.struct)([]), 'SetGroupAdmin');
+exports.MangoInstructionLayout.addVariant(39, (0, buffer_layout_1.struct)([(0, buffer_layout_1.u8)('limit')]), 'CancelAllPerpOrders');
+exports.MangoInstructionLayout.addVariant(41, (0, buffer_layout_1.struct)([
     sideLayout(4, 'side'),
     u64('limitPrice'),
     u64('maxBaseQuantity'),
@@ -302,10 +302,10 @@ exports.MangoInstructionLayout.addVariant(41, buffer_layout_1.struct([
     selfTradeBehaviorLayout('selfTradeBehavior', 4),
     orderTypeLayout('orderType', 4),
     u64('clientOrderId'),
-    buffer_layout_1.u16('limit'),
+    (0, buffer_layout_1.u16)('limit'),
 ]), 'PlaceSpotOrder2');
-exports.MangoInstructionLayout.addVariant(42, buffer_layout_1.struct([]), 'InitAdvancedOrders');
-exports.MangoInstructionLayout.addVariant(43, buffer_layout_1.struct([
+exports.MangoInstructionLayout.addVariant(42, (0, buffer_layout_1.struct)([]), 'InitAdvancedOrders');
+exports.MangoInstructionLayout.addVariant(43, (0, buffer_layout_1.struct)([
     orderTypeLayout('orderType', 1),
     sideLayout(1, 'side'),
     triggerConditionLayout('triggerCondition', 1),
@@ -315,9 +315,9 @@ exports.MangoInstructionLayout.addVariant(43, buffer_layout_1.struct([
     i64('quantity'),
     I80F48Layout('triggerPrice'),
 ]), 'AddPerpTriggerOrder');
-exports.MangoInstructionLayout.addVariant(44, buffer_layout_1.struct([buffer_layout_1.u8('orderIndex')]), 'RemoveAdvancedOrder');
-exports.MangoInstructionLayout.addVariant(45, buffer_layout_1.struct([buffer_layout_1.u8('orderIndex')]), 'ExecutePerpTriggerOrder');
-exports.MangoInstructionLayout.addVariant(46, buffer_layout_1.struct([
+exports.MangoInstructionLayout.addVariant(44, (0, buffer_layout_1.struct)([(0, buffer_layout_1.u8)('orderIndex')]), 'RemoveAdvancedOrder');
+exports.MangoInstructionLayout.addVariant(45, (0, buffer_layout_1.struct)([(0, buffer_layout_1.u8)('orderIndex')]), 'ExecutePerpTriggerOrder');
+exports.MangoInstructionLayout.addVariant(46, (0, buffer_layout_1.struct)([
     I80F48Layout('maintLeverage'),
     I80F48Layout('initLeverage'),
     I80F48Layout('liquidationFee'),
@@ -329,12 +329,12 @@ exports.MangoInstructionLayout.addVariant(46, buffer_layout_1.struct([
     I80F48Layout('maxDepthBps'),
     u64('targetPeriodLength'),
     u64('mngoPerPeriod'),
-    buffer_layout_1.u8('exp'),
-    buffer_layout_1.u8('version'),
-    buffer_layout_1.u8('lmSizeShift'),
-    buffer_layout_1.u8('baseDecimals'),
+    (0, buffer_layout_1.u8)('exp'),
+    (0, buffer_layout_1.u8)('version'),
+    (0, buffer_layout_1.u8)('lmSizeShift'),
+    (0, buffer_layout_1.u8)('baseDecimals'),
 ]), 'CreatePerpMarket');
-exports.MangoInstructionLayout.addVariant(47, buffer_layout_1.struct([
+exports.MangoInstructionLayout.addVariant(47, (0, buffer_layout_1.struct)([
     bool('maintLeverageOption'),
     I80F48Layout('maintLeverage'),
     bool('initLeverageOption'),
@@ -354,24 +354,24 @@ exports.MangoInstructionLayout.addVariant(47, buffer_layout_1.struct([
     bool('mngoPerPeriodOption'),
     u64('mngoPerPeriod'),
     bool('expOption'),
-    buffer_layout_1.u8('exp'),
+    (0, buffer_layout_1.u8)('exp'),
     bool('versionOption'),
-    buffer_layout_1.u8('version'),
+    (0, buffer_layout_1.u8)('version'),
     bool('lmSizeShiftOption'),
-    buffer_layout_1.u8('lmSizeShift'),
+    (0, buffer_layout_1.u8)('lmSizeShift'),
 ]), 'ChangePerpMarketParams2');
-exports.MangoInstructionLayout.addVariant(48, buffer_layout_1.struct([]), 'UpdateMarginBasket');
-exports.MangoInstructionLayout.addVariant(49, buffer_layout_1.struct([buffer_layout_1.u32('maxMangoAccounts')]), 'ChangeMaxMangoAccounts');
-exports.MangoInstructionLayout.addVariant(50, buffer_layout_1.struct([]), 'CloseMangoAccount');
-exports.MangoInstructionLayout.addVariant(51, buffer_layout_1.struct([]), 'CloseSpotOpenOrders');
-exports.MangoInstructionLayout.addVariant(52, buffer_layout_1.struct([]), 'CloseAdvancedOrders');
-exports.MangoInstructionLayout.addVariant(53, buffer_layout_1.struct([]), 'CreateDustAccount');
-exports.MangoInstructionLayout.addVariant(54, buffer_layout_1.struct([]), 'ResolveDust');
-exports.MangoInstructionLayout.addVariant(55, buffer_layout_1.struct([u64('accountNum')]), 'CreateMangoAccount');
-exports.MangoInstructionLayout.addVariant(56, buffer_layout_1.struct([]), 'UpgradeMangoAccountV0V1');
-exports.MangoInstructionLayout.addVariant(57, buffer_layout_1.struct([sideLayout(1, 'side'), buffer_layout_1.u8('limit')]), 'CancelPerpOrdersSide');
-exports.MangoInstructionLayout.addVariant(58, buffer_layout_1.struct([]), 'SetDelegate');
-exports.MangoInstructionLayout.addVariant(59, buffer_layout_1.struct([
+exports.MangoInstructionLayout.addVariant(48, (0, buffer_layout_1.struct)([]), 'UpdateMarginBasket');
+exports.MangoInstructionLayout.addVariant(49, (0, buffer_layout_1.struct)([(0, buffer_layout_1.u32)('maxMangoAccounts')]), 'ChangeMaxMangoAccounts');
+exports.MangoInstructionLayout.addVariant(50, (0, buffer_layout_1.struct)([]), 'CloseMangoAccount');
+exports.MangoInstructionLayout.addVariant(51, (0, buffer_layout_1.struct)([]), 'CloseSpotOpenOrders');
+exports.MangoInstructionLayout.addVariant(52, (0, buffer_layout_1.struct)([]), 'CloseAdvancedOrders');
+exports.MangoInstructionLayout.addVariant(53, (0, buffer_layout_1.struct)([]), 'CreateDustAccount');
+exports.MangoInstructionLayout.addVariant(54, (0, buffer_layout_1.struct)([]), 'ResolveDust');
+exports.MangoInstructionLayout.addVariant(55, (0, buffer_layout_1.struct)([u64('accountNum')]), 'CreateMangoAccount');
+exports.MangoInstructionLayout.addVariant(56, (0, buffer_layout_1.struct)([]), 'UpgradeMangoAccountV0V1');
+exports.MangoInstructionLayout.addVariant(57, (0, buffer_layout_1.struct)([sideLayout(1, 'side'), (0, buffer_layout_1.u8)('limit')]), 'CancelPerpOrdersSide');
+exports.MangoInstructionLayout.addVariant(58, (0, buffer_layout_1.struct)([]), 'SetDelegate');
+exports.MangoInstructionLayout.addVariant(59, (0, buffer_layout_1.struct)([
     bool('maintLeverageOption'),
     I80F48Layout('maintLeverage'),
     bool('initLeverageOption'),
@@ -385,17 +385,17 @@ exports.MangoInstructionLayout.addVariant(59, buffer_layout_1.struct([
     bool('maxRateOption'),
     I80F48Layout('maxRate'),
     bool('versionOption'),
-    buffer_layout_1.u8('version'),
+    (0, buffer_layout_1.u8)('version'),
 ]), 'ChangeSpotMarketParams');
-exports.MangoInstructionLayout.addVariant(60, buffer_layout_1.struct([]), 'CreateSpotOpenOrders');
-exports.MangoInstructionLayout.addVariant(61, buffer_layout_1.struct([
-    buffer_layout_1.u32('refSurchargeCentibps'),
-    buffer_layout_1.u32('refShareCentibps'),
+exports.MangoInstructionLayout.addVariant(60, (0, buffer_layout_1.struct)([]), 'CreateSpotOpenOrders');
+exports.MangoInstructionLayout.addVariant(61, (0, buffer_layout_1.struct)([
+    (0, buffer_layout_1.u32)('refSurchargeCentibps'),
+    (0, buffer_layout_1.u32)('refShareCentibps'),
     u64('refMngoRequired'),
 ]), 'ChangeReferralFeeParams');
-exports.MangoInstructionLayout.addVariant(62, buffer_layout_1.struct([]), 'SetReferrerMemory');
-exports.MangoInstructionLayout.addVariant(63, buffer_layout_1.struct([buffer_layout_1.seq(buffer_layout_1.u8(), exports.INFO_LEN, 'referrerId')]), 'RegisterReferrerId');
-exports.MangoInstructionLayout.addVariant(64, buffer_layout_1.struct([
+exports.MangoInstructionLayout.addVariant(62, (0, buffer_layout_1.struct)([]), 'SetReferrerMemory');
+exports.MangoInstructionLayout.addVariant(63, (0, buffer_layout_1.struct)([(0, buffer_layout_1.seq)((0, buffer_layout_1.u8)(), exports.INFO_LEN, 'referrerId')]), 'RegisterReferrerId');
+exports.MangoInstructionLayout.addVariant(64, (0, buffer_layout_1.struct)([
     i64('price'),
     i64('maxBaseQuantity'),
     i64('maxQuoteQuantity'),
@@ -404,7 +404,7 @@ exports.MangoInstructionLayout.addVariant(64, buffer_layout_1.struct([
     sideLayout(1, 'side'),
     orderTypeLayout('orderType', 1),
     bool('reduceOnly'),
-    buffer_layout_1.u8('limit'),
+    (0, buffer_layout_1.u8)('limit'),
 ]), 'PlacePerpOrder2');
 const instructionMaxSpan = Math.max(
 // @ts-ignore
@@ -460,10 +460,10 @@ exports.MetaData = MetaData;
 class MetaDataLayout extends buffer_layout_1.Structure {
     constructor(property) {
         super([
-            buffer_layout_1.u8('dataType'),
-            buffer_layout_1.u8('version'),
-            buffer_layout_1.u8('isInitialized'),
-            buffer_layout_1.seq(buffer_layout_1.u8(), 5, 'extraInfo'),
+            (0, buffer_layout_1.u8)('dataType'),
+            (0, buffer_layout_1.u8)('version'),
+            (0, buffer_layout_1.u8)('isInitialized'),
+            (0, buffer_layout_1.seq)((0, buffer_layout_1.u8)(), 5, 'extraInfo'),
         ], property);
     }
     decode(b, offset) {
@@ -495,8 +495,8 @@ class TokenInfoLayout extends buffer_layout_1.Structure {
         super([
             publicKeyLayout('mint'),
             publicKeyLayout('rootBank'),
-            buffer_layout_1.u8('decimals'),
-            buffer_layout_1.seq(buffer_layout_1.u8(), 7, 'padding'),
+            (0, buffer_layout_1.u8)('decimals'),
+            (0, buffer_layout_1.seq)((0, buffer_layout_1.u8)(), 7, 'padding'),
         ], property);
     }
     decode(b, offset) {
@@ -613,13 +613,13 @@ function perpAccountLayout(property = '') {
 }
 exports.perpAccountLayout = perpAccountLayout;
 /** @internal */
-exports.MangoGroupLayout = buffer_layout_1.struct([
+exports.MangoGroupLayout = (0, buffer_layout_1.struct)([
     metaDataLayout('metaData'),
     u64('numOracles'),
-    buffer_layout_1.seq(tokenInfoLayout(), exports.MAX_TOKENS, 'tokens'),
-    buffer_layout_1.seq(spotMarketInfoLayout(), exports.MAX_PAIRS, 'spotMarkets'),
-    buffer_layout_1.seq(perpMarketInfoLayout(), exports.MAX_PAIRS, 'perpMarkets'),
-    buffer_layout_1.seq(publicKeyLayout(), exports.MAX_PAIRS, 'oracles'),
+    (0, buffer_layout_1.seq)(tokenInfoLayout(), exports.MAX_TOKENS, 'tokens'),
+    (0, buffer_layout_1.seq)(spotMarketInfoLayout(), exports.MAX_PAIRS, 'spotMarkets'),
+    (0, buffer_layout_1.seq)(perpMarketInfoLayout(), exports.MAX_PAIRS, 'perpMarkets'),
+    (0, buffer_layout_1.seq)(publicKeyLayout(), exports.MAX_PAIRS, 'oracles'),
     u64('signerNonce'),
     publicKeyLayout('signerKey'),
     publicKeyLayout('admin'),
@@ -630,60 +630,60 @@ exports.MangoGroupLayout = buffer_layout_1.struct([
     publicKeyLayout('srmVault'),
     publicKeyLayout('msrmVault'),
     publicKeyLayout('feesVault'),
-    buffer_layout_1.u32('maxMangoAccounts'),
-    buffer_layout_1.u32('numMangoAccounts'),
-    buffer_layout_1.u32('refSurchargeCentibps'),
-    buffer_layout_1.u32('refShareCentibps'),
+    (0, buffer_layout_1.u32)('maxMangoAccounts'),
+    (0, buffer_layout_1.u32)('numMangoAccounts'),
+    (0, buffer_layout_1.u32)('refSurchargeCentibps'),
+    (0, buffer_layout_1.u32)('refShareCentibps'),
     u64('refMngoRequired'),
-    buffer_layout_1.seq(buffer_layout_1.u8(), 8, 'padding'),
+    (0, buffer_layout_1.seq)((0, buffer_layout_1.u8)(), 8, 'padding'),
 ]);
 /** @internal */
-exports.MangoAccountLayout = buffer_layout_1.struct([
+exports.MangoAccountLayout = (0, buffer_layout_1.struct)([
     metaDataLayout('metaData'),
     publicKeyLayout('mangoGroup'),
     publicKeyLayout('owner'),
-    buffer_layout_1.seq(bool(), exports.MAX_PAIRS, 'inMarginBasket'),
-    buffer_layout_1.u8('numInMarginBasket'),
-    buffer_layout_1.seq(I80F48Layout(), exports.MAX_TOKENS, 'deposits'),
-    buffer_layout_1.seq(I80F48Layout(), exports.MAX_TOKENS, 'borrows'),
-    buffer_layout_1.seq(publicKeyLayout(), exports.MAX_PAIRS, 'spotOpenOrders'),
-    buffer_layout_1.seq(perpAccountLayout(), exports.MAX_PAIRS, 'perpAccounts'),
-    buffer_layout_1.seq(buffer_layout_1.u8(), exports.MAX_PERP_OPEN_ORDERS, 'orderMarket'),
-    buffer_layout_1.seq(sideLayout(1), exports.MAX_PERP_OPEN_ORDERS, 'orderSide'),
-    buffer_layout_1.seq(i128(), exports.MAX_PERP_OPEN_ORDERS, 'orders'),
-    buffer_layout_1.seq(u64(), exports.MAX_PERP_OPEN_ORDERS, 'clientOrderIds'),
+    (0, buffer_layout_1.seq)(bool(), exports.MAX_PAIRS, 'inMarginBasket'),
+    (0, buffer_layout_1.u8)('numInMarginBasket'),
+    (0, buffer_layout_1.seq)(I80F48Layout(), exports.MAX_TOKENS, 'deposits'),
+    (0, buffer_layout_1.seq)(I80F48Layout(), exports.MAX_TOKENS, 'borrows'),
+    (0, buffer_layout_1.seq)(publicKeyLayout(), exports.MAX_PAIRS, 'spotOpenOrders'),
+    (0, buffer_layout_1.seq)(perpAccountLayout(), exports.MAX_PAIRS, 'perpAccounts'),
+    (0, buffer_layout_1.seq)((0, buffer_layout_1.u8)(), exports.MAX_PERP_OPEN_ORDERS, 'orderMarket'),
+    (0, buffer_layout_1.seq)(sideLayout(1), exports.MAX_PERP_OPEN_ORDERS, 'orderSide'),
+    (0, buffer_layout_1.seq)(i128(), exports.MAX_PERP_OPEN_ORDERS, 'orders'),
+    (0, buffer_layout_1.seq)(u64(), exports.MAX_PERP_OPEN_ORDERS, 'clientOrderIds'),
     u64('msrmAmount'),
     bool('beingLiquidated'),
     bool('isBankrupt'),
-    buffer_layout_1.seq(buffer_layout_1.u8(), exports.INFO_LEN, 'info'),
+    (0, buffer_layout_1.seq)((0, buffer_layout_1.u8)(), exports.INFO_LEN, 'info'),
     publicKeyLayout('advancedOrdersKey'),
     bool('notUpgradable'),
     publicKeyLayout('delegate'),
-    buffer_layout_1.seq(buffer_layout_1.u8(), 5, 'padding'),
+    (0, buffer_layout_1.seq)((0, buffer_layout_1.u8)(), 5, 'padding'),
 ]);
 /** @internal */
-exports.RootBankLayout = buffer_layout_1.struct([
+exports.RootBankLayout = (0, buffer_layout_1.struct)([
     metaDataLayout('metaData'),
     I80F48Layout('optimalUtil'),
     I80F48Layout('optimalRate'),
     I80F48Layout('maxRate'),
     u64('numNodeBanks'),
-    buffer_layout_1.seq(publicKeyLayout(), exports.MAX_NODE_BANKS, 'nodeBanks'),
+    (0, buffer_layout_1.seq)(publicKeyLayout(), exports.MAX_NODE_BANKS, 'nodeBanks'),
     I80F48Layout('depositIndex'),
     I80F48Layout('borrowIndex'),
     u64('lastUpdated'),
-    buffer_layout_1.seq(buffer_layout_1.u8(), 64, 'padding'),
+    (0, buffer_layout_1.seq)((0, buffer_layout_1.u8)(), 64, 'padding'),
 ]);
 /** @internal */
-exports.NodeBankLayout = buffer_layout_1.struct([
+exports.NodeBankLayout = (0, buffer_layout_1.struct)([
     metaDataLayout('metaData'),
     I80F48Layout('deposits'),
     I80F48Layout('borrows'),
     publicKeyLayout('vault'),
 ]);
 /** @internal */
-exports.StubOracleLayout = buffer_layout_1.struct([
-    buffer_layout_1.seq(buffer_layout_1.u8(), 8),
+exports.StubOracleLayout = (0, buffer_layout_1.struct)([
+    (0, buffer_layout_1.seq)((0, buffer_layout_1.u8)(), 8),
     I80F48Layout('price'),
     u64('lastUpdate'),
 ]);
@@ -713,7 +713,7 @@ function liquidityMiningInfoLayout(property = '') {
 }
 exports.liquidityMiningInfoLayout = liquidityMiningInfoLayout;
 /** @internal */
-exports.PerpMarketLayout = buffer_layout_1.struct([
+exports.PerpMarketLayout = (0, buffer_layout_1.struct)([
     metaDataLayout('metaData'),
     publicKeyLayout('mangoGroup'),
     publicKeyLayout('bids'),
@@ -732,13 +732,13 @@ exports.PerpMarketLayout = buffer_layout_1.struct([
 ]);
 const EVENT_SIZE = 200;
 /** @internal */
-exports.PerpEventLayout = buffer_layout_1.union(buffer_layout_1.u8('eventType'), buffer_layout_1.blob(EVENT_SIZE - 1), 'event');
-exports.PerpEventLayout.addVariant(0, buffer_layout_1.struct([
+exports.PerpEventLayout = (0, buffer_layout_1.union)((0, buffer_layout_1.u8)('eventType'), (0, buffer_layout_1.blob)(EVENT_SIZE - 1), 'event');
+exports.PerpEventLayout.addVariant(0, (0, buffer_layout_1.struct)([
     sideLayout(1, 'takerSide'),
-    buffer_layout_1.u8('makerSlot'),
+    (0, buffer_layout_1.u8)('makerSlot'),
     bool('makerOut'),
-    buffer_layout_1.u8('version'),
-    buffer_layout_1.seq(buffer_layout_1.u8(), 3),
+    (0, buffer_layout_1.u8)('version'),
+    (0, buffer_layout_1.seq)((0, buffer_layout_1.u8)(), 3),
     u64('timestamp'),
     u64('seqNum'),
     publicKeyLayout('maker'),
@@ -754,18 +754,18 @@ exports.PerpEventLayout.addVariant(0, buffer_layout_1.struct([
     i64('price'),
     i64('quantity'),
 ]), 'fill');
-exports.PerpEventLayout.addVariant(1, buffer_layout_1.struct([
+exports.PerpEventLayout.addVariant(1, (0, buffer_layout_1.struct)([
     sideLayout(1, 'side'),
-    buffer_layout_1.u8('slot'),
-    buffer_layout_1.seq(buffer_layout_1.u8(), 5),
+    (0, buffer_layout_1.u8)('slot'),
+    (0, buffer_layout_1.seq)((0, buffer_layout_1.u8)(), 5),
     u64('timestamp'),
     u64('seqNum'),
     publicKeyLayout('owner'),
     i64('quantity'),
-    buffer_layout_1.seq(buffer_layout_1.u8(), EVENT_SIZE - 64, 'padding'),
+    (0, buffer_layout_1.seq)((0, buffer_layout_1.u8)(), EVENT_SIZE - 64, 'padding'),
 ]), 'out');
-exports.PerpEventLayout.addVariant(2, buffer_layout_1.struct([
-    buffer_layout_1.seq(buffer_layout_1.u8(), 7),
+exports.PerpEventLayout.addVariant(2, (0, buffer_layout_1.struct)([
+    (0, buffer_layout_1.seq)((0, buffer_layout_1.u8)(), 7),
     u64('timestamp'),
     u64('seqNum'),
     publicKeyLayout('liqee'),
@@ -773,37 +773,37 @@ exports.PerpEventLayout.addVariant(2, buffer_layout_1.struct([
     I80F48Layout('price'),
     i64('quantity'),
     I80F48Layout('liquidationFee'),
-    buffer_layout_1.seq(buffer_layout_1.u8(), EVENT_SIZE - 128, 'padding'),
+    (0, buffer_layout_1.seq)((0, buffer_layout_1.u8)(), EVENT_SIZE - 128, 'padding'),
 ]), 'liquidate');
 /** @internal */
-exports.PerpEventQueueHeaderLayout = buffer_layout_1.struct([
+exports.PerpEventQueueHeaderLayout = (0, buffer_layout_1.struct)([
     metaDataLayout('metaData'),
     u64('head'),
     u64('count'),
     u64('seqNum'),
 ]);
 /** @internal */
-exports.PerpEventQueueLayout = buffer_layout_1.struct([
+exports.PerpEventQueueLayout = (0, buffer_layout_1.struct)([
     metaDataLayout('metaData'),
     u64('head'),
     u64('count'),
     u64('seqNum'),
-    buffer_layout_1.seq(exports.PerpEventLayout, buffer_layout_1.greedy(exports.PerpEventLayout.span), 'events'),
+    (0, buffer_layout_1.seq)(exports.PerpEventLayout, (0, buffer_layout_1.greedy)(exports.PerpEventLayout.span), 'events'),
 ]);
 const BOOK_NODE_SIZE = 88;
-const BOOK_NODE_LAYOUT = buffer_layout_1.union(buffer_layout_1.u32('tag'), buffer_layout_1.blob(BOOK_NODE_SIZE - 4), 'node');
-BOOK_NODE_LAYOUT.addVariant(0, buffer_layout_1.struct([]), 'uninitialized');
-BOOK_NODE_LAYOUT.addVariant(1, buffer_layout_1.struct([
+const BOOK_NODE_LAYOUT = (0, buffer_layout_1.union)((0, buffer_layout_1.u32)('tag'), (0, buffer_layout_1.blob)(BOOK_NODE_SIZE - 4), 'node');
+BOOK_NODE_LAYOUT.addVariant(0, (0, buffer_layout_1.struct)([]), 'uninitialized');
+BOOK_NODE_LAYOUT.addVariant(1, (0, buffer_layout_1.struct)([
     // Only the first prefixLen high-order bits of key are meaningful
-    buffer_layout_1.u32('prefixLen'),
+    (0, buffer_layout_1.u32)('prefixLen'),
     u128('key'),
-    buffer_layout_1.seq(buffer_layout_1.u32(), 2, 'children'),
+    (0, buffer_layout_1.seq)((0, buffer_layout_1.u32)(), 2, 'children'),
 ]), 'innerNode');
-BOOK_NODE_LAYOUT.addVariant(2, buffer_layout_1.struct([
-    buffer_layout_1.u8('ownerSlot'),
+BOOK_NODE_LAYOUT.addVariant(2, (0, buffer_layout_1.struct)([
+    (0, buffer_layout_1.u8)('ownerSlot'),
     orderTypeLayout('orderType', 1),
-    buffer_layout_1.u8('version'),
-    buffer_layout_1.u8('timeInForce'),
+    (0, buffer_layout_1.u8)('version'),
+    (0, buffer_layout_1.u8)('timeInForce'),
     u128('key'),
     publicKeyLayout('owner'),
     u64('quantity'),
@@ -811,17 +811,17 @@ BOOK_NODE_LAYOUT.addVariant(2, buffer_layout_1.struct([
     u64('bestInitial'),
     u64('timestamp'),
 ]), 'leafNode');
-BOOK_NODE_LAYOUT.addVariant(3, buffer_layout_1.struct([buffer_layout_1.u32('next')]), 'freeNode');
-BOOK_NODE_LAYOUT.addVariant(4, buffer_layout_1.struct([]), 'lastFreeNode');
+BOOK_NODE_LAYOUT.addVariant(3, (0, buffer_layout_1.struct)([(0, buffer_layout_1.u32)('next')]), 'freeNode');
+BOOK_NODE_LAYOUT.addVariant(4, (0, buffer_layout_1.struct)([]), 'lastFreeNode');
 /** @internal */
-exports.BookSideLayout = buffer_layout_1.struct([
+exports.BookSideLayout = (0, buffer_layout_1.struct)([
     metaDataLayout('metaData'),
-    buffer_layout_1.nu64('bumpIndex'),
-    buffer_layout_1.nu64('freeListLen'),
-    buffer_layout_1.u32('freeListHead'),
-    buffer_layout_1.u32('rootNode'),
-    buffer_layout_1.nu64('leafCount'),
-    buffer_layout_1.seq(BOOK_NODE_LAYOUT, MAX_BOOK_NODES, 'nodes'),
+    (0, buffer_layout_1.nu64)('bumpIndex'),
+    (0, buffer_layout_1.nu64)('freeListLen'),
+    (0, buffer_layout_1.u32)('freeListHead'),
+    (0, buffer_layout_1.u32)('rootNode'),
+    (0, buffer_layout_1.nu64)('leafCount'),
+    (0, buffer_layout_1.seq)(BOOK_NODE_LAYOUT, MAX_BOOK_NODES, 'nodes'),
 ]);
 class PriceCache {
     constructor(decoded) {
@@ -904,11 +904,11 @@ function perpMarketCacheLayout(property = '') {
 }
 exports.perpMarketCacheLayout = perpMarketCacheLayout;
 /** @internal */
-exports.MangoCacheLayout = buffer_layout_1.struct([
+exports.MangoCacheLayout = (0, buffer_layout_1.struct)([
     metaDataLayout('metaData'),
-    buffer_layout_1.seq(priceCacheLayout(), exports.MAX_PAIRS, 'priceCache'),
-    buffer_layout_1.seq(rootBankCacheLayout(), exports.MAX_TOKENS, 'rootBankCache'),
-    buffer_layout_1.seq(perpMarketCacheLayout(), exports.MAX_PAIRS, 'perpMarketCache'),
+    (0, buffer_layout_1.seq)(priceCacheLayout(), exports.MAX_PAIRS, 'priceCache'),
+    (0, buffer_layout_1.seq)(rootBankCacheLayout(), exports.MAX_TOKENS, 'rootBankCache'),
+    (0, buffer_layout_1.seq)(perpMarketCacheLayout(), exports.MAX_PAIRS, 'perpMarketCache'),
 ]);
 class MangoCache {
     constructor(publicKey, decoded) {
@@ -930,32 +930,32 @@ class NodeBank {
 }
 exports.NodeBank = NodeBank;
 /** @internal */
-exports.TokenAccountLayout = buffer_layout_1.struct([
+exports.TokenAccountLayout = (0, buffer_layout_1.struct)([
     publicKeyLayout('mint'),
     publicKeyLayout('owner'),
-    buffer_layout_1.nu64('amount'),
-    buffer_layout_1.blob(93),
+    (0, buffer_layout_1.nu64)('amount'),
+    (0, buffer_layout_1.blob)(93),
 ]);
 const ADVANCED_ORDER_SIZE = 80;
-const ADVANCED_ORDER_LAYOUT = buffer_layout_1.union(buffer_layout_1.u8('advancedOrderType'), buffer_layout_1.blob(ADVANCED_ORDER_SIZE - 1), 'advancedOrder');
-ADVANCED_ORDER_LAYOUT.addVariant(0, buffer_layout_1.struct([
+const ADVANCED_ORDER_LAYOUT = (0, buffer_layout_1.union)((0, buffer_layout_1.u8)('advancedOrderType'), (0, buffer_layout_1.blob)(ADVANCED_ORDER_SIZE - 1), 'advancedOrder');
+ADVANCED_ORDER_LAYOUT.addVariant(0, (0, buffer_layout_1.struct)([
     bool('isActive'),
-    buffer_layout_1.u8('marketIndex'),
+    (0, buffer_layout_1.u8)('marketIndex'),
     orderTypeLayout('orderType', 1),
     sideLayout(1, 'side'),
     triggerConditionLayout('triggerCondition', 1),
     bool('reduceOnly'),
-    buffer_layout_1.seq(buffer_layout_1.u8(), 1, 'padding0'),
+    (0, buffer_layout_1.seq)((0, buffer_layout_1.u8)(), 1, 'padding0'),
     u64('clientOrderId'),
     i64('price'),
     i64('quantity'),
     I80F48Layout('triggerPrice'),
-    buffer_layout_1.seq(buffer_layout_1.u8(), 32, 'padding1'),
+    (0, buffer_layout_1.seq)((0, buffer_layout_1.u8)(), 32, 'padding1'),
 ]), 'perpTrigger');
 const MAX_ADVANCED_ORDERS = 32;
-exports.AdvancedOrdersLayout = buffer_layout_1.struct([
+exports.AdvancedOrdersLayout = (0, buffer_layout_1.struct)([
     metaDataLayout('metaData'),
-    buffer_layout_1.seq(ADVANCED_ORDER_LAYOUT, MAX_ADVANCED_ORDERS, 'orders'),
+    (0, buffer_layout_1.seq)(ADVANCED_ORDER_LAYOUT, MAX_ADVANCED_ORDERS, 'orders'),
 ]);
 /** @internal */
 class ReferrerMemory {
@@ -965,7 +965,7 @@ class ReferrerMemory {
 }
 exports.ReferrerMemory = ReferrerMemory;
 /** @internal */
-exports.ReferrerMemoryLayout = buffer_layout_1.struct([
+exports.ReferrerMemoryLayout = (0, buffer_layout_1.struct)([
     metaDataLayout('metaData'),
     publicKeyLayout('referrerMangoAccount'),
 ]);
@@ -982,9 +982,9 @@ class ReferrerIdRecord {
 }
 exports.ReferrerIdRecord = ReferrerIdRecord;
 /** @internal */
-exports.ReferrerIdRecordLayout = buffer_layout_1.struct([
+exports.ReferrerIdRecordLayout = (0, buffer_layout_1.struct)([
     metaDataLayout('metaData'),
     publicKeyLayout('referrerMangoAccount'),
-    buffer_layout_1.seq(buffer_layout_1.u8(), exports.INFO_LEN, 'id'),
+    (0, buffer_layout_1.seq)((0, buffer_layout_1.u8)(), exports.INFO_LEN, 'id'),
 ]);
 //# sourceMappingURL=layout.js.map

@@ -17,7 +17,7 @@ class BookSide {
         this.includeExpired = includeExpired;
         Object.assign(this, decoded);
         // Determine the maxTimestamp found on the book to use for tif
-        let maxTimestamp = new bn_js_1.default(client_1.getUnixTs() - 10);
+        let maxTimestamp = new bn_js_1.default((0, client_1.getUnixTs)() - 10);
         for (const { leafNode } of this.nodes) {
             if (leafNode && leafNode.timestamp.gt(maxTimestamp)) {
                 maxTimestamp = leafNode.timestamp;

@@ -22,7 +22,7 @@ function makeInitMangoGroupInstruction(programId, mangoGroupPk, signerKey, payer
         { isSigner: false, isWritable: true, pubkey: mangoCachePk },
         { isSigner: false, isWritable: false, pubkey: dexProgramPk },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         InitMangoGroup: {
             signerNonce,
             validInterval,
@@ -44,7 +44,7 @@ function makeInitMangoAccountInstruction(programId, mangoGroupPk, mangoAccountPk
         { isSigner: false, isWritable: true, pubkey: mangoAccountPk },
         { isSigner: true, isWritable: false, pubkey: ownerPk },
     ];
-    const data = layout_1.encodeMangoInstruction({ InitMangoAccount: {} });
+    const data = (0, layout_1.encodeMangoInstruction)({ InitMangoAccount: {} });
     return new web3_js_1.TransactionInstruction({
         keys,
         data,
@@ -70,7 +70,7 @@ function makeWithdrawInstruction(programId, mangoGroupPk, mangoAccountPk, wallet
             pubkey,
         })),
     ];
-    const withdrawData = layout_1.encodeMangoInstruction({
+    const withdrawData = (0, layout_1.encodeMangoInstruction)({
         Withdraw: { quantity: nativeQuantity, allowBorrow },
     });
     return new web3_js_1.TransactionInstruction({
@@ -101,7 +101,7 @@ function makeSettleFundsInstruction(programId, mangoGroupPk, mangoCachePk, owner
         { isSigner: false, isWritable: false, pubkey: dexSignerKey },
         { isSigner: false, isWritable: false, pubkey: spl_token_1.TOKEN_PROGRAM_ID },
     ];
-    const data = layout_1.encodeMangoInstruction({ SettleFunds: {} });
+    const data = (0, layout_1.encodeMangoInstruction)({ SettleFunds: {} });
     return new web3_js_1.TransactionInstruction({ keys, data, programId });
 }
 exports.makeSettleFundsInstruction = makeSettleFundsInstruction;
@@ -118,7 +118,7 @@ function makeCancelSpotOrderInstruction(programId, mangoGroupPk, ownerPk, mangoA
         { isSigner: false, isWritable: false, pubkey: signerKey },
         { isSigner: false, isWritable: true, pubkey: eventQueuePk },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         CancelSpotOrder: {
             side: order.side,
             orderId: order.orderId,
@@ -136,7 +136,7 @@ function makeCancelPerpOrderInstruction(programId, mangoGroupPk, mangoAccountPk,
         { isSigner: false, isWritable: true, pubkey: bidsPk },
         { isSigner: false, isWritable: true, pubkey: asksPk },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         CancelPerpOrder: {
             orderId: order.orderId,
             invalidIdOk,
@@ -154,7 +154,7 @@ function makeCancelPerpOrderByClientIdInstruction(programId, mangoGroupPk, mango
         { isSigner: false, isWritable: true, pubkey: bidsPk },
         { isSigner: false, isWritable: true, pubkey: asksPk },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         CancelPerpOrderByClientId: {
             clientOrderId,
             invalidIdOk,
@@ -172,7 +172,7 @@ function makeCancelAllPerpOrdersInstruction(programId, mangoGroupPk, mangoAccoun
         { isSigner: false, isWritable: true, pubkey: bidsPk },
         { isSigner: false, isWritable: true, pubkey: asksPk },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         CancelAllPerpOrders: {
             limit,
         },
@@ -192,7 +192,7 @@ function makeDepositInstruction(programId, mangoGroupPk, ownerPk, merpsCachePk, 
         { isSigner: false, isWritable: false, pubkey: spl_token_1.TOKEN_PROGRAM_ID },
         { isSigner: false, isWritable: true, pubkey: tokenAccPk },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         Deposit: { quantity: nativeQuantity },
     });
     return new web3_js_1.TransactionInstruction({
@@ -212,7 +212,7 @@ function makeCacheRootBankInstruction(programId, mangoGroupPk, mangoCachePk, roo
             pubkey,
         })),
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         CacheRootBanks: {},
     });
     return new web3_js_1.TransactionInstruction({
@@ -232,7 +232,7 @@ function makeCachePricesInstruction(programId, mangoGroupPk, mangoCachePk, oracl
             pubkey,
         })),
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         CachePrices: {},
     });
     return new web3_js_1.TransactionInstruction({
@@ -252,7 +252,7 @@ function makeCachePerpMarketInstruction(programId, mangoGroupPk, mangoCachePk, p
             pubkey,
         })),
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         CachePerpMarkets: {},
     });
     return new web3_js_1.TransactionInstruction({
@@ -274,7 +274,7 @@ function makeAddSpotMarketInstruction(programId, mangoGroupPk, oraclePk, spotMar
         { isSigner: false, isWritable: true, pubkey: rootBankPk },
         { isSigner: true, isWritable: false, pubkey: adminPk },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         AddSpotMarket: {
             maintLeverage,
             initLeverage,
@@ -302,7 +302,7 @@ function makeInitSpotOpenOrdersInstruction(programId, mangoGroupPk, mangoAccount
         { isSigner: false, isWritable: false, pubkey: signerPk },
         { isSigner: false, isWritable: false, pubkey: web3_js_1.SYSVAR_RENT_PUBKEY },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         InitSpotOpenOrders: {},
     });
     return new web3_js_1.TransactionInstruction({
@@ -323,7 +323,7 @@ function makeCreateSpotOpenOrdersInstruction(programId, mangoGroupPk, mangoAccou
         { isSigner: false, isWritable: false, pubkey: signerPk },
         { isSigner: false, isWritable: false, pubkey: web3_js_1.SystemProgram.programId },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         CreateSpotOpenOrders: {},
     });
     return new web3_js_1.TransactionInstruction({
@@ -366,7 +366,7 @@ openOrders, side, limitPrice, maxBaseQuantity, maxQuoteQuantity, selfTradeBehavi
             pubkey,
         })),
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         PlaceSpotOrder: {
             side,
             limitPrice,
@@ -418,7 +418,7 @@ openOrders, side, limitPrice, maxBaseQuantity, maxQuoteQuantity, selfTradeBehavi
             pubkey,
         })),
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         PlaceSpotOrder2: {
             side,
             limitPrice,
@@ -448,7 +448,7 @@ function makeUpdateRootBankInstruction(programId, mangoGroupPk, mangoCachePk, ro
             pubkey,
         })),
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         UpdateRootBank: {},
     });
     return new web3_js_1.TransactionInstruction({
@@ -464,7 +464,7 @@ function makeAddOracleInstruction(programId, mangoGroupPk, oraclePk, adminPk) {
         { isSigner: false, isWritable: true, pubkey: oraclePk },
         { isSigner: true, isWritable: false, pubkey: adminPk },
     ];
-    const data = layout_1.encodeMangoInstruction({ AddOracle: {} });
+    const data = (0, layout_1.encodeMangoInstruction)({ AddOracle: {} });
     return new web3_js_1.TransactionInstruction({
         keys,
         data,
@@ -478,7 +478,7 @@ function makeSetOracleInstruction(programId, mangoGroupPk, oraclePk, adminPk, pr
         { isSigner: false, isWritable: true, pubkey: oraclePk },
         { isSigner: true, isWritable: false, pubkey: adminPk },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         SetOracle: { price },
     });
     return new web3_js_1.TransactionInstruction({
@@ -499,7 +499,7 @@ function makeAddPerpMarketInstruction(programId, mangoGroupPk, oraclePk, perpMar
         { isSigner: false, isWritable: false, pubkey: mngoVaultPk },
         { isSigner: true, isWritable: false, pubkey: adminPk },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         AddPerpMarket: {
             maintLeverage,
             initLeverage,
@@ -538,7 +538,7 @@ function makeCreatePerpMarketInstruction(programId, mangoGroupPk, oraclePk, perp
         { isSigner: false, isWritable: false, pubkey: spl_token_1.TOKEN_PROGRAM_ID },
         { isSigner: false, isWritable: false, pubkey: web3_js_1.SYSVAR_RENT_PUBKEY },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         CreatePerpMarket: {
             maintLeverage,
             initLeverage,
@@ -574,7 +574,7 @@ function makeCachePerpMarketsInstruction(programId, mangoGroupPk, mangoCachePk, 
             pubkey,
         })),
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         CachePerpMarkets: {},
     });
     return new web3_js_1.TransactionInstruction({
@@ -593,7 +593,7 @@ function makeSettlePnlInstruction(programId, mangoGroupPk, mangoAccountAPk, mang
         { isSigner: false, isWritable: false, pubkey: rootBankPk },
         { isSigner: false, isWritable: true, pubkey: nodeBankPk },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         SettlePnl: {
             marketIndex,
         },
@@ -617,7 +617,7 @@ function makeConsumeEventsInstruction(programId, mangoGroupPk, mangoCachePk, per
             pubkey,
         })),
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         ConsumeEvents: { limit },
     });
     return new web3_js_1.TransactionInstruction({
@@ -650,7 +650,7 @@ function makePlacePerpOrderInstruction(programId, mangoGroupPk, mangoAccountPk, 
             pubkey: referrerMangoAccountPk,
         });
     }
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         PlacePerpOrder: {
             price,
             quantity,
@@ -697,7 +697,7 @@ orderType, reduceOnly, referrerMangoAccountPk, expiryTimestamp) {
             pubkey: referrerMangoAccountPk,
         });
     }
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         PlacePerpOrder2: {
             price,
             maxBaseQuantity,
@@ -725,7 +725,7 @@ function makeUpdateFundingInstruction(programId, mangoGroupPk, mangoCachePk, per
         { isSigner: false, isWritable: false, pubkey: bidsPk },
         { isSigner: false, isWritable: false, pubkey: asksPk },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         UpdateFunding: {},
     });
     return new web3_js_1.TransactionInstruction({
@@ -762,7 +762,7 @@ function makeForceCancelSpotOrdersInstruction(programId, mangoGroupPk, mangoCach
             pubkey,
         })),
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         ForceCancelSpotOrders: {
             limit,
         },
@@ -788,7 +788,7 @@ function makeForceCancelPerpOrdersInstruction(programId, mangoGroupPk, mangoCach
             pubkey,
         })),
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         ForceCancelPerpOrders: {
             limit,
         },
@@ -822,7 +822,7 @@ function makeLiquidateTokenAndTokenInstruction(programId, mangoGroupPk, mangoCac
             pubkey,
         })),
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         LiquidateTokenAndToken: {
             maxLiabTransfer,
         },
@@ -854,7 +854,7 @@ function makeLiquidateTokenAndPerpInstruction(programId, mangoGroupPk, mangoCach
             pubkey,
         })),
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         LiquidateTokenAndPerp: {
             assetType,
             assetIndex,
@@ -890,7 +890,7 @@ function makeLiquidatePerpMarketInstruction(programId, mangoGroupPk, mangoCacheP
             pubkey,
         })),
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         LiquidatePerpMarket: {
             baseTransferRequest,
         },
@@ -915,7 +915,7 @@ function makeSettleFeesInstruction(programId, mangoGroupPk, mangoCachePk, perpMa
         { isSigner: false, isWritable: false, pubkey: signerPk },
         { isSigner: false, isWritable: false, pubkey: spl_token_1.TOKEN_PROGRAM_ID },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         SettleFees: {},
     });
     return new web3_js_1.TransactionInstruction({
@@ -945,7 +945,7 @@ function makeResolvePerpBankruptcyInstruction(programId, mangoGroupPk, mangoCach
             pubkey,
         })),
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         ResolvePerpBankruptcy: {
             liabIndex,
             maxLiabTransfer,
@@ -984,7 +984,7 @@ function makeResolveTokenBankruptcyInstruction(programId, mangoGroupPk, mangoCac
             pubkey,
         })),
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         ResolveTokenBankruptcy: {
             maxLiabTransfer,
         },
@@ -1010,7 +1010,7 @@ function makeRedeemMngoInstruction(programId, mangoGroup, mangoCache, mangoAccou
         { isSigner: false, isWritable: false, pubkey: signer },
         { isSigner: false, isWritable: false, pubkey: spl_token_1.TOKEN_PROGRAM_ID },
     ];
-    const data = layout_1.encodeMangoInstruction({ RedeemMngo: {} });
+    const data = (0, layout_1.encodeMangoInstruction)({ RedeemMngo: {} });
     return new web3_js_1.TransactionInstruction({ keys, data, programId });
 }
 exports.makeRedeemMngoInstruction = makeRedeemMngoInstruction;
@@ -1026,7 +1026,7 @@ function makeAddMangoAccountInfoInstruction(programId, mangoGroup, mangoAccount,
         throw new Error('info string too long. Must be less than or equal to 32 bytes');
     }
     const infoArray = new Uint8Array(encoded, 0, layout_1.INFO_LEN);
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         AddMangoAccountInfo: { info: infoArray },
     });
     return new web3_js_1.TransactionInstruction({ keys, data, programId });
@@ -1041,7 +1041,7 @@ function makeDepositMsrmInstruction(programId, mangoGroup, mangoAccount, owner, 
         { isSigner: false, isWritable: true, pubkey: msrmVault },
         { isSigner: false, isWritable: false, pubkey: spl_token_1.TOKEN_PROGRAM_ID },
     ];
-    const data = layout_1.encodeMangoInstruction({ DepositMsrm: { quantity } });
+    const data = (0, layout_1.encodeMangoInstruction)({ DepositMsrm: { quantity } });
     return new web3_js_1.TransactionInstruction({ keys, data, programId });
 }
 exports.makeDepositMsrmInstruction = makeDepositMsrmInstruction;
@@ -1055,7 +1055,7 @@ function makeWithdrawMsrmInstruction(programId, mangoGroup, mangoAccount, owner,
         { isSigner: false, isWritable: false, pubkey: signer },
         { isSigner: false, isWritable: false, pubkey: spl_token_1.TOKEN_PROGRAM_ID },
     ];
-    const data = layout_1.encodeMangoInstruction({ WithdrawMsrm: { quantity } });
+    const data = (0, layout_1.encodeMangoInstruction)({ WithdrawMsrm: { quantity } });
     return new web3_js_1.TransactionInstruction({ keys, data, programId });
 }
 exports.makeWithdrawMsrmInstruction = makeWithdrawMsrmInstruction;
@@ -1065,7 +1065,7 @@ function makeChangePerpMarketParamsInstruction(programId, mangoGroupPk, perpMark
         { isSigner: false, isWritable: true, pubkey: perpMarketPk },
         { isSigner: true, isWritable: false, pubkey: adminPk },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         ChangePerpMarketParams: {
             maintLeverageOption: maintLeverage !== undefined,
             maintLeverage: maintLeverage !== undefined ? maintLeverage : fixednum_1.ZERO_I80F48,
@@ -1102,7 +1102,7 @@ function makeChangePerpMarketParams2Instruction(programId, mangoGroupPk, perpMar
         { isSigner: false, isWritable: true, pubkey: perpMarketPk },
         { isSigner: true, isWritable: false, pubkey: adminPk },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         ChangePerpMarketParams2: {
             maintLeverageOption: maintLeverage !== undefined,
             maintLeverage: maintLeverage !== undefined ? maintLeverage : fixednum_1.ZERO_I80F48,
@@ -1143,7 +1143,7 @@ function makeSetGroupAdminInstruction(programId, mangoGroupPk, newAdminPk, admin
         { isSigner: false, isWritable: true, pubkey: newAdminPk },
         { isSigner: true, isWritable: false, pubkey: adminPk },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         SetGroupAdmin: {},
     });
     return new web3_js_1.TransactionInstruction({
@@ -1161,7 +1161,7 @@ function makeRemoveAdvancedOrderInstruction(programId, mangoGroupPk, mangoAccoun
         { isSigner: false, isWritable: true, pubkey: advancedOrdersPk },
         { isSigner: false, isWritable: false, pubkey: web3_js_1.SystemProgram.programId },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         RemoveAdvancedOrder: { orderIndex },
     });
     return new web3_js_1.TransactionInstruction({
@@ -1179,7 +1179,7 @@ function makeInitAdvancedOrdersInstruction(programId, mangoGroupPk, mangoAccount
         { isSigner: false, isWritable: true, pubkey: advancedOrdersPk },
         { isSigner: false, isWritable: false, pubkey: web3_js_1.SystemProgram.programId },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         InitAdvancedOrders: {},
     });
     return new web3_js_1.TransactionInstruction({
@@ -1204,7 +1204,7 @@ function makeAddPerpTriggerOrderInstruction(programId, mangoGroupPk, mangoAccoun
             pubkey,
         })),
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         AddPerpTriggerOrder: {
             price,
             quantity,
@@ -1240,7 +1240,7 @@ function makeExecutePerpTriggerOrderInstruction(programId, mangoGroupPk, mangoAc
             pubkey,
         })),
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         ExecutePerpTriggerOrder: {
             orderIndex,
         },
@@ -1258,7 +1258,7 @@ function makeCloseMangoAccountInstruction(programId, mangoGroupPk, mangoAccountP
         { isSigner: false, isWritable: true, pubkey: mangoAccountPk },
         { isSigner: true, isWritable: true, pubkey: ownerPk },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         CloseMangoAccount: {},
     });
     return new web3_js_1.TransactionInstruction({
@@ -1278,7 +1278,7 @@ function makeCloseSpotOpenOrdersInstruction(programId, mangoGroupPk, mangoAccoun
         { isSigner: false, isWritable: false, pubkey: spotMarketPk },
         { isSigner: false, isWritable: false, pubkey: signerPk },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         CloseSpotOpenOrders: {},
     });
     return new web3_js_1.TransactionInstruction({
@@ -1295,7 +1295,7 @@ function makeCloseAdvancedOrdersInstruction(programId, mangoGroupPk, mangoAccoun
         { isSigner: true, isWritable: true, pubkey: ownerPk },
         { isSigner: false, isWritable: true, pubkey: advancedOrdersPk },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         CloseAdvancedOrders: {},
     });
     return new web3_js_1.TransactionInstruction({
@@ -1312,7 +1312,7 @@ function makeCreateDustAccountInstruction(programId, mangoGroupPk, mangoAccountP
         { isSigner: true, isWritable: true, pubkey: payerPK },
         { isSigner: false, isWritable: false, pubkey: web3_js_1.SystemProgram.programId },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         CreateDustAccount: {},
     });
     return new web3_js_1.TransactionInstruction({
@@ -1332,7 +1332,7 @@ function makeResolveDustInstruction(programId, mangoGroupPk, mangoAccountPk, own
         { isSigner: false, isWritable: true, pubkey: nodeBankPk },
         { isSigner: false, isWritable: false, pubkey: mangoCachePk },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         ResolveDust: {},
     });
     return new web3_js_1.TransactionInstruction({
@@ -1352,7 +1352,7 @@ function makeUpdateMarginBasketInstruction(programId, mangoGroupPk, mangoAccount
             pubkey,
         })),
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         UpdateMarginBasket: {},
     });
     return new web3_js_1.TransactionInstruction({
@@ -1370,7 +1370,7 @@ function makeCreateMangoAccountInstruction(programId, mangoGroupPk, mangoAccount
         { isSigner: false, isWritable: false, pubkey: web3_js_1.SystemProgram.programId },
         { isSigner: true, isWritable: true, pubkey: payer },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         CreateMangoAccount: {
             accountNum,
         },
@@ -1388,7 +1388,7 @@ function makeUpgradeMangoAccountV0V1Instruction(programId, mangoGroupPk, mangoAc
         { isSigner: false, isWritable: true, pubkey: mangoAccountPk },
         { isSigner: true, isWritable: false, pubkey: ownerPk },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         UpgradeMangoAccountV0V1: {},
     });
     return new web3_js_1.TransactionInstruction({
@@ -1403,7 +1403,7 @@ function makeChangeMaxMangoAccountsInstruction(programId, mangoGroupPk, adminPk,
         { isSigner: false, isWritable: true, pubkey: mangoGroupPk },
         { isSigner: true, isWritable: false, pubkey: adminPk },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         ChangeMaxMangoAccounts: {
             maxMangoAccounts,
         },
@@ -1424,7 +1424,7 @@ function makeCancelPerpOrdersSideInstruction(programId, mangoGroupPk, mangoAccou
         { isSigner: false, isWritable: true, pubkey: bidsPk },
         { isSigner: false, isWritable: true, pubkey: asksPk },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         CancelPerpOrdersSide: {
             side,
             limit,
@@ -1444,7 +1444,7 @@ function makeSetDelegateInstruction(programId, mangoGroupPk, mangoAccountPk, own
         { isSigner: true, isWritable: false, pubkey: ownerPk },
         { isSigner: false, isWritable: false, pubkey: delegatePk },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         SetDelegate: {},
     });
     return new web3_js_1.TransactionInstruction({
@@ -1461,7 +1461,7 @@ function makeChangeSpotMarketParamsInstruction(programId, mangoGroupPk, spotMark
         { isSigner: false, isWritable: true, pubkey: rootBankPk },
         { isSigner: true, isWritable: false, pubkey: adminPk },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         ChangeSpotMarketParams: {
             maintLeverageOption: maintLeverage !== undefined,
             maintLeverage: maintLeverage != undefined ? maintLeverage : fixednum_1.ZERO_I80F48,
@@ -1491,7 +1491,7 @@ function makeChangeReferralFeeParamsInstruction(programId, mangoGroupPk, adminPk
         { isSigner: false, isWritable: true, pubkey: mangoGroupPk },
         { isSigner: true, isWritable: false, pubkey: adminPk },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         ChangeReferralFeeParams: {
             refSurchargeCentibps,
             refShareCentibps,
@@ -1515,7 +1515,7 @@ function makeSetReferrerMemoryInstruction(programId, mangoGroupPk, mangoAccountP
         { isSigner: true, isWritable: true, pubkey: payerPk },
         { isSigner: false, isWritable: false, pubkey: web3_js_1.SystemProgram.programId },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         SetReferrerMemory: {},
     });
     return new web3_js_1.TransactionInstruction({
@@ -1533,7 +1533,7 @@ function makeRegisterReferrerIdInstruction(programId, mangoGroupPk, referrerMang
         { isSigner: true, isWritable: true, pubkey: payerPk },
         { isSigner: false, isWritable: false, pubkey: web3_js_1.SystemProgram.programId },
     ];
-    const data = layout_1.encodeMangoInstruction({
+    const data = (0, layout_1.encodeMangoInstruction)({
         RegisterReferrerId: { referrerId },
     });
     return new web3_js_1.TransactionInstruction({

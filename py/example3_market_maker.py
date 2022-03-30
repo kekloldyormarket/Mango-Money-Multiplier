@@ -91,7 +91,7 @@ class MM:
                 for balance in self.mango_service_v3_client.get_balances():
                     ab = (balance.json())
                     self.balance = self.balance + (json.loads(ab)['usd_value'])
-                self.balance = self.balance * 3.138
+                self.balance = self.balance * 1.138
                 self.positions = [
                     position
                     for position in self.mango_service_v3_client.get_open_positions()
@@ -158,18 +158,18 @@ class MM:
                     wantsInKind[self.MARKET] = (LALA['wants'][self.MARKET] * self.balance) / mid
                     print('2: ' + str(wantsInKind[self.MARKET]))
                 print('diff: ' + str(diff))
-                if abs(diff) <= 0: #(self.balance / 50.5) / self.mid:
+                if abs(diff) <= (self.balance / 50.5) / self.mid:
                     if wantsInKind[self.MARKET] > 0:
                         self.MAX_LONG_POSITION = wantsInKind[self.MARKET]
-                        self.SIZE = abs(self.MAX_LONG_POSITION / 100 * 10)
+                        self.SIZE = abs(self.MAX_LONG_POSITION / 100 * 20)
                         if  self.long_position_limit_exceeded():
-                            self.MAX_SHORT_POSITION = wantsInKind[self.MARKET] / 10 * -1
+                            self.MAX_SHORT_POSITION = wantsInKind[self.MARKET] / 100 * 20 * -1
                     else:
 
                         self.MAX_SHORT_POSITION =  wantsInKind[self.MARKET]
                         self.SIZE = abs(self.MAX_SHORT_POSITION / 100 * 10)
                         if  self.short_position_limit_exceeded():
-                            self.MAX_LONG_POSITION = wantsInKind[self.MARKET] / 10 * -1
+                            self.MAX_LONG_POSITION = wantsInKind[self.MARKET] / 100 * 2 * -1
                 """ elif diff >= -1 * (self.balance / 100) / mid:
                     if wantsInKind[self.MARKET] > 0:
                         self.MAX_LONG_POSITION = wantsInKind[self.MARKET]
@@ -436,13 +436,13 @@ price=order.price,
             if 'SPOT' in self.MARKET:
                 if len(self.balances2) == 0:
                     return False
-                return self.balances2[0].total <= self.MAX_LONG_POSITION
+                return self.balances2[0].total >= self.MAX_LONG_POSITION
 
             else: 
 
                 if len(self.positions) == 0:
                     return False
-                return self.positions[0].net_size <= self.MAX_LONG_POSITION
+                return self.positions[0].net_size >= self.MAX_LONG_POSITION
 
         except Exception as e: 
             print(str(e))
@@ -504,51 +504,54 @@ import shutil, json
 
 def aThread(market):
     print('starting ' + market)
-    mm = MM(market)
-    
-    logger.info("cancelling all orders...")
-
-    try:
-        sleep(random.randint(1,20))
-        mm.mango_service_v3_client.cancel_all_orders()
-    except Exception as e:
-        
-        logger.error(f"Exception: {e}")
-
-    while True:
-        CYCLE_INTERVAL = random.randint(2,49) * 2#mm.mango_service_v3_client.lenAccs
-        
-
-        logger.info("next cycle...")
-        try:
-            mm.check_file_change()
-            mm.log_recent_trades()
-            mm.get_ticker()
+    if market.split('-')[0] in LALA:
+        if LALA[market.split('-')[0]] > 0 or LALA[market.split('-')[0]] < 0:
+            mm = MM(market)
             
-            mm.place_orders()
-            time.sleep(CYCLE_INTERVAL)
+            logger.info("cancelling all orders...")
 
-            mm.mango_service_v3_client = MangoServiceV3Client()
-            logger.info("")
-        except Exception as e:
-            logger.error(f"Exception: {e}")
-            time.sleep(CYCLE_INTERVAL * 100)
-            logger.info("")
+            try:
+                sleep(random.randint(1,20))
+                mm.mango_service_v3_client.cancel_all_orders()
+            except Exception as e:
+                
+                logger.error(f"Exception: {e}")
+
+            while True:
+                CYCLE_INTERVAL = random.randint(2,49) * 2#mm.mango_service_v3_client.lenAccs
+                
+
+                logger.info("next cycle...")
+                try:
+                    mm.check_file_change()
+                    mm.log_recent_trades()
+                    mm.get_ticker()
+                    
+                    mm.place_orders()
+                    time.sleep(CYCLE_INTERVAL)
+
+                    mm.mango_service_v3_client = MangoServiceV3Client()
+                    logger.info("")
+                except Exception as e:
+                    logger.error(f"Exception: {e}")
+                    time.sleep(CYCLE_INTERVAL * 100)
+                    logger.info("")
+    else:
+        sleep(random.randint(5,15))
+        return aThread(market)
 from time import sleep
+import requests
 if __name__ == "__main__":
     done = False 
     while done == False:
         try:
-            shutil.copy("./lala.json", "./lala2.json")
-            shutil.copy("./lala.json", "../lala2.json")
-            
-            with open("./lala2.json", "r") as f:
-                LALA = json.loads(f.read())
-                done = True
+            LALA = requests.get("http://localhost/lala/").json()['result']
+            #print(lala['arr'])
+            done = True
         except Exception as e:
             try:
-                with open("./lala.json", "r") as f:
-                    LALA = json.loads(f.read())
+                LALA = requests.get("http://localhost/lala/").json()['result']
+                #print(lala['arr'])
                 done = True
             except Exception as e:
                 
@@ -563,16 +566,13 @@ if __name__ == "__main__":
         done = False 
         while done == False:
             try:
-                shutil.copy("./lala.json", "./lala2.json")
-                shutil.copy("./lala.json", "../lala2.json")
-                
-                with open("./lala2.json", "r") as f:
-                    LALA = json.loads(f.read())
-                    done = True
+                LALA = requests.get("http://localhost/lala/").json()['result']
+                #print(lala['arr'])
+                done = True
             except Exception as e:
                 try:
-                    with open("./lala.json", "r") as f:
-                        LALA = json.loads(f.read())
+                    LALA = requests.get("http://localhost/lala/").json()['result']
+                    #print(lala['arr'])
                     done = True
                 except Exception as e:
                     

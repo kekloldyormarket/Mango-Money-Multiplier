@@ -23,7 +23,7 @@ class RootBank {
     loadNodeBanks(connection) {
         return __awaiter(this, void 0, void 0, function* () {
             const filteredNodeBanks = this.nodeBanks.filter((nb) => !nb.equals(utils_1.zeroKey));
-            const accounts = yield utils_1.getMultipleAccounts(connection, filteredNodeBanks);
+            const accounts = yield (0, utils_1.getMultipleAccounts)(connection, filteredNodeBanks);
             const nodeBankAccounts = accounts.map((acc) => {
                 const decoded = layout_1.NodeBankLayout.decode(acc.accountInfo.data);
                 return new layout_1.NodeBank(acc.publicKey, decoded);
@@ -52,11 +52,11 @@ class RootBank {
     }
     getUiTotalDeposit(mangoGroup) {
         const tokenIndex = mangoGroup.getRootBankIndex(this.publicKey);
-        return utils_1.nativeI80F48ToUi(this.getNativeTotalDeposit(), mangoGroup.tokens[tokenIndex].decimals);
+        return (0, utils_1.nativeI80F48ToUi)(this.getNativeTotalDeposit(), mangoGroup.tokens[tokenIndex].decimals);
     }
     getUiTotalBorrow(mangoGroup) {
         const tokenIndex = mangoGroup.getRootBankIndex(this.publicKey);
-        return utils_1.nativeI80F48ToUi(this.getNativeTotalBorrow(), mangoGroup.tokens[tokenIndex].decimals);
+        return (0, utils_1.nativeI80F48ToUi)(this.getNativeTotalBorrow(), mangoGroup.tokens[tokenIndex].decimals);
     }
     getBorrowRate(mangoGroup) {
         const totalBorrows = this.getUiTotalBorrow(mangoGroup);

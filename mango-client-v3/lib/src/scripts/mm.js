@@ -67,7 +67,7 @@ function mm() {
         if (!marketName) {
             throw new Error('Please add env variable MARKET');
         }
-        const perpMarketConfig = config_1.getPerpMarketByBaseSymbol(groupIds, marketName.toUpperCase());
+        const perpMarketConfig = (0, config_1.getPerpMarketByBaseSymbol)(groupIds, marketName.toUpperCase());
         const marketIndex = perpMarketConfig.marketIndex;
         const perpMarket = yield client.getPerpMarket(perpMarketConfig.publicKey, perpMarketConfig.baseDecimals, perpMarketConfig.quoteDecimals);
         const sizePerc = parseFloat(process.env.SIZE_PERC || '0.1');
@@ -148,7 +148,7 @@ function mm() {
                     bestBid.priceLots.toNumber() / modelAskPrice.toNumber() - 1 >
                         spammerCharge * charge + 0.0005) {
                     console.log(`${marketName}-PERP taking best bid spammer`);
-                    const takerSell = index_1.makePlacePerpOrderInstruction(mangoProgramId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, mangoCache.publicKey, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, perpMarket.eventQueue, mangoAccount.getOpenOrdersKeysInBasket(), bestBid.priceLots, index_1.ONE_BN, new bn_js_1.BN(Date.now()), 'sell', 'ioc');
+                    const takerSell = (0, index_1.makePlacePerpOrderInstruction)(mangoProgramId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, mangoCache.publicKey, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, perpMarket.eventQueue, mangoAccount.getOpenOrdersKeysInBasket(), bestBid.priceLots, index_1.ONE_BN, new bn_js_1.BN(Date.now()), 'sell', 'ioc');
                     tx.add(takerSell);
                 }
                 else if (takeSpammers &&
@@ -157,14 +157,14 @@ function mm() {
                     modelBidPrice.toNumber() / bestAsk.priceLots.toNumber() - 1 >
                         spammerCharge * charge + 0.0005) {
                     console.log(`${marketName}-PERP taking best ask spammer`);
-                    const takerBuy = index_1.makePlacePerpOrderInstruction(mangoProgramId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, mangoCache.publicKey, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, perpMarket.eventQueue, mangoAccount.getOpenOrdersKeysInBasket(), bestAsk.priceLots, index_1.ONE_BN, new bn_js_1.BN(Date.now()), 'buy', 'ioc');
+                    const takerBuy = (0, index_1.makePlacePerpOrderInstruction)(mangoProgramId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, mangoCache.publicKey, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, perpMarket.eventQueue, mangoAccount.getOpenOrdersKeysInBasket(), bestAsk.priceLots, index_1.ONE_BN, new bn_js_1.BN(Date.now()), 'buy', 'ioc');
                     tx.add(takerBuy);
                 }
                 if (moveOrders) {
                     // cancel all, requote
-                    const cancelAllInstr = index_1.makeCancelAllPerpOrdersInstruction(mangoProgramId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, new bn_js_1.BN(20));
-                    const placeBidInstr = index_1.makePlacePerpOrderInstruction(mangoProgramId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, mangoCache.publicKey, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, perpMarket.eventQueue, mangoAccount.getOpenOrdersKeysInBasket(), bookAdjBid, nativeBidSize, new bn_js_1.BN(Date.now()), 'buy', 'postOnlySlide');
-                    const placeAskInstr = index_1.makePlacePerpOrderInstruction(mangoProgramId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, mangoCache.publicKey, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, perpMarket.eventQueue, mangoAccount.getOpenOrdersKeysInBasket(), bookAdjAsk, nativeAskSize, new bn_js_1.BN(Date.now()), 'sell', 'postOnlySlide');
+                    const cancelAllInstr = (0, index_1.makeCancelAllPerpOrdersInstruction)(mangoProgramId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, new bn_js_1.BN(20));
+                    const placeBidInstr = (0, index_1.makePlacePerpOrderInstruction)(mangoProgramId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, mangoCache.publicKey, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, perpMarket.eventQueue, mangoAccount.getOpenOrdersKeysInBasket(), bookAdjBid, nativeBidSize, new bn_js_1.BN(Date.now()), 'buy', 'postOnlySlide');
+                    const placeAskInstr = (0, index_1.makePlacePerpOrderInstruction)(mangoProgramId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, mangoCache.publicKey, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, perpMarket.eventQueue, mangoAccount.getOpenOrdersKeysInBasket(), bookAdjAsk, nativeAskSize, new bn_js_1.BN(Date.now()), 'sell', 'postOnlySlide');
                     tx.add(cancelAllInstr);
                     tx.add(placeBidInstr);
                     tx.add(placeAskInstr);
@@ -183,16 +183,16 @@ function mm() {
             }
             finally {
                 console.log(`sleeping for ${interval / 1000}s`);
-                yield index_1.sleep(interval);
+                yield (0, index_1.sleep)(interval);
             }
         }
     });
 }
 function onExit(client, payer, mangoProgramId, mangoGroup, perpMarket, mangoAccountPk) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield index_1.sleep(control.interval);
+        yield (0, index_1.sleep)(control.interval);
         const mangoAccount = yield client.getMangoAccount(mangoAccountPk, mangoGroup.dexProgramId);
-        const cancelAllInstr = index_1.makeCancelAllPerpOrdersInstruction(mangoProgramId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, new bn_js_1.BN(20));
+        const cancelAllInstr = (0, index_1.makeCancelAllPerpOrdersInstruction)(mangoProgramId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, new bn_js_1.BN(20));
         const tx = new web3_js_1.Transaction();
         tx.add(cancelAllInstr);
         const txid = yield client.sendTransaction(tx, payer, []);

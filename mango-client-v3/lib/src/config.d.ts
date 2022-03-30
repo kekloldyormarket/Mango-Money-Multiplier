@@ -57,10 +57,10 @@ export interface GroupConfig {
     tokens: TokenConfig[];
 }
 export declare function getMarketIndexBySymbol(group: GroupConfig, symbol: string): number;
-export declare function getOracleBySymbol(group: GroupConfig, symbol: string): OracleConfig | undefined;
-export declare function getPerpMarketByBaseSymbol(group: GroupConfig, symbol: string): PerpMarketConfig | undefined;
+export declare function getOracleBySymbol(group: GroupConfig, symbol: string): OracleConfig;
+export declare function getPerpMarketByBaseSymbol(group: GroupConfig, symbol: string): PerpMarketConfig;
 export declare function getPerpMarketByIndex(group: GroupConfig, marketIndex: number): PerpMarketConfig | undefined;
-export declare function getSpotMarketByBaseSymbol(group: GroupConfig, symbol: string): SpotMarketConfig | undefined;
+export declare function getSpotMarketByBaseSymbol(group: GroupConfig, symbol: string): SpotMarketConfig;
 export declare type MarketKind = 'spot' | 'perp';
 export interface MarketConfig {
     kind: MarketKind;
@@ -76,8 +76,8 @@ export interface MarketConfig {
 }
 export declare function getAllMarkets(group: GroupConfig): MarketConfig[];
 export declare function getMarketByBaseSymbolAndKind(group: GroupConfig, symbol: string, kind: MarketKind): MarketConfig;
-export declare function getMarketByPublicKey(group: GroupConfig, key: string | Buffer | PublicKey): MarketConfig | undefined;
-export declare function getTokenByMint(group: GroupConfig, mint: string | Buffer | PublicKey): TokenConfig | undefined;
+export declare function getMarketByPublicKey(group: GroupConfig, key: string | Buffer | PublicKey): MarketConfig;
+export declare function getTokenByMint(group: GroupConfig, mint: string | Buffer | PublicKey): TokenConfig;
 export declare function getTokenBySymbol(group: GroupConfig, symbol: string): TokenConfig;
 export declare class Config {
     cluster_urls: Record<Cluster, string>;
@@ -85,8 +85,8 @@ export declare class Config {
     constructor(json: any);
     static ids(): Config;
     toJson(): any;
-    getGroup(cluster: Cluster, name: string): GroupConfig | undefined;
-    getGroupWithName(name: string): GroupConfig | undefined;
+    getGroup(cluster: Cluster, name: string): GroupConfig;
+    getGroupWithName(name: string): GroupConfig;
     storeGroup(group: GroupConfig): void;
 }
 //# sourceMappingURL=config.d.ts.map

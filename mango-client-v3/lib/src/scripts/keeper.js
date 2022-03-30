@@ -1,7 +1,11 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -110,10 +114,10 @@ function processUpdateCache(mangoGroup) {
                 const endIndex = i * batchSize + batchSize;
                 const cacheTransaction = new web3_js_1.Transaction();
                 if (shouldUpdateRootBankCache) {
-                    cacheTransaction.add(instruction_1.makeCacheRootBankInstruction(mangoProgramId, mangoGroup.publicKey, mangoGroup.mangoCache, rootBanks.slice(startIndex, endIndex)));
+                    cacheTransaction.add((0, instruction_1.makeCacheRootBankInstruction)(mangoProgramId, mangoGroup.publicKey, mangoGroup.mangoCache, rootBanks.slice(startIndex, endIndex)));
                 }
-                cacheTransaction.add(instruction_1.makeCachePricesInstruction(mangoProgramId, mangoGroup.publicKey, mangoGroup.mangoCache, oracles.slice(startIndex, endIndex)));
-                cacheTransaction.add(instruction_1.makeCachePerpMarketsInstruction(mangoProgramId, mangoGroup.publicKey, mangoGroup.mangoCache, perpMarkets.slice(startIndex, endIndex)));
+                cacheTransaction.add((0, instruction_1.makeCachePricesInstruction)(mangoProgramId, mangoGroup.publicKey, mangoGroup.mangoCache, oracles.slice(startIndex, endIndex)));
+                cacheTransaction.add((0, instruction_1.makeCachePerpMarketsInstruction)(mangoProgramId, mangoGroup.publicKey, mangoGroup.mangoCache, perpMarkets.slice(startIndex, endIndex)));
                 if (cacheTransaction.instructions.length > 0) {
                     promises.push(client.sendTransaction(cacheTransaction, payer, []));
                 }
@@ -132,7 +136,7 @@ function processConsumeEvents(mangoGroup, perpMarkets) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const eventQueuePks = perpMarkets.map((mkt) => mkt.eventQueue);
-            const eventQueueAccts = yield utils_1.getMultipleAccounts(connection, eventQueuePks);
+            const eventQueueAccts = yield (0, utils_1.getMultipleAccounts)(connection, eventQueuePks);
             const perpMktAndEventQueue = eventQueueAccts.map(({ publicKey, accountInfo }) => {
                 const parsed = layout_1.PerpEventQueueLayout.decode(accountInfo === null || accountInfo === void 0 ? void 0 : accountInfo.data);
                 const eventQueue = new PerpEventQueue_1.default(parsed);
@@ -146,7 +150,7 @@ function processConsumeEvents(mangoGroup, perpMarkets) {
                 const events = eventQueue.getUnconsumedEvents();
                 if (events.length === 0) {
                     // console.log('No events to consume');
-                    return __1.promiseUndef();
+                    return (0, __1.promiseUndef)();
                 }
                 const accounts = new Set();
                 for (const event of events) {
@@ -196,12 +200,12 @@ function processKeeperTransactions(mangoGroup, perpMarkets) {
                 const endIndex = i * batchSize + batchSize;
                 const updateRootBankTransaction = new web3_js_1.Transaction();
                 groupIds.tokens.slice(startIndex, endIndex).forEach((token) => {
-                    updateRootBankTransaction.add(instruction_1.makeUpdateRootBankInstruction(mangoProgramId, mangoGroup.publicKey, mangoGroup.mangoCache, token.rootKey, token.nodeKeys));
+                    updateRootBankTransaction.add((0, instruction_1.makeUpdateRootBankInstruction)(mangoProgramId, mangoGroup.publicKey, mangoGroup.mangoCache, token.rootKey, token.nodeKeys));
                 });
                 const updateFundingTransaction = new web3_js_1.Transaction();
                 filteredPerpMarkets.slice(startIndex, endIndex).forEach((market) => {
                     if (market) {
-                        updateFundingTransaction.add(instruction_1.makeUpdateFundingInstruction(mangoProgramId, mangoGroup.publicKey, mangoGroup.mangoCache, market.publicKey, market.bids, market.asks));
+                        updateFundingTransaction.add((0, instruction_1.makeUpdateFundingInstruction)(mangoProgramId, mangoGroup.publicKey, mangoGroup.mangoCache, market.publicKey, market.bids, market.asks));
                     }
                 });
                 if (updateRootBankTransaction.instructions.length > 0) {

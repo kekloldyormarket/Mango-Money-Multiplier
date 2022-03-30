@@ -23,24 +23,24 @@ function addPerpMarket(connection, payer, groupConfig, symbol, maintLeverage, in
         });
         const client = new client_1.MangoClient(connection, groupConfig.mangoProgramId);
         let group = yield client.getMangoGroup(groupConfig.publicKey);
-        const oracleDesc = config_1.getOracleBySymbol(groupConfig, symbol);
+        const oracleDesc = (0, config_1.getOracleBySymbol)(groupConfig, symbol);
         const marketIndex = group.getOracleIndex(oracleDesc.publicKey);
         // Adding perp market
         let nativeMngoPerPeriod = 0;
         if (rate !== 0) {
-            const token = config_1.getTokenBySymbol(groupConfig, 'MNGO');
+            const token = (0, config_1.getTokenBySymbol)(groupConfig, 'MNGO');
             if (token === undefined) {
                 throw new Error('MNGO not found in group config');
             }
             else {
-                nativeMngoPerPeriod = __1.uiToNative(mngoPerPeriod, token.decimals).toNumber();
+                nativeMngoPerPeriod = (0, __1.uiToNative)(mngoPerPeriod, token.decimals).toNumber();
             }
         }
         yield client.addPerpMarket(group, oracleDesc.publicKey, config_1.mngoMints[groupConfig.cluster], payer, maintLeverage, initLeverage, liquidationFee, makerFee, takerFee, baseLotSize, quoteLotSize, maxNumEvents, rate, maxDepthBps, targetPeriodLength, nativeMngoPerPeriod, exp);
         group = yield client.getMangoGroup(groupConfig.publicKey);
         const marketPk = group.perpMarkets[marketIndex].perpMarket;
-        const baseDecimals = (_a = config_1.getTokenBySymbol(groupConfig, symbol)) === null || _a === void 0 ? void 0 : _a.decimals;
-        const quoteDecimals = (_b = config_1.getTokenBySymbol(groupConfig, groupConfig.quoteSymbol)) === null || _b === void 0 ? void 0 : _b.decimals;
+        const baseDecimals = (_a = (0, config_1.getTokenBySymbol)(groupConfig, symbol)) === null || _a === void 0 ? void 0 : _a.decimals;
+        const quoteDecimals = (_b = (0, config_1.getTokenBySymbol)(groupConfig, groupConfig.quoteSymbol)) === null || _b === void 0 ? void 0 : _b.decimals;
         const market = yield client.getPerpMarket(marketPk, baseDecimals, quoteDecimals);
         const marketDesc = {
             name: `${symbol}-PERP`,
@@ -53,7 +53,7 @@ function addPerpMarket(connection, payer, groupConfig, symbol, maintLeverage, in
             asksKey: market.asks,
             eventsKey: market.eventQueue,
         };
-        const marketConfig = config_1.getPerpMarketByBaseSymbol(groupConfig, symbol);
+        const marketConfig = (0, config_1.getPerpMarketByBaseSymbol)(groupConfig, symbol);
         if (marketConfig) {
             Object.assign(marketConfig, marketDesc);
         }

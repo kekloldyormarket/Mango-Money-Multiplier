@@ -2,7 +2,11 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -110,7 +114,7 @@ function writeConfig(configPath, config) {
     fs.writeFileSync(configPath, JSON.stringify(config.toJson(), null, 2));
 }
 exports.writeConfig = writeConfig;
-yargs_1.default(helpers_1.hideBin(process.argv)).command('init-group <group> <mangoProgramId> <serumProgramId> <quote_mint> <fees_vault>', 'initialize a new group', (y) => {
+(0, yargs_1.default)((0, helpers_1.hideBin)(process.argv)).command('init-group <group> <mangoProgramId> <serumProgramId> <quote_mint> <fees_vault>', 'initialize a new group', (y) => {
     return y
         .positional(...groupDesc)
         .positional('mangoProgramId', {
@@ -167,13 +171,13 @@ yargs_1.default(helpers_1.hideBin(process.argv)).command('init-group <group> <ma
     const config = readConfig(args.config);
     const cluster = args.cluster;
     const connection = openConnection(config, cluster);
-    const result = yield initGroup_1.default(connection, account, cluster, args.group, mangoProgramId, serumProgramId, args.symbol, quoteMint, feesVault, args.valid_interval, args.quote_optimal_util, args.quote_optimal_rate, args.quote_max_rate);
+    const result = yield (0, initGroup_1.default)(connection, account, cluster, args.group, mangoProgramId, serumProgramId, args.symbol, quoteMint, feesVault, args.valid_interval, args.quote_optimal_util, args.quote_optimal_rate, args.quote_max_rate);
     console.log(result);
     config.storeGroup(result);
     writeConfig(args.config, config);
     process.exit(0);
 })).argv;
-yargs_1.default(helpers_1.hideBin(process.argv)).command('add-oracle <group> <symbol>', 'add an oracle to the group', (y) => {
+(0, yargs_1.default)((0, helpers_1.hideBin)(process.argv)).command('add-oracle <group> <symbol>', 'add an oracle to the group', (y) => {
     return y
         .positional(...groupDesc)
         .positional(...symbolDesc)
@@ -194,13 +198,13 @@ yargs_1.default(helpers_1.hideBin(process.argv)).command('add-oracle <group> <sy
     const group = config.getGroup(cluster, args.group);
     let result;
     if (args.provider === 'pyth') {
-        result = yield addPythOracle_1.default(connection, account, group, args.symbol);
+        result = yield (0, addPythOracle_1.default)(connection, account, group, args.symbol);
     }
     else if (args.provider === 'switchboard') {
-        result = yield addSwitchboardOracle_1.default(connection, account, group, args.symbol);
+        result = yield (0, addSwitchboardOracle_1.default)(connection, account, group, args.symbol);
     }
     else if (args.provider === 'stub') {
-        result = yield addStubOracle_1.default(connection, account, group, args.symbol);
+        result = yield (0, addStubOracle_1.default)(connection, account, group, args.symbol);
     }
     else {
         throw new Error();
@@ -209,7 +213,7 @@ yargs_1.default(helpers_1.hideBin(process.argv)).command('add-oracle <group> <sy
     writeConfig(args.config, config);
     process.exit(0);
 })).argv;
-yargs_1.default(helpers_1.hideBin(process.argv)).command('set-oracle <group> <symbol> <value>', 'set stub oracle to given value', (y) => {
+(0, yargs_1.default)((0, helpers_1.hideBin)(process.argv)).command('set-oracle <group> <symbol> <value>', 'set stub oracle to given value', (y) => {
     return y
         .positional(...groupDesc)
         .positional(...symbolDesc)
@@ -227,10 +231,10 @@ yargs_1.default(helpers_1.hideBin(process.argv)).command('set-oracle <group> <sy
     const cluster = args.cluster;
     const connection = openConnection(config, cluster);
     const group = config.getGroup(cluster, args.group);
-    yield setStubOracle_1.default(connection, account, group, args.symbol, args.value);
+    yield (0, setStubOracle_1.default)(connection, account, group, args.symbol, args.value);
     process.exit(0);
 })).argv;
-yargs_1.default(helpers_1.hideBin(process.argv)).command('add-perp-market <group> <symbol>', 'add a perp market to the group', (y) => {
+(0, yargs_1.default)((0, helpers_1.hideBin)(process.argv)).command('add-perp-market <group> <symbol>', 'add a perp market to the group', (y) => {
     return y
         .positional(...groupDesc)
         .positional(...symbolDesc)
@@ -297,12 +301,12 @@ yargs_1.default(helpers_1.hideBin(process.argv)).command('add-perp-market <group
     const cluster = args.cluster;
     const connection = openConnection(config, cluster);
     const group = config.getGroup(cluster, args.group);
-    const result = yield addPerpMarket_1.default(connection, account, group, args.symbol, args.maint_leverage, args.init_leverage, args.liquidation_fee, args.maker_fee, args.taker_fee, args.base_lot_size, args.quote_lot_size, args.max_num_events, args.rate, args.max_depth_bps, args.target_period_length, args.mngo_per_period, args.exp);
+    const result = yield (0, addPerpMarket_1.default)(connection, account, group, args.symbol, args.maint_leverage, args.init_leverage, args.liquidation_fee, args.maker_fee, args.taker_fee, args.base_lot_size, args.quote_lot_size, args.max_num_events, args.rate, args.max_depth_bps, args.target_period_length, args.mngo_per_period, args.exp);
     config.storeGroup(result);
     writeConfig(args.config, config);
     process.exit(0);
 })).argv;
-yargs_1.default(helpers_1.hideBin(process.argv)).command('add-spot-market <group> <symbol> <mint_pk>', 'add a spot market to the group', (y) => {
+(0, yargs_1.default)((0, helpers_1.hideBin)(process.argv)).command('add-spot-market <group> <symbol> <mint_pk>', 'add a spot market to the group', (y) => {
     return y
         .positional(...groupDesc)
         .positional(...symbolDesc)
@@ -363,26 +367,26 @@ yargs_1.default(helpers_1.hideBin(process.argv)).command('add-spot-market <group
     const cluster = args.cluster;
     const connection = openConnection(config, cluster);
     const group = config.getGroup(cluster, args.group);
-    const quoteMintPk = (_a = config_1.getTokenBySymbol(group, group.quoteSymbol)) === null || _a === void 0 ? void 0 : _a.mintKey;
+    const quoteMintPk = (_a = (0, config_1.getTokenBySymbol)(group, group.quoteSymbol)) === null || _a === void 0 ? void 0 : _a.mintKey;
     const market_pk = args.market_pk
         ? new web3_js_1.PublicKey(args.market_pk)
-        : yield listMarket_1.default(connection, account, group.mangoProgramId, new web3_js_1.PublicKey(args.mint_pk), quoteMintPk, args.base_lot_size, args.quote_lot_size, group.serumProgramId);
-    const result = yield addSpotMarket_1.default(connection, account, group, args.symbol, market_pk, new web3_js_1.PublicKey(args.mint_pk), args.maint_leverage, args.init_leverage, args.liquidation_fee, args.optimal_util, args.optimal_rate, args.max_rate);
+        : yield (0, listMarket_1.default)(connection, account, group.mangoProgramId, new web3_js_1.PublicKey(args.mint_pk), quoteMintPk, args.base_lot_size, args.quote_lot_size, group.serumProgramId);
+    const result = yield (0, addSpotMarket_1.default)(connection, account, group, args.symbol, market_pk, new web3_js_1.PublicKey(args.mint_pk), args.maint_leverage, args.init_leverage, args.liquidation_fee, args.optimal_util, args.optimal_rate, args.max_rate);
     config.storeGroup(result);
     writeConfig(args.config, config);
     process.exit(0);
 })).argv;
-yargs_1.default(helpers_1.hideBin(process.argv)).command('sanity-check <group>', 'check group conditions that always have to be true', (y) => {
+(0, yargs_1.default)((0, helpers_1.hideBin)(process.argv)).command('sanity-check <group>', 'check group conditions that always have to be true', (y) => {
     return y.positional(...groupDesc).option(...configDesc);
 }, (args) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('sanity check', args);
     const config = readConfig(args.config);
     const groupConfig = config.getGroupWithName(args.group);
     const connection = openConnection(config, groupConfig.cluster);
-    yield sanityCheck_1.default(connection, groupConfig);
+    yield (0, sanityCheck_1.default)(connection, groupConfig);
     process.exit(0);
 })).argv;
-yargs_1.default(helpers_1.hideBin(process.argv)).command('show <group> <mango_account_pk>', 'Print relevant details about a mango account', (y) => {
+(0, yargs_1.default)((0, helpers_1.hideBin)(process.argv)).command('show <group> <mango_account_pk>', 'Print relevant details about a mango account', (y) => {
     return y
         .positional(...groupDesc)
         .positional('mango_account_pk', {
@@ -402,7 +406,7 @@ yargs_1.default(helpers_1.hideBin(process.argv)).command('show <group> <mango_ac
     console.log(mangoAccount.toPrettyString(groupConfig, mangoGroup, cache));
     process.exit(0);
 })).argv;
-yargs_1.default(helpers_1.hideBin(process.argv)).command('inspect-wallet <group> <wallet_pk>', 'Print relevant details about a mango account', (y) => {
+(0, yargs_1.default)((0, helpers_1.hideBin)(process.argv)).command('inspect-wallet <group> <wallet_pk>', 'Print relevant details about a mango account', (y) => {
     return y
         .positional(...groupDesc)
         .positional('mango_account_pk', {
@@ -425,7 +429,7 @@ yargs_1.default(helpers_1.hideBin(process.argv)).command('inspect-wallet <group>
     }
     process.exit(0);
 })).argv;
-yargs_1.default(helpers_1.hideBin(process.argv)).command('decode-log <log_b64>', 'Decode and print out log', (y) => {
+(0, yargs_1.default)((0, helpers_1.hideBin)(process.argv)).command('decode-log <log_b64>', 'Decode and print out log', (y) => {
     return y
         .positional('log_b64', {
         describe: 'base 64 encoded mango log',
@@ -455,7 +459,7 @@ yargs_1.default(helpers_1.hideBin(process.argv)).command('decode-log <log_b64>',
     console.log(event);
     process.exit(0);
 })).argv;
-yargs_1.default(helpers_1.hideBin(process.argv)).command('show-group <group>', 'Print relevant details about a MangoGroup', (y) => {
+(0, yargs_1.default)((0, helpers_1.hideBin)(process.argv)).command('show-group <group>', 'Print relevant details about a MangoGroup', (y) => {
     return y.positional(...groupDesc).option(...configDesc);
 }, (args) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('show-group', args);
@@ -469,14 +473,14 @@ yargs_1.default(helpers_1.hideBin(process.argv)).command('show-group <group>', '
         if (perpMarket.isEmpty()) {
             continue;
         }
-        const pmc = config_1.getPerpMarketByIndex(groupConfig, i);
+        const pmc = (0, config_1.getPerpMarketByIndex)(groupConfig, i);
         const pm = yield client.getPerpMarket(perpMarket.perpMarket, pmc.baseDecimals, pmc.quoteDecimals);
         const x = yield connection.getTokenAccountBalance(pm.mngoVault);
         console.log(pmc.baseSymbol, pm.mngoVault.toBase58(), x);
     }
     process.exit(0);
 })).argv;
-yargs_1.default(helpers_1.hideBin(process.argv)).command('show-insurance-vault <group>', 'Print relevant details about a MangoGroup', (y) => {
+(0, yargs_1.default)((0, helpers_1.hideBin)(process.argv)).command('show-insurance-vault <group>', 'Print relevant details about a MangoGroup', (y) => {
     return y.positional(...groupDesc).option(...configDesc);
 }, (args) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('show-group', args);
@@ -487,13 +491,13 @@ yargs_1.default(helpers_1.hideBin(process.argv)).command('show-insurance-vault <
     console.log(`Insurance Vault: ${vaultBalance.value.uiAmountString}`);
     process.exit(0);
 })).argv;
-yargs_1.default(helpers_1.hideBin(process.argv)).command('show-top-positions <group> <symbol>', 'Print top 10 positions for the symbol perp market', (y) => {
+(0, yargs_1.default)((0, helpers_1.hideBin)(process.argv)).command('show-top-positions <group> <symbol>', 'Print top 10 positions for the symbol perp market', (y) => {
     return y.positional(...groupDesc).option(...configDesc);
 }, (args) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('show-top-positions', args);
     const config = readConfig(args.config);
     const groupConfig = config.getGroupWithName(args.group);
-    const perpMarketConfig = utils_1.throwUndefined(config_1.getPerpMarketByBaseSymbol(groupConfig, args.symbol));
+    const perpMarketConfig = (0, utils_1.throwUndefined)((0, config_1.getPerpMarketByBaseSymbol)(groupConfig, args.symbol));
     const connection = openConnection(config, groupConfig.cluster);
     const client = new client_1.MangoClient(connection, groupConfig.mangoProgramId);
     const mangoGroup = yield client.getMangoGroup(groupConfig.publicKey);
@@ -507,7 +511,7 @@ yargs_1.default(helpers_1.hideBin(process.argv)).command('show-top-positions <gr
     }
     process.exit(0);
 })).argv;
-yargs_1.default(helpers_1.hideBin(process.argv)).command('get-mango-account-by-oo <group> <oo_account_pk>', 'Print top 10 positions for the symbol perp market', (y) => {
+(0, yargs_1.default)((0, helpers_1.hideBin)(process.argv)).command('get-mango-account-by-oo <group> <oo_account_pk>', 'Print top 10 positions for the symbol perp market', (y) => {
     return y.positional(...groupDesc).option(...configDesc);
 }, (args) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('show-top-positions', args);
@@ -522,13 +526,13 @@ yargs_1.default(helpers_1.hideBin(process.argv)).command('get-mango-account-by-o
     console.log(mangoAccount === null || mangoAccount === void 0 ? void 0 : mangoAccount.toPrettyString(groupConfig, mangoGroup, mangoCache));
     process.exit(0);
 })).argv;
-yargs_1.default(helpers_1.hideBin(process.argv)).command('show-top-spot-positions <group> <symbol> <deposits_or_borrows>', 'Print top 10 positions for the symbol perp market', (y) => {
+(0, yargs_1.default)((0, helpers_1.hideBin)(process.argv)).command('show-top-spot-positions <group> <symbol> <deposits_or_borrows>', 'Print top 10 positions for the symbol perp market', (y) => {
     return y.positional(...groupDesc).option(...configDesc);
 }, (args) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('show-top-positions', args);
     const config = readConfig(args.config);
     const groupConfig = config.getGroupWithName(args.group);
-    const marketIndex = utils_1.throwUndefined(config_2.getMarketIndexBySymbol(groupConfig, args.symbol));
+    const marketIndex = (0, utils_1.throwUndefined)((0, config_2.getMarketIndexBySymbol)(groupConfig, args.symbol));
     const connection = openConnection(config, groupConfig.cluster);
     const client = new client_1.MangoClient(connection, groupConfig.mangoProgramId);
     const mangoGroup = yield client.getMangoGroup(groupConfig.publicKey);
@@ -542,7 +546,7 @@ yargs_1.default(helpers_1.hideBin(process.argv)).command('show-top-spot-position
     }
     process.exit(0);
 })).argv;
-yargs_1.default(helpers_1.hideBin(process.argv)).command('show-perp-market <group> <symbol>', 'Print relevant details about a perp market', (y) => {
+(0, yargs_1.default)((0, helpers_1.hideBin)(process.argv)).command('show-perp-market <group> <symbol>', 'Print relevant details about a perp market', (y) => {
     return y
         .positional(...groupDesc)
         .positional('symbol', {
@@ -554,7 +558,7 @@ yargs_1.default(helpers_1.hideBin(process.argv)).command('show-perp-market <grou
     console.log('show-perp-market', args);
     const config = readConfig(args.config);
     const groupConfig = config.getGroupWithName(args.group);
-    const perpMarketConfig = utils_1.throwUndefined(config_1.getPerpMarketByBaseSymbol(groupConfig, args.symbol));
+    const perpMarketConfig = (0, utils_1.throwUndefined)((0, config_1.getPerpMarketByBaseSymbol)(groupConfig, args.symbol));
     const connection = openConnection(config, groupConfig.cluster);
     const client = new client_1.MangoClient(connection, groupConfig.mangoProgramId);
     const mangoGroup = yield client.getMangoGroup(groupConfig.publicKey);
@@ -562,7 +566,7 @@ yargs_1.default(helpers_1.hideBin(process.argv)).command('show-perp-market <grou
     console.log(perpMarket.toPrettyString(mangoGroup, perpMarketConfig));
     process.exit(0);
 })).argv;
-yargs_1.default(helpers_1.hideBin(process.argv)).command('verify-token-gov <token_account> <owner>', 'Verify the owner of token_account is a governance PDA', (y) => {
+(0, yargs_1.default)((0, helpers_1.hideBin)(process.argv)).command('verify-token-gov <token_account> <owner>', 'Verify the owner of token_account is a governance PDA', (y) => {
     return y
         .positional('token_account', {
         describe: 'the public key of the MangoAccount',
@@ -600,7 +604,7 @@ yargs_1.default(helpers_1.hideBin(process.argv)).command('verify-token-gov <toke
     }
     process.exit(0);
 })).argv;
-yargs_1.default(helpers_1.hideBin(process.argv)).command('change-perp-market-params <group> <symbol>', 'change params for a perp market', (y) => {
+(0, yargs_1.default)((0, helpers_1.hideBin)(process.argv)).command('change-perp-market-params <group> <symbol>', 'change params for a perp market', (y) => {
     return y
         .positional(...groupDesc)
         .positional(...symbolDesc)
@@ -647,7 +651,7 @@ yargs_1.default(helpers_1.hideBin(process.argv)).command('change-perp-market-par
     const symbol = args.symbol;
     const client = new client_1.MangoClient(connection, groupConfig.mangoProgramId);
     const mangoGroup = yield client.getMangoGroup(groupConfig.publicKey);
-    const perpMarketConfig = utils_1.throwUndefined(config_1.getPerpMarketByBaseSymbol(groupConfig, symbol));
+    const perpMarketConfig = (0, utils_1.throwUndefined)((0, config_1.getPerpMarketByBaseSymbol)(groupConfig, symbol));
     const perpMarket = yield client.getPerpMarket(perpMarketConfig.publicKey, perpMarketConfig.baseDecimals, perpMarketConfig.quoteDecimals);
     // console.log(perpMarket.liquidityMiningInfo.rate.toString());
     // console.log(perpMarket.liquidityMiningInfo.mngoPerPeriod.toString());
@@ -656,8 +660,8 @@ yargs_1.default(helpers_1.hideBin(process.argv)).command('change-perp-market-par
     // console.log(perpMarket.liquidityMiningInfo.targetPeriodLength.toString());
     let mngoPerPeriod = getNumberOrUndef(args, 'mngo_per_period');
     if (mngoPerPeriod !== undefined) {
-        const token = config_1.getTokenBySymbol(groupConfig, 'MNGO');
-        mngoPerPeriod = utils_1.uiToNative(mngoPerPeriod, token.decimals).toNumber();
+        const token = (0, config_1.getTokenBySymbol)(groupConfig, 'MNGO');
+        mngoPerPeriod = (0, utils_1.uiToNative)(mngoPerPeriod, token.decimals).toNumber();
     }
     const exp = getNumberOrUndef(args, 'exp');
     if (exp !== undefined && !Number.isInteger(exp)) {
@@ -680,7 +684,7 @@ yargs_1.default(helpers_1.hideBin(process.argv)).command('change-perp-market-par
 function getNumberOrUndef(args, k) {
     return args[k] === undefined ? undefined : args[k];
 }
-yargs_1.default(helpers_1.hideBin(process.argv)).command('set-admin <group> <admin_pk>', 'transfer admin permissions over group to another account', (y) => {
+(0, yargs_1.default)((0, helpers_1.hideBin)(process.argv)).command('set-admin <group> <admin_pk>', 'transfer admin permissions over group to another account', (y) => {
     return y
         .positional(...groupDesc)
         .positional('admin_pk', {
@@ -705,7 +709,7 @@ yargs_1.default(helpers_1.hideBin(process.argv)).command('set-admin <group> <adm
 // e.g. yarn cli set-delegate mainnet.1 <mango-account-pk> <delegate-pk> \
 // --keypair ~/.config/solana/<mango-account-owner-keypair>.json \
 // --config src/ids.json --cluster mainnet
-yargs_1.default(helpers_1.hideBin(process.argv)).command('set-delegate <group> <mango_account> <delegate>', 'support setting a delegate as a signer for a mango account', (y) => {
+(0, yargs_1.default)((0, helpers_1.hideBin)(process.argv)).command('set-delegate <group> <mango_account> <delegate>', 'support setting a delegate as a signer for a mango account', (y) => {
     return y
         .positional(...groupDesc)
         .positional('mango_account', {
@@ -741,7 +745,7 @@ yargs_1.default(helpers_1.hideBin(process.argv)).command('set-delegate <group> <
 //
 // to view change do, SYMBOL=MNGO CLUSTER=devnet GROUP=devnet.3 yarn \
 // ts-node src/markets.ts
-yargs_1.default(helpers_1.hideBin(process.argv)).command('change-spot-market-params <group> <symbol>', 'change params for a spot market', (y) => {
+(0, yargs_1.default)((0, helpers_1.hideBin)(process.argv)).command('change-spot-market-params <group> <symbol>', 'change params for a spot market', (y) => {
     return y
         .positional(...groupDesc)
         .positional(...symbolDesc)
@@ -776,10 +780,10 @@ yargs_1.default(helpers_1.hideBin(process.argv)).command('change-spot-market-par
     const client = new client_1.MangoClient(connection, groupConfig.mangoProgramId);
     const symbol = args.symbol;
     const mangoGroup = yield client.getMangoGroup(groupConfig.publicKey);
-    const spotMarketConfig = utils_1.throwUndefined(config_1.getSpotMarketByBaseSymbol(groupConfig, symbol));
+    const spotMarketConfig = (0, utils_1.throwUndefined)((0, config_1.getSpotMarketByBaseSymbol)(groupConfig, symbol));
     const spotMarket = yield serum_1.Market.load(connection, spotMarketConfig.publicKey, undefined, groupConfig.serumProgramId);
     const rootBanks = yield mangoGroup.loadRootBanks(connection);
-    const tokenBySymbol = config_1.getTokenBySymbol(groupConfig, symbol);
+    const tokenBySymbol = (0, config_1.getTokenBySymbol)(groupConfig, symbol);
     const tokenIndex = mangoGroup.getTokenIndex(tokenBySymbol.mintKey);
     const rootBank = rootBanks[tokenIndex];
     if (!rootBank) {

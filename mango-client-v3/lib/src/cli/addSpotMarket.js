@@ -17,7 +17,7 @@ function addSpotMarket(connection, payer, groupConfig, symbol, spotMarket, baseM
     return __awaiter(this, void 0, void 0, function* () {
         const client = new client_1.MangoClient(connection, groupConfig.mangoProgramId);
         let group = yield client.getMangoGroup(groupConfig.publicKey);
-        const oracleDesc = config_1.getOracleBySymbol(groupConfig, symbol);
+        const oracleDesc = (0, config_1.getOracleBySymbol)(groupConfig, symbol);
         yield client.addSpotMarket(group, oracleDesc.publicKey, spotMarket, baseMint, payer, maintLeverage, initLeverage, liquidationFee, optimalUtil, optimalRate, maxRate);
         group = yield client.getMangoGroup(groupConfig.publicKey);
         const market = yield serum_1.Market.load(connection, spotMarket, undefined, groupConfig.serumProgramId);
@@ -32,7 +32,7 @@ function addSpotMarket(connection, payer, groupConfig, symbol, spotMarket, baseM
             nodeKeys: nodeBanks === null || nodeBanks === void 0 ? void 0 : nodeBanks.map((n) => n === null || n === void 0 ? void 0 : n.publicKey),
         };
         try {
-            const token = config_1.getTokenBySymbol(groupConfig, symbol);
+            const token = (0, config_1.getTokenBySymbol)(groupConfig, symbol);
             Object.assign(token, tokenDesc);
         }
         catch (_) {
@@ -49,7 +49,7 @@ function addSpotMarket(connection, payer, groupConfig, symbol, spotMarket, baseM
             asksKey: market.asksAddress,
             eventsKey: market['_decoded'].eventQueue,
         };
-        const marketConfig = config_1.getSpotMarketByBaseSymbol(groupConfig, symbol);
+        const marketConfig = (0, config_1.getSpotMarketByBaseSymbol)(groupConfig, symbol);
         if (marketConfig) {
             Object.assign(marketConfig, marketDesc);
         }

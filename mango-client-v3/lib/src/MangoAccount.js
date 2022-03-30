@@ -37,7 +37,7 @@ class MangoAccount {
         let partialHealth = quote;
         let weightedAsset = fixednum_1.ZERO_I80F48;
         for (let i = 0; i < mangoGroup.numOracles; i++) {
-            const w = utils_1.getWeights(mangoGroup, i, 'Maint');
+            const w = (0, utils_1.getWeights)(mangoGroup, i, 'Maint');
             if (i === oracleIndex) {
                 const weightedSpot = spot[i].mul(spot[i].isPos() ? w.spotAssetWeight : w.spotLiabWeight);
                 const weightedPerps = perps[i].mul(perps[i].isPos() ? w.perpAssetWeight : w.perpLiabWeight);
@@ -88,7 +88,7 @@ class MangoAccount {
                 const response = yield connection.getAccountInfoAndContext(this.publicKey);
                 slot = (_a = response.context) === null || _a === void 0 ? void 0 : _a.slot;
                 value = response.value;
-                yield _1.sleep(250);
+                yield (0, _1.sleep)(250);
             }
             Object.assign(this, layout_1.MangoAccountLayout.decode(value === null || value === void 0 ? void 0 : value.data));
             if (dexProgramId) {
@@ -99,7 +99,7 @@ class MangoAccount {
     }
     loadSpotOrdersForMarket(connection, market, marketIndex) {
         return __awaiter(this, void 0, void 0, function* () {
-            const [bidsInfo, asksInfo] = yield _1.getMultipleAccounts(connection, [
+            const [bidsInfo, asksInfo] = yield (0, _1.getMultipleAccounts)(connection, [
                 market.bidsAddress,
                 market.asksAddress,
             ]);
@@ -110,7 +110,7 @@ class MangoAccount {
     }
     loadOpenOrders(connection, serumDexPk) {
         return __awaiter(this, void 0, void 0, function* () {
-            const accounts = yield _1.getMultipleAccounts(connection, this.spotOpenOrders.filter((pk) => !pk.equals(utils_1.zeroKey)));
+            const accounts = yield (0, _1.getMultipleAccounts)(connection, this.spotOpenOrders.filter((pk) => !pk.equals(utils_1.zeroKey)));
             this.spotOpenOrdersAccounts = this.spotOpenOrders.map((openOrderPk) => {
                 if (openOrderPk.equals(utils_1.zeroKey)) {
                     return undefined;
@@ -140,10 +140,10 @@ class MangoAccount {
         return rootBank.borrowIndex.mul(this.borrows[tokenIndex]);
     }
     getUiDeposit(rootBank, mangoGroup, tokenIndex) {
-        return utils_1.nativeI80F48ToUi(this.getNativeDeposit(rootBank, tokenIndex).floor(), mangoGroup.getTokenDecimals(tokenIndex));
+        return (0, utils_1.nativeI80F48ToUi)(this.getNativeDeposit(rootBank, tokenIndex).floor(), mangoGroup.getTokenDecimals(tokenIndex));
     }
     getUiBorrow(rootBank, mangoGroup, tokenIndex) {
-        return utils_1.nativeI80F48ToUi(this.getNativeBorrow(rootBank, tokenIndex).ceil(), mangoGroup.getTokenDecimals(tokenIndex));
+        return (0, utils_1.nativeI80F48ToUi)(this.getNativeBorrow(rootBank, tokenIndex).ceil(), mangoGroup.getTokenDecimals(tokenIndex));
     }
     getSpotVal(mangoGroup, mangoCache, index, assetWeight) {
         let assetsVal = fixednum_1.ZERO_I80F48;
@@ -154,10 +154,10 @@ class MangoAccount {
         assetsVal = assetsVal.add(depositVal);
         const openOrdersAccount = this.spotOpenOrdersAccounts[index];
         if (openOrdersAccount !== undefined) {
-            assetsVal = assetsVal.add(fixednum_1.I80F48.fromNumber(utils_1.nativeToUi(openOrdersAccount.baseTokenTotal.toNumber(), mangoGroup.tokens[index].decimals))
+            assetsVal = assetsVal.add(fixednum_1.I80F48.fromNumber((0, utils_1.nativeToUi)(openOrdersAccount.baseTokenTotal.toNumber(), mangoGroup.tokens[index].decimals))
                 .mul(price)
                 .mul(assetWeight));
-            assetsVal = assetsVal.add(fixednum_1.I80F48.fromNumber(utils_1.nativeToUi(openOrdersAccount.quoteTokenTotal.toNumber() +
+            assetsVal = assetsVal.add(fixednum_1.I80F48.fromNumber((0, utils_1.nativeToUi)(openOrdersAccount.quoteTokenTotal.toNumber() +
                 openOrdersAccount['referrerRebatesAccrued'].toNumber(), mangoGroup.tokens[layout_1.QUOTE_INDEX].decimals)));
         }
         return assetsVal;
@@ -177,7 +177,7 @@ class MangoAccount {
             const spotVal = this.getSpotVal(mangoGroup, mangoCache, i, assetWeight);
             assetsVal = assetsVal.add(spotVal);
             const price = mangoCache.priceCache[i].price;
-            const perpsUiAssetVal = utils_1.nativeI80F48ToUi(this.perpAccounts[i].getAssetVal(mangoGroup.perpMarkets[i], price, mangoCache.perpMarketCache[i].shortFunding, mangoCache.perpMarketCache[i].longFunding), mangoGroup.tokens[layout_1.QUOTE_INDEX].decimals);
+            const perpsUiAssetVal = (0, utils_1.nativeI80F48ToUi)(this.perpAccounts[i].getAssetVal(mangoGroup.perpMarkets[i], price, mangoCache.perpMarketCache[i].shortFunding, mangoCache.perpMarketCache[i].longFunding), mangoGroup.tokens[layout_1.QUOTE_INDEX].decimals);
             assetsVal = assetsVal.add(perpsUiAssetVal);
         }
         return assetsVal;
@@ -195,7 +195,7 @@ class MangoAccount {
                 liabWeight = mangoGroup.spotMarkets[i].initLiabWeight;
             }
             liabsVal = liabsVal.add(this.getUiBorrow(mangoCache.rootBankCache[i], mangoGroup, i).mul(price.mul(liabWeight)));
-            const perpsUiLiabsVal = utils_1.nativeI80F48ToUi(this.perpAccounts[i].getLiabsVal(mangoGroup.perpMarkets[i], mangoCache.priceCache[i].price, mangoCache.perpMarketCache[i].shortFunding, mangoCache.perpMarketCache[i].longFunding), mangoGroup.tokens[layout_1.QUOTE_INDEX].decimals);
+            const perpsUiLiabsVal = (0, utils_1.nativeI80F48ToUi)(this.perpAccounts[i].getLiabsVal(mangoGroup.perpMarkets[i], mangoCache.priceCache[i].price, mangoCache.perpMarketCache[i].shortFunding, mangoCache.perpMarketCache[i].longFunding), mangoGroup.tokens[layout_1.QUOTE_INDEX].decimals);
             liabsVal = liabsVal.add(perpsUiLiabsVal);
         }
         return liabsVal;
@@ -238,7 +238,7 @@ class MangoAccount {
             liabs = liabs.add(quote.neg());
         }
         for (let i = 0; i < mangoGroup.numOracles; i++) {
-            const w = utils_1.getWeights(mangoGroup, i, healthType);
+            const w = (0, utils_1.getWeights)(mangoGroup, i, healthType);
             const price = mangoCache.priceCache[i].price;
             if (spot[i].isPos()) {
                 assets = spot[i].mul(price).mul(w.spotAssetWeight).add(assets);
@@ -258,7 +258,7 @@ class MangoAccount {
     getHealthFromComponents(mangoGroup, mangoCache, spot, perps, quote, healthType) {
         const health = quote;
         for (let i = 0; i < mangoGroup.numOracles; i++) {
-            const w = utils_1.getWeights(mangoGroup, i, healthType);
+            const w = (0, utils_1.getWeights)(mangoGroup, i, healthType);
             const price = mangoCache.priceCache[i].price;
             const spotHealth = spot[i]
                 .mul(price)
@@ -274,7 +274,7 @@ class MangoAccount {
         const spotHealth = quote;
         const perpHealth = quote;
         for (let i = 0; i < mangoGroup.numOracles; i++) {
-            const w = utils_1.getWeights(mangoGroup, i, healthType);
+            const w = (0, utils_1.getWeights)(mangoGroup, i, healthType);
             const price = mangoCache.priceCache[i].price;
             const _spotHealth = spot[i]
                 .mul(price)
@@ -295,7 +295,7 @@ class MangoAccount {
         if (health.lte(fixednum_1.ZERO_I80F48)) {
             return fixednum_1.ZERO_I80F48;
         }
-        const w = utils_1.getWeights(mangoGroup, marketIndex, 'Init');
+        const w = (0, utils_1.getWeights)(mangoGroup, marketIndex, 'Init');
         const weight = marketType === 'spot' ? w.spotAssetWeight : w.perpAssetWeight;
         if (weight.gte(fixednum_1.ONE_I80F48)) {
             // This is actually an error state and should not happen
@@ -315,7 +315,7 @@ class MangoAccount {
             return health.min(net).max(fixednum_1.ZERO_I80F48);
         }
         else {
-            const w = utils_1.getWeights(mangoGroup, tokenIndex, 'Init');
+            const w = (0, utils_1.getWeights)(mangoGroup, tokenIndex, 'Init');
             return net
                 .min(health
                 .div(w.spotAssetWeight)
@@ -341,7 +341,7 @@ class MangoAccount {
             // Evaluate spot first
             const openOrders = this.spotOpenOrdersAccounts[i];
             if (this.inMarginBasket[i] && openOrders !== undefined) {
-                const { quoteFree, quoteLocked, baseFree, baseLocked } = utils_1.splitOpenOrders(openOrders);
+                const { quoteFree, quoteLocked, baseFree, baseLocked } = (0, utils_1.splitOpenOrders)(openOrders);
                 // base total if all bids were executed
                 const bidsBaseNet = baseNet
                     .add(quoteLocked.div(price))
@@ -427,7 +427,7 @@ class MangoAccount {
         const mngoDecimals = mangoGroup.tokens[mngoTokenIndex].decimals;
         let val = fixednum_1.ZERO_I80F48;
         for (let i = 0; i < mangoGroup.numOracles; i++) {
-            const mgnoAccruedUiVal = utils_1.nativeI80F48ToUi(fixednum_1.I80F48.fromI64(this.perpAccounts[i].mngoAccrued).mul(mngoPrice), mngoDecimals);
+            const mgnoAccruedUiVal = (0, utils_1.nativeI80F48ToUi)(fixednum_1.I80F48.fromI64(this.perpAccounts[i].mngoAccrued).mul(mngoPrice), mngoDecimals);
             val = val.add(mgnoAccruedUiVal);
         }
         return val;
@@ -647,7 +647,7 @@ class MangoAccount {
             }
             perpOpenOrders.push({
                 marketIndex: this.orderMarket[i],
-                price: _1.getPriceFromKey(this.orders[i]),
+                price: (0, _1.getPriceFromKey)(this.orders[i]),
                 side: this.orderSide[i],
             });
         }

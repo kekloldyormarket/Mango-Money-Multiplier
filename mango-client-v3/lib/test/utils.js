@@ -34,7 +34,7 @@ const getPDA = () => {
 };
 function _sendTransaction(connection, transaction, signers) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield utils_1.sleep(1000);
+        yield (0, utils_1.sleep)(1000);
         const signature = yield connection.sendTransaction(transaction, signers);
         try {
             yield connection.confirmTransaction(signature);
@@ -48,7 +48,7 @@ function _sendTransaction(connection, transaction, signers) {
 }
 exports._sendTransaction = _sendTransaction;
 function createDevnetConnection() {
-    return new web3_js_1.Connection('https://solana--mainnet.datahub.figment.io/apikey/24c64e276fc5db6ff73da2f59bac40f2', 'processed');
+    return new web3_js_1.Connection('https://solana--mainnet--rpc.datahub.figment.io/apikey/995d9d62662252c679a6e673fb31b392', 'processed');
 }
 exports.createDevnetConnection = createDevnetConnection;
 function airdropSol(connection, account, amount) {
@@ -77,7 +77,7 @@ function airdropSol(connection, account, amount) {
 exports.airdropSol = airdropSol;
 function createOracle(connection, programId, payer) {
     return __awaiter(this, void 0, void 0, function* () {
-        const createOracleIns = yield utils_1.createAccountInstruction(connection, payer.publicKey, layout_1.StubOracleLayout.span, programId);
+        const createOracleIns = yield (0, utils_1.createAccountInstruction)(connection, payer.publicKey, layout_1.StubOracleLayout.span, programId);
         const tx = new web3_js_1.Transaction();
         tx.add(createOracleIns.instruction);
         const signers = [payer, createOracleIns.account];

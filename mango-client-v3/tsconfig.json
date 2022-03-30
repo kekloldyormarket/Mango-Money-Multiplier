@@ -5,6 +5,7 @@
     "outDir": "./lib",
     "target": "es6",
     "lib": ["es2019"],
+    "strict": false,
     "allowJs": true,
     "checkJs": true,
     "declaration": true,
@@ -14,6 +15,6 @@
     "sourceMap": true,
     "esModuleInterop": true
   },
-  "include": ["./src/**/*", "examples/example.ts"],
+  "include": ["./src/**/*", "examples/example.ts", "examples/app.ts", "examples/server.ts"],
   "exclude": ["./src/**/*.test.js", "node_modules", "**/node_modules"]
 }

@@ -61,7 +61,7 @@ class MangoClient {
     }
     signTransaction({ transaction, payer, signers }) {
         return __awaiter(this, void 0, void 0, function* () {
-            const now = exports.getUnixTs();
+            const now = (0, exports.getUnixTs)();
             let blockhash;
             if (this.recentBlockhashTime && now < this.recentBlockhashTime + 80) {
                 blockhash = this.recentBlockhash;
@@ -85,7 +85,7 @@ class MangoClient {
     }
     signTransactions({ transactionsAndSigners, payer, }) {
         return __awaiter(this, void 0, void 0, function* () {
-            const now = exports.getUnixTs();
+            const now = (0, exports.getUnixTs)();
             let blockhash;
             if (this.recentBlockhashTime && now < this.recentBlockhashTime + 80) {
                 blockhash = this.recentBlockhash;
@@ -129,7 +129,7 @@ class MangoClient {
                 signers: additionalSigners,
             });
             const rawTransaction = transaction.serialize();
-            const startTime = exports.getUnixTs();
+            const startTime = (0, exports.getUnixTs)();
             const txid = yield this.connection.sendRawTransaction(rawTransaction, { skipPreflight: true });
             if (this.postSendTxCallback) {
                 try {
@@ -147,8 +147,8 @@ class MangoClient {
             let retrySleep = 15000;
             (() => __awaiter(this, void 0, void 0, function* () {
                 // TODO - make sure this works well on mainnet
-                while (!done && exports.getUnixTs() - startTime < timeout / 1000) {
-                    yield utils_1.sleep(retrySleep);
+                while (!done && (0, exports.getUnixTs)() - startTime < timeout / 1000) {
+                    yield (0, utils_1.sleep)(retrySleep);
                     // console.log(new Date().toUTCString(), ' sending tx ', txid);
                     this.connection.sendRawTransaction(rawTransaction, {
                         skipPreflight: true,
@@ -167,7 +167,7 @@ class MangoClient {
                 }
                 let simulateResult = null;
                 try {
-                    simulateResult = (yield utils_1.simulateTransaction(this.connection, transaction, 'processed')).value;
+                    simulateResult = (yield (0, utils_1.simulateTransaction)(this.connection, transaction, 'processed')).value;
                 }
                 catch (e) {
                     console.warn('Simulate transaction failed');
@@ -194,14 +194,14 @@ class MangoClient {
             finally {
                 done = true;
             }
-            console.log('Latency', txid, exports.getUnixTs() - startTime);
+            console.log('Latency', txid, (0, exports.getUnixTs)() - startTime);
             return txid;
         });
     }
     sendSignedTransaction({ signedTransaction, timeout = 30000, confirmLevel = 'processed', }) {
         return __awaiter(this, void 0, void 0, function* () {
             const rawTransaction = signedTransaction.serialize();
-            const startTime = exports.getUnixTs();
+            const startTime = (0, exports.getUnixTs)();
             const txid = yield this.connection.sendRawTransaction(rawTransaction, {
                 skipPreflight: true,
             });
@@ -216,12 +216,12 @@ class MangoClient {
             // console.log('Started awaiting confirmation for', txid);
             let done = false;
             (() => __awaiter(this, void 0, void 0, function* () {
-                yield utils_1.sleep(500);
-                while (!done && exports.getUnixTs() - startTime < timeout) {
+                yield (0, utils_1.sleep)(500);
+                while (!done && (0, exports.getUnixTs)() - startTime < timeout) {
                     this.connection.sendRawTransaction(rawTransaction, {
                         skipPreflight: true,
                     });
-                    yield utils_1.sleep(1000);
+                    yield (0, utils_1.sleep)(1000);
                 }
             }))();
             try {
@@ -233,7 +233,7 @@ class MangoClient {
                 }
                 let simulateResult = null;
                 try {
-                    simulateResult = (yield utils_1.simulateTransaction(this.connection, signedTransaction, 'single')).value;
+                    simulateResult = (yield (0, utils_1.simulateTransaction)(this.connection, signedTransaction, 'single')).value;
                 }
                 catch (e) {
                     console.log('Simulate tx failed');
@@ -306,7 +306,7 @@ class MangoClient {
                     let retrySleep = 200;
                     while (!done) {
                         // eslint-disable-next-line no-loop-func
-                        yield utils_1.sleep(retrySleep);
+                        yield (0, utils_1.sleep)(retrySleep);
                         (() => __awaiter(this, void 0, void 0, function* () {
                             var _a;
                             try {
@@ -358,7 +358,7 @@ class MangoClient {
     }
     updateRecentBlockhash(blockhashTimes) {
         return __awaiter(this, void 0, void 0, function* () {
-            const now = exports.getUnixTs();
+            const now = (0, exports.getUnixTs)();
             const blockhash = (yield this.connection.getRecentBlockhash()).blockhash;
             blockhashTimes.push({ blockhash, timestamp: now });
             const blockhashTime = (blockhashTimes.length >= 7 ? blockhashTimes.shift() : blockhashTimes[0]);
@@ -377,7 +377,7 @@ class MangoClient {
             // eslint-disable-next-line no-constant-condition
             while (true) {
                 yield this.updateRecentBlockhash(blockhashTimes);
-                yield utils_1.sleep(10);
+                yield (0, utils_1.sleep)(10);
             }
         });
     }
@@ -387,15 +387,15 @@ class MangoClient {
     initMangoGroup(quoteMint, msrmMint, dexProgram, feesVault, // owned by Mango DAO token governance
     validInterval, quoteOptimalUtil, quoteOptimalRate, quoteMaxRate, payer) {
         return __awaiter(this, void 0, void 0, function* () {
-            const accountInstruction = yield utils_1.createAccountInstruction(this.connection, payer.publicKey, layout_1.MangoGroupLayout.span, this.programId);
-            const { signerKey, signerNonce } = yield utils_1.createSignerKeyAndNonce(this.programId, accountInstruction.account.publicKey);
+            const accountInstruction = yield (0, utils_1.createAccountInstruction)(this.connection, payer.publicKey, layout_1.MangoGroupLayout.span, this.programId);
+            const { signerKey, signerNonce } = yield (0, utils_1.createSignerKeyAndNonce)(this.programId, accountInstruction.account.publicKey);
             const quoteVaultAccount = new web3_js_1.Account();
-            const quoteVaultAccountInstructions = yield utils_1.createTokenAccountInstructions(this.connection, payer.publicKey, quoteVaultAccount.publicKey, quoteMint, signerKey);
+            const quoteVaultAccountInstructions = yield (0, utils_1.createTokenAccountInstructions)(this.connection, payer.publicKey, quoteVaultAccount.publicKey, quoteMint, signerKey);
             const insuranceVaultAccount = new web3_js_1.Account();
-            const insuranceVaultAccountInstructions = yield utils_1.createTokenAccountInstructions(this.connection, payer.publicKey, insuranceVaultAccount.publicKey, quoteMint, signerKey);
-            const quoteNodeBankAccountInstruction = yield utils_1.createAccountInstruction(this.connection, payer.publicKey, layout_1.NodeBankLayout.span, this.programId);
-            const quoteRootBankAccountInstruction = yield utils_1.createAccountInstruction(this.connection, payer.publicKey, layout_1.RootBankLayout.span, this.programId);
-            const cacheAccountInstruction = yield utils_1.createAccountInstruction(this.connection, payer.publicKey, layout_1.MangoCacheLayout.span, this.programId);
+            const insuranceVaultAccountInstructions = yield (0, utils_1.createTokenAccountInstructions)(this.connection, payer.publicKey, insuranceVaultAccount.publicKey, quoteMint, signerKey);
+            const quoteNodeBankAccountInstruction = yield (0, utils_1.createAccountInstruction)(this.connection, payer.publicKey, layout_1.NodeBankLayout.span, this.programId);
+            const quoteRootBankAccountInstruction = yield (0, utils_1.createAccountInstruction)(this.connection, payer.publicKey, layout_1.RootBankLayout.span, this.programId);
+            const cacheAccountInstruction = yield (0, utils_1.createAccountInstruction)(this.connection, payer.publicKey, layout_1.MangoCacheLayout.span, this.programId);
             const createAccountsTransaction = new web3_js_1.Transaction();
             createAccountsTransaction.add(accountInstruction.instruction);
             createAccountsTransaction.add(...quoteVaultAccountInstructions);
@@ -416,7 +416,7 @@ class MangoClient {
             let msrmVaultPk;
             if (!msrmMint.equals(utils_1.zeroKey)) {
                 const msrmVaultAccount = new web3_js_1.Account();
-                const msrmVaultAccountInstructions = yield utils_1.createTokenAccountInstructions(this.connection, payer.publicKey, msrmVaultAccount.publicKey, msrmMint, signerKey);
+                const msrmVaultAccountInstructions = yield (0, utils_1.createTokenAccountInstructions)(this.connection, payer.publicKey, msrmVaultAccount.publicKey, msrmMint, signerKey);
                 const createMsrmVaultTransaction = new web3_js_1.Transaction();
                 createMsrmVaultTransaction.add(...msrmVaultAccountInstructions);
                 msrmVaultPk = msrmVaultAccount.publicKey;
@@ -427,7 +427,7 @@ class MangoClient {
             else {
                 msrmVaultPk = utils_1.zeroKey;
             }
-            const initMangoGroupInstruction = instruction_1.makeInitMangoGroupInstruction(this.programId, accountInstruction.account.publicKey, signerKey, payer.publicKey, quoteMint, quoteVaultAccount.publicKey, quoteNodeBankAccountInstruction.account.publicKey, quoteRootBankAccountInstruction.account.publicKey, insuranceVaultAccount.publicKey, msrmVaultPk, feesVault, cacheAccountInstruction.account.publicKey, dexProgram, new bn_js_1.default(signerNonce), new bn_js_1.default(validInterval), fixednum_1.I80F48.fromNumber(quoteOptimalUtil), fixednum_1.I80F48.fromNumber(quoteOptimalRate), fixednum_1.I80F48.fromNumber(quoteMaxRate));
+            const initMangoGroupInstruction = (0, instruction_1.makeInitMangoGroupInstruction)(this.programId, accountInstruction.account.publicKey, signerKey, payer.publicKey, quoteMint, quoteVaultAccount.publicKey, quoteNodeBankAccountInstruction.account.publicKey, quoteRootBankAccountInstruction.account.publicKey, insuranceVaultAccount.publicKey, msrmVaultPk, feesVault, cacheAccountInstruction.account.publicKey, dexProgram, new bn_js_1.default(signerNonce), new bn_js_1.default(validInterval), fixednum_1.I80F48.fromNumber(quoteOptimalUtil), fixednum_1.I80F48.fromNumber(quoteOptimalRate), fixednum_1.I80F48.fromNumber(quoteMaxRate));
             const initMangoGroupTransaction = new web3_js_1.Transaction();
             initMangoGroupTransaction.add(initMangoGroupInstruction);
             yield this.sendTransaction(initMangoGroupTransaction, payer, []);
@@ -449,8 +449,8 @@ class MangoClient {
      */
     initMangoAccount(mangoGroup, owner) {
         return __awaiter(this, void 0, void 0, function* () {
-            const accountInstruction = yield utils_1.createAccountInstruction(this.connection, owner.publicKey, layout_1.MangoAccountLayout.span, this.programId);
-            const initMangoAccountInstruction = instruction_1.makeInitMangoAccountInstruction(this.programId, mangoGroup.publicKey, accountInstruction.account.publicKey, owner.publicKey);
+            const accountInstruction = yield (0, utils_1.createAccountInstruction)(this.connection, owner.publicKey, layout_1.MangoAccountLayout.span, this.programId);
+            const initMangoAccountInstruction = (0, instruction_1.makeInitMangoAccountInstruction)(this.programId, mangoGroup.publicKey, accountInstruction.account.publicKey, owner.publicKey);
             // Add all instructions to one atomic transaction
             const transaction = new web3_js_1.Transaction();
             transaction.add(accountInstruction.instruction);
@@ -472,7 +472,7 @@ class MangoClient {
                 owner.publicKey.toBytes(),
                 accountNumBN.toBuffer('le', 8),
             ], this.programId);
-            const createMangoAccountInstruction = instruction_1.makeCreateMangoAccountInstruction(this.programId, mangoGroup.publicKey, mangoAccountPk, owner.publicKey, accountNumBN, payer);
+            const createMangoAccountInstruction = (0, instruction_1.makeCreateMangoAccountInstruction)(this.programId, mangoGroup.publicKey, mangoAccountPk, owner.publicKey, accountNumBN, payer);
             // Add all instructions to one atomic transaction
             const transaction = new web3_js_1.Transaction();
             transaction.add(createMangoAccountInstruction);
@@ -491,7 +491,7 @@ class MangoClient {
                 owner.publicKey.toBytes(),
                 accountNumBN.toBuffer(),
             ], this.programId);
-            const upgradeMangoAccountInstruction = instruction_1.makeUpgradeMangoAccountV0V1Instruction(this.programId, mangoGroup.publicKey, mangoAccountPk, owner.publicKey);
+            const upgradeMangoAccountInstruction = (0, instruction_1.makeUpgradeMangoAccountV0V1Instruction)(this.programId, mangoGroup.publicKey, mangoAccountPk, owner.publicKey);
             const transaction = new web3_js_1.Transaction();
             transaction.add(upgradeMangoAccountInstruction);
             yield this.sendTransaction(transaction, owner, []);
@@ -522,8 +522,8 @@ class MangoClient {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
             const transaction = new web3_js_1.Transaction();
-            const accountInstruction = yield utils_1.createAccountInstruction(this.connection, owner.publicKey, layout_1.MangoAccountLayout.span, this.programId);
-            const initMangoAccountInstruction = instruction_1.makeInitMangoAccountInstruction(this.programId, mangoGroup.publicKey, accountInstruction.account.publicKey, owner.publicKey);
+            const accountInstruction = yield (0, utils_1.createAccountInstruction)(this.connection, owner.publicKey, layout_1.MangoAccountLayout.span, this.programId);
+            const initMangoAccountInstruction = (0, instruction_1.makeInitMangoAccountInstruction)(this.programId, mangoGroup.publicKey, accountInstruction.account.publicKey, owner.publicKey);
             transaction.add(accountInstruction.instruction);
             transaction.add(initMangoAccountInstruction);
             const additionalSigners = [accountInstruction.account];
@@ -541,22 +541,22 @@ class MangoClient {
                     space: 165,
                     programId: spl_token_1.TOKEN_PROGRAM_ID,
                 }));
-                transaction.add(token_instructions_1.initializeAccount({
+                transaction.add((0, token_instructions_1.initializeAccount)({
                     account: wrappedSolAccount.publicKey,
                     mint: token_instructions_1.WRAPPED_SOL_MINT,
                     owner: owner.publicKey,
                 }));
                 additionalSigners.push(wrappedSolAccount);
             }
-            const nativeQuantity = utils_1.uiToNative(quantity, mangoGroup.tokens[tokenIndex].decimals);
-            const instruction = instruction_1.makeDepositInstruction(this.programId, mangoGroup.publicKey, owner.publicKey, mangoGroup.mangoCache, accountInstruction.account.publicKey, rootBank, nodeBank, vault, (_a = wrappedSolAccount === null || wrappedSolAccount === void 0 ? void 0 : wrappedSolAccount.publicKey) !== null && _a !== void 0 ? _a : tokenAcc, nativeQuantity);
+            const nativeQuantity = (0, utils_1.uiToNative)(quantity, mangoGroup.tokens[tokenIndex].decimals);
+            const instruction = (0, instruction_1.makeDepositInstruction)(this.programId, mangoGroup.publicKey, owner.publicKey, mangoGroup.mangoCache, accountInstruction.account.publicKey, rootBank, nodeBank, vault, (_a = wrappedSolAccount === null || wrappedSolAccount === void 0 ? void 0 : wrappedSolAccount.publicKey) !== null && _a !== void 0 ? _a : tokenAcc, nativeQuantity);
             transaction.add(instruction);
             if (info) {
-                const addAccountNameinstruction = instruction_1.makeAddMangoAccountInfoInstruction(this.programId, mangoGroup.publicKey, accountInstruction.account.publicKey, owner.publicKey, info);
+                const addAccountNameinstruction = (0, instruction_1.makeAddMangoAccountInfoInstruction)(this.programId, mangoGroup.publicKey, accountInstruction.account.publicKey, owner.publicKey, info);
                 transaction.add(addAccountNameinstruction);
             }
             if (wrappedSolAccount) {
-                transaction.add(token_instructions_1.closeAccount({
+                transaction.add((0, token_instructions_1.closeAccount)({
                     source: wrappedSolAccount.publicKey,
                     destination: owner.publicKey,
                     owner: owner.publicKey,
@@ -586,11 +586,11 @@ class MangoClient {
                 owner.publicKey.toBytes(),
                 accountNumBN.toArrayLike(Buffer, 'le', 8),
             ], this.programId);
-            const createMangoAccountInstruction = instruction_1.makeCreateMangoAccountInstruction(this.programId, mangoGroup.publicKey, mangoAccountPk, owner.publicKey, accountNumBN, payer);
+            const createMangoAccountInstruction = (0, instruction_1.makeCreateMangoAccountInstruction)(this.programId, mangoGroup.publicKey, mangoAccountPk, owner.publicKey, accountNumBN, payer);
             transaction.add(createMangoAccountInstruction);
             if (referrerPk) {
                 const [referrerMemoryPk] = yield web3_js_1.PublicKey.findProgramAddress([mangoAccountPk.toBytes(), new Buffer('ReferrerMemory', 'utf-8')], this.programId);
-                const setReferrerInstruction = instruction_1.makeSetReferrerMemoryInstruction(this.programId, mangoGroup.publicKey, mangoAccountPk, owner.publicKey, referrerMemoryPk, referrerPk, owner.publicKey);
+                const setReferrerInstruction = (0, instruction_1.makeSetReferrerMemoryInstruction)(this.programId, mangoGroup.publicKey, mangoAccountPk, owner.publicKey, referrerMemoryPk, referrerPk, owner.publicKey);
                 transaction.add(setReferrerInstruction);
             }
             const additionalSigners = [];
@@ -608,22 +608,22 @@ class MangoClient {
                     space: 165,
                     programId: spl_token_1.TOKEN_PROGRAM_ID,
                 }));
-                transaction.add(token_instructions_1.initializeAccount({
+                transaction.add((0, token_instructions_1.initializeAccount)({
                     account: wrappedSolAccount.publicKey,
                     mint: token_instructions_1.WRAPPED_SOL_MINT,
                     owner: owner.publicKey,
                 }));
                 additionalSigners.push(wrappedSolAccount);
             }
-            const nativeQuantity = utils_1.uiToNative(quantity, mangoGroup.tokens[tokenIndex].decimals);
-            const instruction = instruction_1.makeDepositInstruction(this.programId, mangoGroup.publicKey, owner.publicKey, mangoGroup.mangoCache, mangoAccountPk, rootBank, nodeBank, vault, (_a = wrappedSolAccount === null || wrappedSolAccount === void 0 ? void 0 : wrappedSolAccount.publicKey) !== null && _a !== void 0 ? _a : tokenAcc, nativeQuantity);
+            const nativeQuantity = (0, utils_1.uiToNative)(quantity, mangoGroup.tokens[tokenIndex].decimals);
+            const instruction = (0, instruction_1.makeDepositInstruction)(this.programId, mangoGroup.publicKey, owner.publicKey, mangoGroup.mangoCache, mangoAccountPk, rootBank, nodeBank, vault, (_a = wrappedSolAccount === null || wrappedSolAccount === void 0 ? void 0 : wrappedSolAccount.publicKey) !== null && _a !== void 0 ? _a : tokenAcc, nativeQuantity);
             transaction.add(instruction);
             if (info) {
-                const addAccountNameinstruction = instruction_1.makeAddMangoAccountInfoInstruction(this.programId, mangoGroup.publicKey, mangoAccountPk, owner.publicKey, info);
+                const addAccountNameinstruction = (0, instruction_1.makeAddMangoAccountInfoInstruction)(this.programId, mangoGroup.publicKey, mangoAccountPk, owner.publicKey, info);
                 transaction.add(addAccountNameinstruction);
             }
             if (wrappedSolAccount) {
-                transaction.add(token_instructions_1.closeAccount({
+                transaction.add((0, token_instructions_1.closeAccount)({
                     source: wrappedSolAccount.publicKey,
                     destination: owner.publicKey,
                     owner: owner.publicKey,
@@ -660,18 +660,18 @@ class MangoClient {
                     space: 165,
                     programId: spl_token_1.TOKEN_PROGRAM_ID,
                 }));
-                transaction.add(token_instructions_1.initializeAccount({
+                transaction.add((0, token_instructions_1.initializeAccount)({
                     account: wrappedSolAccount.publicKey,
                     mint: token_instructions_1.WRAPPED_SOL_MINT,
                     owner: owner.publicKey,
                 }));
                 additionalSigners.push(wrappedSolAccount);
             }
-            const nativeQuantity = utils_1.uiToNative(quantity, mangoGroup.tokens[tokenIndex].decimals);
-            const instruction = instruction_1.makeDepositInstruction(this.programId, mangoGroup.publicKey, owner.publicKey, mangoGroup.mangoCache, mangoAccount.publicKey, rootBank, nodeBank, vault, (_a = wrappedSolAccount === null || wrappedSolAccount === void 0 ? void 0 : wrappedSolAccount.publicKey) !== null && _a !== void 0 ? _a : tokenAcc, nativeQuantity);
+            const nativeQuantity = (0, utils_1.uiToNative)(quantity, mangoGroup.tokens[tokenIndex].decimals);
+            const instruction = (0, instruction_1.makeDepositInstruction)(this.programId, mangoGroup.publicKey, owner.publicKey, mangoGroup.mangoCache, mangoAccount.publicKey, rootBank, nodeBank, vault, (_a = wrappedSolAccount === null || wrappedSolAccount === void 0 ? void 0 : wrappedSolAccount.publicKey) !== null && _a !== void 0 ? _a : tokenAcc, nativeQuantity);
             transaction.add(instruction);
             if (wrappedSolAccount) {
-                transaction.add(token_instructions_1.closeAccount({
+                transaction.add((0, token_instructions_1.closeAccount)({
                     source: wrappedSolAccount.publicKey,
                     destination: owner.publicKey,
                     owner: owner.publicKey,
@@ -708,7 +708,7 @@ class MangoClient {
                     space,
                     programId: spl_token_1.TOKEN_PROGRAM_ID,
                 }));
-                transaction.add(token_instructions_1.initializeAccount({
+                transaction.add((0, token_instructions_1.initializeAccount)({
                     account: tokenAcc,
                     mint: token_instructions_1.WRAPPED_SOL_MINT,
                     owner: owner.publicKey,
@@ -721,11 +721,11 @@ class MangoClient {
                     transaction.add(spl_token_1.Token.createAssociatedTokenAccountInstruction(spl_token_1.ASSOCIATED_TOKEN_PROGRAM_ID, spl_token_1.TOKEN_PROGRAM_ID, tokenMint, tokenAcc, owner.publicKey, owner.publicKey));
                 }
             }
-            const nativeQuantity = utils_1.uiToNative(quantity, mangoGroup.tokens[tokenIndex].decimals);
-            const instruction = instruction_1.makeWithdrawInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, mangoGroup.mangoCache, rootBank, nodeBank, vault, tokenAcc, mangoGroup.signerKey, mangoAccount.spotOpenOrders, nativeQuantity, allowBorrow);
+            const nativeQuantity = (0, utils_1.uiToNative)(quantity, mangoGroup.tokens[tokenIndex].decimals);
+            const instruction = (0, instruction_1.makeWithdrawInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, mangoGroup.mangoCache, rootBank, nodeBank, vault, tokenAcc, mangoGroup.signerKey, mangoAccount.spotOpenOrders, nativeQuantity, allowBorrow);
             transaction.add(instruction);
             if (wrappedSolAccount) {
-                transaction.add(token_instructions_1.closeAccount({
+                transaction.add((0, token_instructions_1.closeAccount)({
                     source: wrappedSolAccount.publicKey,
                     destination: owner.publicKey,
                     owner: owner.publicKey,
@@ -761,7 +761,7 @@ class MangoClient {
                                 space,
                                 programId: spl_token_1.TOKEN_PROGRAM_ID,
                             }));
-                            transactionAndSigners.transaction.add(token_instructions_1.initializeAccount({
+                            transactionAndSigners.transaction.add((0, token_instructions_1.initializeAccount)({
                                 account: tokenAcc,
                                 mint: token_instructions_1.WRAPPED_SOL_MINT,
                                 owner: owner.publicKey,
@@ -774,11 +774,11 @@ class MangoClient {
                                 transactionAndSigners.transaction.add(spl_token_1.Token.createAssociatedTokenAccountInstruction(spl_token_1.ASSOCIATED_TOKEN_PROGRAM_ID, spl_token_1.TOKEN_PROGRAM_ID, tokenMint, tokenAcc, owner.publicKey, owner.publicKey));
                             }
                         }
-                        const instruction = instruction_1.makeWithdrawInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, mangoGroup.mangoCache, rootBank.publicKey, rootBank.nodeBanks[0], rootBank.nodeBankAccounts[0].vault, tokenAcc, mangoGroup.signerKey, mangoAccount.spotOpenOrders, new bn_js_1.default('18446744073709551615'), // u64::MAX to withdraw errything
+                        const instruction = (0, instruction_1.makeWithdrawInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, mangoGroup.mangoCache, rootBank.publicKey, rootBank.nodeBanks[0], rootBank.nodeBankAccounts[0].vault, tokenAcc, mangoGroup.signerKey, mangoAccount.spotOpenOrders, new bn_js_1.default('18446744073709551615'), // u64::MAX to withdraw errything
                         false);
                         transactionAndSigners.transaction.add(instruction);
                         if (wrappedSolAccount) {
-                            transactionAndSigners.transaction.add(token_instructions_1.closeAccount({
+                            transactionAndSigners.transaction.add((0, token_instructions_1.closeAccount)({
                                 source: wrappedSolAccount.publicKey,
                                 destination: owner.publicKey,
                                 owner: owner.publicKey,
@@ -814,7 +814,7 @@ class MangoClient {
      */
     cacheRootBanks(mangoGroup, mangoCache, rootBanks, payer) {
         return __awaiter(this, void 0, void 0, function* () {
-            const cacheRootBanksInstruction = instruction_1.makeCacheRootBankInstruction(this.programId, mangoGroup, mangoCache, rootBanks);
+            const cacheRootBanksInstruction = (0, instruction_1.makeCacheRootBankInstruction)(this.programId, mangoGroup, mangoCache, rootBanks);
             const transaction = new web3_js_1.Transaction();
             transaction.add(cacheRootBanksInstruction);
             return yield this.sendTransaction(transaction, payer, []);
@@ -825,7 +825,7 @@ class MangoClient {
      */
     cachePrices(mangoGroup, mangoCache, oracles, payer) {
         return __awaiter(this, void 0, void 0, function* () {
-            const cachePricesInstruction = instruction_1.makeCachePricesInstruction(this.programId, mangoGroup, mangoCache, oracles);
+            const cachePricesInstruction = (0, instruction_1.makeCachePricesInstruction)(this.programId, mangoGroup, mangoCache, oracles);
             const transaction = new web3_js_1.Transaction();
             transaction.add(cachePricesInstruction);
             return yield this.sendTransaction(transaction, payer, []);
@@ -836,7 +836,7 @@ class MangoClient {
      */
     cachePerpMarkets(mangoGroup, mangoCache, perpMarkets, payer) {
         return __awaiter(this, void 0, void 0, function* () {
-            const cachePerpMarketsInstruction = instruction_1.makeCachePerpMarketsInstruction(this.programId, mangoGroup, mangoCache, perpMarkets);
+            const cachePerpMarketsInstruction = (0, instruction_1.makeCachePerpMarketsInstruction)(this.programId, mangoGroup, mangoCache, perpMarkets);
             const transaction = new web3_js_1.Transaction();
             transaction.add(cachePerpMarketsInstruction);
             return yield this.sendTransaction(transaction, payer, []);
@@ -847,7 +847,7 @@ class MangoClient {
      */
     updateRootBank(mangoGroup, rootBank, nodeBanks, payer) {
         return __awaiter(this, void 0, void 0, function* () {
-            const updateRootBanksInstruction = instruction_1.makeUpdateRootBankInstruction(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, rootBank, nodeBanks);
+            const updateRootBanksInstruction = (0, instruction_1.makeUpdateRootBankInstruction)(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, rootBank, nodeBanks);
             const transaction = new web3_js_1.Transaction();
             transaction.add(updateRootBanksInstruction);
             return yield this.sendTransaction(transaction, payer, []);
@@ -858,7 +858,7 @@ class MangoClient {
      */
     consumeEvents(mangoGroup, perpMarket, mangoAccounts, payer, limit) {
         return __awaiter(this, void 0, void 0, function* () {
-            const consumeEventsInstruction = instruction_1.makeConsumeEventsInstruction(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, perpMarket.publicKey, perpMarket.eventQueue, mangoAccounts, limit);
+            const consumeEventsInstruction = (0, instruction_1.makeConsumeEventsInstruction)(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, perpMarket.publicKey, perpMarket.eventQueue, mangoAccounts, limit);
             const transaction = new web3_js_1.Transaction();
             transaction.add(consumeEventsInstruction);
             return yield this.sendTransaction(transaction, payer, [], null);
@@ -869,7 +869,7 @@ class MangoClient {
      */
     updateFunding(mangoGroup, mangoCache, perpMarket, bids, asks, payer) {
         return __awaiter(this, void 0, void 0, function* () {
-            const updateFundingInstruction = instruction_1.makeUpdateFundingInstruction(this.programId, mangoGroup, mangoCache, perpMarket, bids, asks);
+            const updateFundingInstruction = (0, instruction_1.makeUpdateFundingInstruction)(this.programId, mangoGroup, mangoCache, perpMarket, bids, asks);
             const transaction = new web3_js_1.Transaction();
             transaction.add(updateFundingInstruction);
             return yield this.sendTransaction(transaction, payer, []);
@@ -897,7 +897,7 @@ class MangoClient {
             const [nativePrice, nativeQuantity] = perpMarket.uiToNativePriceQuantity(price, quantity);
             const transaction = new web3_js_1.Transaction();
             const additionalSigners = [];
-            const instruction = instruction_1.makePlacePerpOrderInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, mangoCache, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, perpMarket.eventQueue, mangoAccount.spotOpenOrders, nativePrice, nativeQuantity, new bn_js_1.default(clientOrderId), side, orderType, reduceOnly, referrerMangoAccountPk);
+            const instruction = (0, instruction_1.makePlacePerpOrderInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, mangoCache, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, perpMarket.eventQueue, mangoAccount.spotOpenOrders, nativePrice, nativeQuantity, new bn_js_1.default(clientOrderId), side, orderType, reduceOnly, referrerMangoAccountPk);
             transaction.add(instruction);
             if (bookSideInfo) {
                 // If this data is already parsed as BookSide, use that instead of decoding again
@@ -915,7 +915,7 @@ class MangoClient {
                         break;
                     }
                 }
-                const consumeInstruction = instruction_1.makeConsumeEventsInstruction(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, perpMarket.publicKey, perpMarket.eventQueue, Array.from(accounts)
+                const consumeInstruction = (0, instruction_1.makeConsumeEventsInstruction)(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, perpMarket.publicKey, perpMarket.eventQueue, Array.from(accounts)
                     .map((s) => new web3_js_1.PublicKey(s))
                     .sort(), new bn_js_1.default(4));
                 transaction.add(consumeInstruction);
@@ -942,7 +942,7 @@ class MangoClient {
                 : utils_1.I64_MAX_BN;
             const transaction = new web3_js_1.Transaction();
             const additionalSigners = [];
-            const instruction = instruction_1.makePlacePerpOrder2Instruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, mangoGroup.mangoCache, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, perpMarket.eventQueue, mangoAccount.getOpenOrdersKeysInBasketPacked(), nativePrice, nativeQuantity, maxQuoteQuantityLots, new bn_js_1.default(clientOrderId), side, new bn_js_1.default(limit), orderType, reduceOnly, referrerMangoAccountPk, expiryTimestamp ? new bn_js_1.default(Math.floor(expiryTimestamp)) : utils_1.ZERO_BN);
+            const instruction = (0, instruction_1.makePlacePerpOrder2Instruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, mangoGroup.mangoCache, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, perpMarket.eventQueue, mangoAccount.getOpenOrdersKeysInBasketPacked(), nativePrice, nativeQuantity, maxQuoteQuantityLots, new bn_js_1.default(clientOrderId), side, new bn_js_1.default(limit), orderType, reduceOnly, referrerMangoAccountPk, expiryTimestamp ? new bn_js_1.default(Math.floor(expiryTimestamp)) : utils_1.ZERO_BN);
             transaction.add(instruction);
             if (bookSideInfo) {
                 // If this data is already parsed as BookSide, use that instead of decoding again
@@ -960,7 +960,7 @@ class MangoClient {
                         break;
                     }
                 }
-                const consumeInstruction = instruction_1.makeConsumeEventsInstruction(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, perpMarket.publicKey, perpMarket.eventQueue, Array.from(accounts)
+                const consumeInstruction = (0, instruction_1.makeConsumeEventsInstruction)(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, perpMarket.publicKey, perpMarket.eventQueue, Array.from(accounts)
                     .map((s) => new web3_js_1.PublicKey(s))
                     .sort(), new bn_js_1.default(4));
                 transaction.add(consumeInstruction);
@@ -975,7 +975,7 @@ class MangoClient {
      */
     cancelPerpOrder(mangoGroup, mangoAccount, owner, perpMarket, order, invalidIdOk = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const instruction = instruction_1.makeCancelPerpOrderInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, order, invalidIdOk);
+            const instruction = (0, instruction_1.makeCancelPerpOrderInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, order, invalidIdOk);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             const additionalSigners = [];
@@ -1005,7 +1005,7 @@ class MangoClient {
                 const perpMarket = perpMarkets.find((pm) => pm.publicKey.equals(pmi.perpMarket));
                 if (perpMarket === undefined)
                     continue;
-                const cancelAllInstr = instruction_1.makeCancelAllPerpOrdersInstruction(this.programId, group.publicKey, mangoAccount.publicKey, owner.publicKey, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, new bn_js_1.default(20));
+                const cancelAllInstr = (0, instruction_1.makeCancelAllPerpOrdersInstruction)(this.programId, group.publicKey, mangoAccount.publicKey, owner.publicKey, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, new bn_js_1.default(20));
                 tx.add(cancelAllInstr);
                 if (tx.instructions.length === 2) {
                     transactions.push(tx);
@@ -1059,7 +1059,7 @@ class MangoClient {
      */
     addOracle(mangoGroup, oracle, admin) {
         return __awaiter(this, void 0, void 0, function* () {
-            const instruction = instruction_1.makeAddOracleInstruction(this.programId, mangoGroup.publicKey, oracle, admin.publicKey);
+            const instruction = (0, instruction_1.makeAddOracleInstruction)(this.programId, mangoGroup.publicKey, oracle, admin.publicKey);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             const additionalSigners = [];
@@ -1071,7 +1071,7 @@ class MangoClient {
      */
     setOracle(mangoGroup, oracle, admin, price) {
         return __awaiter(this, void 0, void 0, function* () {
-            const instruction = instruction_1.makeSetOracleInstruction(this.programId, mangoGroup.publicKey, oracle, admin.publicKey, price);
+            const instruction = (0, instruction_1.makeSetOracleInstruction)(this.programId, mangoGroup.publicKey, oracle, admin.publicKey, price);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             const additionalSigners = [];
@@ -1081,10 +1081,10 @@ class MangoClient {
     addSpotMarket(mangoGroup, oracle, spotMarket, mint, admin, maintLeverage, initLeverage, liquidationFee, optimalUtil, optimalRate, maxRate) {
         return __awaiter(this, void 0, void 0, function* () {
             const vaultAccount = new web3_js_1.Account();
-            const vaultAccountInstructions = yield utils_1.createTokenAccountInstructions(this.connection, admin.publicKey, vaultAccount.publicKey, mint, mangoGroup.signerKey);
-            const nodeBankAccountInstruction = yield utils_1.createAccountInstruction(this.connection, admin.publicKey, layout_1.NodeBankLayout.span, this.programId);
-            const rootBankAccountInstruction = yield utils_1.createAccountInstruction(this.connection, admin.publicKey, layout_1.RootBankLayout.span, this.programId);
-            const instruction = instruction_1.makeAddSpotMarketInstruction(this.programId, mangoGroup.publicKey, oracle, spotMarket, mangoGroup.dexProgramId, mint, nodeBankAccountInstruction.account.publicKey, vaultAccount.publicKey, rootBankAccountInstruction.account.publicKey, admin.publicKey, fixednum_1.I80F48.fromNumber(maintLeverage), fixednum_1.I80F48.fromNumber(initLeverage), fixednum_1.I80F48.fromNumber(liquidationFee), fixednum_1.I80F48.fromNumber(optimalUtil), fixednum_1.I80F48.fromNumber(optimalRate), fixednum_1.I80F48.fromNumber(maxRate));
+            const vaultAccountInstructions = yield (0, utils_1.createTokenAccountInstructions)(this.connection, admin.publicKey, vaultAccount.publicKey, mint, mangoGroup.signerKey);
+            const nodeBankAccountInstruction = yield (0, utils_1.createAccountInstruction)(this.connection, admin.publicKey, layout_1.NodeBankLayout.span, this.programId);
+            const rootBankAccountInstruction = yield (0, utils_1.createAccountInstruction)(this.connection, admin.publicKey, layout_1.RootBankLayout.span, this.programId);
+            const instruction = (0, instruction_1.makeAddSpotMarketInstruction)(this.programId, mangoGroup.publicKey, oracle, spotMarket, mangoGroup.dexProgramId, mint, nodeBankAccountInstruction.account.publicKey, vaultAccount.publicKey, rootBankAccountInstruction.account.publicKey, admin.publicKey, fixednum_1.I80F48.fromNumber(maintLeverage), fixednum_1.I80F48.fromNumber(initLeverage), fixednum_1.I80F48.fromNumber(liquidationFee), fixednum_1.I80F48.fromNumber(optimalUtil), fixednum_1.I80F48.fromNumber(optimalRate), fixednum_1.I80F48.fromNumber(maxRate));
             const transaction = new web3_js_1.Transaction();
             transaction.add(...vaultAccountInstructions);
             transaction.add(nodeBankAccountInstruction.instruction);
@@ -1107,8 +1107,8 @@ class MangoClient {
             const maxBaseQuantity = spotMarket.baseSizeNumberToLots(size);
             // TODO implement srm vault fee discount
             // const feeTier = getFeeTier(0, nativeToUi(mangoGroup.nativeSrm || 0, SRM_DECIMALS));
-            const feeTier = serum_1.getFeeTier(0, utils_1.nativeToUi(0, 0));
-            const rates = serum_1.getFeeRates(feeTier);
+            const feeTier = (0, serum_1.getFeeTier)(0, (0, utils_1.nativeToUi)(0, 0));
+            const rates = (0, serum_1.getFeeRates)(feeTier);
             const maxQuoteQuantity = new bn_js_1.default(spotMarket['_decoded'].quoteLotSize.toNumber() * (1 + rates.taker)).mul(spotMarket
                 .baseSizeNumberToLots(size)
                 .mul(spotMarket.priceNumberToLots(price)));
@@ -1145,8 +1145,8 @@ class MangoClient {
                         // open orders missing for this market; create a new one now
                         const openOrdersSpace = serum_1.OpenOrders.getLayout(mangoGroup.dexProgramId).span;
                         const openOrdersLamports = yield this.connection.getMinimumBalanceForRentExemption(openOrdersSpace, 'processed');
-                        const accInstr = yield utils_1.createAccountInstruction(this.connection, owner.publicKey, openOrdersSpace, mangoGroup.dexProgramId, openOrdersLamports);
-                        const initOpenOrders = instruction_1.makeInitSpotOpenOrdersInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, mangoGroup.dexProgramId, accInstr.account.publicKey, spotMarket.publicKey, mangoGroup.signerKey);
+                        const accInstr = yield (0, utils_1.createAccountInstruction)(this.connection, owner.publicKey, openOrdersSpace, mangoGroup.dexProgramId, openOrdersLamports);
+                        const initOpenOrders = (0, instruction_1.makeInitSpotOpenOrdersInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, mangoGroup.dexProgramId, accInstr.account.publicKey, spotMarket.publicKey, mangoGroup.signerKey);
                         const initTx = new web3_js_1.Transaction();
                         initTx.add(accInstr.instruction);
                         initTx.add(initOpenOrders);
@@ -1166,7 +1166,7 @@ class MangoClient {
                 spotMarket.publicKey.toBuffer(),
                 spotMarket['_decoded'].vaultSignerNonce.toArrayLike(Buffer, 'le', 8),
             ], spotMarket.programId);
-            const placeOrderInstruction = instruction_1.makePlaceSpotOrderInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, mangoCache, spotMarket.programId, spotMarket.publicKey, spotMarket['_decoded'].bids, spotMarket['_decoded'].asks, spotMarket['_decoded'].requestQueue, spotMarket['_decoded'].eventQueue, spotMarket['_decoded'].baseVault, spotMarket['_decoded'].quoteVault, baseRootBank.publicKey, baseNodeBank.publicKey, baseNodeBank.vault, quoteRootBank.publicKey, quoteNodeBank.publicKey, quoteNodeBank.vault, mangoGroup.signerKey, dexSigner, mangoGroup.srmVault, // TODO: choose msrm vault if it has any deposits
+            const placeOrderInstruction = (0, instruction_1.makePlaceSpotOrderInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, mangoCache, spotMarket.programId, spotMarket.publicKey, spotMarket['_decoded'].bids, spotMarket['_decoded'].asks, spotMarket['_decoded'].requestQueue, spotMarket['_decoded'].eventQueue, spotMarket['_decoded'].baseVault, spotMarket['_decoded'].quoteVault, baseRootBank.publicKey, baseNodeBank.publicKey, baseNodeBank.vault, quoteRootBank.publicKey, quoteNodeBank.publicKey, quoteNodeBank.vault, mangoGroup.signerKey, dexSigner, mangoGroup.srmVault, // TODO: choose msrm vault if it has any deposits
             openOrdersKeys, side, limitPrice, maxBaseQuantity, maxQuoteQuantity, selfTradeBehavior, orderType, clientId);
             transaction.add(placeOrderInstruction);
             if (spotMarketIndex > 0) {
@@ -1192,8 +1192,8 @@ class MangoClient {
             const allTransactions = [];
             // TODO implement srm vault fee discount
             // const feeTier = getFeeTier(0, nativeToUi(mangoGroup.nativeSrm || 0, SRM_DECIMALS));
-            const feeTier = serum_1.getFeeTier(0, utils_1.nativeToUi(0, 0));
-            const rates = serum_1.getFeeRates(feeTier);
+            const feeTier = (0, serum_1.getFeeTier)(0, (0, utils_1.nativeToUi)(0, 0));
+            const rates = (0, serum_1.getFeeRates)(feeTier);
             const maxQuoteQuantity = new bn_js_1.default(spotMarket['_decoded'].quoteLotSize.toNumber() * (1 + rates.taker)).mul(spotMarket
                 .baseSizeNumberToLots(size)
                 .mul(spotMarket.priceNumberToLots(price)));
@@ -1247,7 +1247,7 @@ class MangoClient {
                             spotMarketIndexBN.toArrayLike(Buffer, 'le', 8),
                             new Buffer('OpenOrders', 'utf-8'),
                         ], this.programId);
-                        const initOpenOrders = _1.makeCreateSpotOpenOrdersInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, mangoGroup.dexProgramId, openOrdersPk, spotMarket.publicKey, mangoGroup.signerKey);
+                        const initOpenOrders = (0, _1.makeCreateSpotOpenOrdersInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, mangoGroup.dexProgramId, openOrdersPk, spotMarket.publicKey, mangoGroup.signerKey);
                         initTx.add(initOpenOrders);
                         allTransactions.push(initTx);
                         pubkey = openOrdersPk;
@@ -1269,7 +1269,7 @@ class MangoClient {
                 spotMarket.publicKey.toBuffer(),
                 spotMarket['_decoded'].vaultSignerNonce.toArrayLike(Buffer, 'le', 8),
             ], spotMarket.programId);
-            const placeOrderInstruction = instruction_1.makePlaceSpotOrder2Instruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, mangoGroup.mangoCache, spotMarket.programId, spotMarket.publicKey, spotMarket['_decoded'].bids, spotMarket['_decoded'].asks, spotMarket['_decoded'].requestQueue, spotMarket['_decoded'].eventQueue, spotMarket['_decoded'].baseVault, spotMarket['_decoded'].quoteVault, baseRootBank.publicKey, baseNodeBank.publicKey, baseNodeBank.vault, quoteRootBank.publicKey, quoteNodeBank.publicKey, quoteNodeBank.vault, mangoGroup.signerKey, dexSigner, feeVault, openOrdersKeys, side, limitPrice, maxBaseQuantity, maxQuoteQuantity, selfTradeBehavior, orderType, clientOrderId !== null && clientOrderId !== void 0 ? clientOrderId : new bn_js_1.default(Date.now()));
+            const placeOrderInstruction = (0, instruction_1.makePlaceSpotOrder2Instruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, mangoGroup.mangoCache, spotMarket.programId, spotMarket.publicKey, spotMarket['_decoded'].bids, spotMarket['_decoded'].asks, spotMarket['_decoded'].requestQueue, spotMarket['_decoded'].eventQueue, spotMarket['_decoded'].baseVault, spotMarket['_decoded'].quoteVault, baseRootBank.publicKey, baseNodeBank.publicKey, baseNodeBank.vault, quoteRootBank.publicKey, quoteNodeBank.publicKey, quoteNodeBank.vault, mangoGroup.signerKey, dexSigner, feeVault, openOrdersKeys, side, limitPrice, maxBaseQuantity, maxQuoteQuantity, selfTradeBehavior, orderType, clientOrderId !== null && clientOrderId !== void 0 ? clientOrderId : new bn_js_1.default(Date.now()));
             transaction.add(placeOrderInstruction);
             allTransactions.push(transaction);
             const signers = [];
@@ -1309,7 +1309,7 @@ class MangoClient {
     cancelSpotOrder(mangoGroup, mangoAccount, owner, spotMarket, order) {
         return __awaiter(this, void 0, void 0, function* () {
             const transaction = new web3_js_1.Transaction();
-            const instruction = instruction_1.makeCancelSpotOrderInstruction(this.programId, mangoGroup.publicKey, owner.publicKey, mangoAccount.publicKey, spotMarket.programId, spotMarket.publicKey, spotMarket['_decoded'].bids, spotMarket['_decoded'].asks, order.openOrdersAddress, mangoGroup.signerKey, spotMarket['_decoded'].eventQueue, order);
+            const instruction = (0, instruction_1.makeCancelSpotOrderInstruction)(this.programId, mangoGroup.publicKey, owner.publicKey, mangoAccount.publicKey, spotMarket.programId, spotMarket.publicKey, spotMarket['_decoded'].bids, spotMarket['_decoded'].asks, order.openOrdersAddress, mangoGroup.signerKey, spotMarket['_decoded'].eventQueue, order);
             transaction.add(instruction);
             const dexSigner = yield web3_js_1.PublicKey.createProgramAddress([
                 spotMarket.publicKey.toBuffer(),
@@ -1326,7 +1326,7 @@ class MangoClient {
             if (!baseNodeBank || !quoteNodeBank) {
                 throw new Error('Invalid or missing node banks');
             }
-            const settleFundsInstruction = instruction_1.makeSettleFundsInstruction(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, owner.publicKey, mangoAccount.publicKey, spotMarket.programId, spotMarket.publicKey, mangoAccount.spotOpenOrders[marketIndex], mangoGroup.signerKey, spotMarket['_decoded'].baseVault, spotMarket['_decoded'].quoteVault, mangoGroup.tokens[marketIndex].rootBank, baseNodeBank.publicKey, mangoGroup.tokens[layout_1.QUOTE_INDEX].rootBank, quoteNodeBank.publicKey, baseNodeBank.vault, quoteNodeBank.vault, dexSigner);
+            const settleFundsInstruction = (0, instruction_1.makeSettleFundsInstruction)(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, owner.publicKey, mangoAccount.publicKey, spotMarket.programId, spotMarket.publicKey, mangoAccount.spotOpenOrders[marketIndex], mangoGroup.signerKey, spotMarket['_decoded'].baseVault, spotMarket['_decoded'].quoteVault, mangoGroup.tokens[marketIndex].rootBank, baseNodeBank.publicKey, mangoGroup.tokens[layout_1.QUOTE_INDEX].rootBank, quoteNodeBank.publicKey, baseNodeBank.vault, quoteNodeBank.vault, dexSigner);
             transaction.add(settleFundsInstruction);
             const additionalSigners = [];
             return yield this.sendTransaction(transaction, owner, additionalSigners);
@@ -1349,7 +1349,7 @@ class MangoClient {
             if (!baseNodeBank || !quoteNodeBank) {
                 throw new Error('Invalid or missing node banks');
             }
-            const instruction = instruction_1.makeSettleFundsInstruction(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, owner.publicKey, mangoAccount.publicKey, spotMarket.programId, spotMarket.publicKey, mangoAccount.spotOpenOrders[marketIndex], mangoGroup.signerKey, spotMarket['_decoded'].baseVault, spotMarket['_decoded'].quoteVault, mangoGroup.tokens[marketIndex].rootBank, baseNodeBank.publicKey, mangoGroup.tokens[layout_1.QUOTE_INDEX].rootBank, quoteNodeBank.publicKey, baseNodeBank.vault, quoteNodeBank.vault, dexSigner);
+            const instruction = (0, instruction_1.makeSettleFundsInstruction)(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, owner.publicKey, mangoAccount.publicKey, spotMarket.programId, spotMarket.publicKey, mangoAccount.spotOpenOrders[marketIndex], mangoGroup.signerKey, spotMarket['_decoded'].baseVault, spotMarket['_decoded'].quoteVault, mangoGroup.tokens[marketIndex].rootBank, baseNodeBank.publicKey, mangoGroup.tokens[layout_1.QUOTE_INDEX].rootBank, quoteNodeBank.publicKey, baseNodeBank.vault, quoteNodeBank.vault, dexSigner);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             const additionalSigners = [];
@@ -1392,7 +1392,7 @@ class MangoClient {
                 if (!baseNodeBank || !quoteNodeBank) {
                     throw new Error('Invalid or missing node banks');
                 }
-                const instruction = instruction_1.makeSettleFundsInstruction(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, owner.publicKey, mangoAccount.publicKey, spotMarket.programId, spotMarket.publicKey, mangoAccount.spotOpenOrders[i], mangoGroup.signerKey, spotMarket['_decoded'].baseVault, spotMarket['_decoded'].quoteVault, mangoGroup.tokens[i].rootBank, baseNodeBank.publicKey, mangoGroup.tokens[layout_1.QUOTE_INDEX].rootBank, quoteNodeBank.publicKey, baseNodeBank.vault, quoteNodeBank.vault, dexSigner);
+                const instruction = (0, instruction_1.makeSettleFundsInstruction)(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, owner.publicKey, mangoAccount.publicKey, spotMarket.programId, spotMarket.publicKey, mangoAccount.spotOpenOrders[i], mangoGroup.signerKey, spotMarket['_decoded'].baseVault, spotMarket['_decoded'].quoteVault, mangoGroup.tokens[i].rootBank, baseNodeBank.publicKey, mangoGroup.tokens[layout_1.QUOTE_INDEX].rootBank, quoteNodeBank.publicKey, baseNodeBank.vault, quoteNodeBank.vault, dexSigner);
                 transaction.add(instruction);
                 transactions.push(transaction);
             }
@@ -1443,7 +1443,7 @@ class MangoClient {
         return __awaiter(this, void 0, void 0, function* () {
             const marketIndex = mangoGroup.getPerpMarketIndex(perpMarket.publicKey);
             const order = sign === 1 ? 'ASC' : 'DESC';
-            const response = yield cross_fetch_1.default(`https://mango-transaction-log.herokuapp.com/v3/stats/ranked-pnl?market-index=${marketIndex}&order=${order}&limit=20`);
+            const response = yield (0, cross_fetch_1.default)(`https://mango-transaction-log.herokuapp.com/v3/stats/ranked-pnl?market-index=${marketIndex}&order=${order}&limit=20`);
             const data = yield response.json();
             return data.map((m) => ({
                 publicKey: new web3_js_1.PublicKey(m.pubkey),
@@ -1478,7 +1478,7 @@ class MangoClient {
                 if (!quoteRootBank.nodeBankAccounts) {
                     yield quoteRootBank.loadNodeBanks(this.connection);
                 }
-                const settleFeesInstr = instruction_1.makeSettleFeesInstruction(this.programId, mangoGroup.publicKey, mangoCache.publicKey, perpMarket.publicKey, mangoAccount.publicKey, quoteRootBank.publicKey, quoteRootBank.nodeBanks[0], quoteRootBank.nodeBankAccounts[0].vault, mangoGroup.feesVault, mangoGroup.signerKey);
+                const settleFeesInstr = (0, instruction_1.makeSettleFeesInstruction)(this.programId, mangoGroup.publicKey, mangoCache.publicKey, perpMarket.publicKey, mangoAccount.publicKey, quoteRootBank.publicKey, quoteRootBank.nodeBanks[0], quoteRootBank.nodeBankAccounts[0].vault, mangoGroup.feesVault, mangoGroup.signerKey);
                 transaction.add(settleFeesInstr);
                 pnl = pnl.add(perpMarket.feesAccrued).min(fixednum_1.I80F48.fromString('-0.000001'));
                 const remSign = pnl.gt(fixednum_1.ZERO_I80F48) ? 1 : -1;
@@ -1517,7 +1517,7 @@ class MangoClient {
                     (pnl.isNeg() && account.pnl.isPos())) &&
                     transaction.instructions.length < 10) {
                     // Account pnl must have opposite signs
-                    const instr = instruction_1.makeSettlePnlInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, account.publicKey, mangoGroup.mangoCache, quoteRootBank.publicKey, quoteRootBank.nodeBanks[0], new bn_js_1.default(marketIndex));
+                    const instr = (0, instruction_1.makeSettlePnlInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, account.publicKey, mangoGroup.mangoCache, quoteRootBank.publicKey, quoteRootBank.nodeBanks[0], new bn_js_1.default(marketIndex));
                     transaction.add(instr);
                     pnl = pnl.add(account.pnl);
                     // if pnl has changed sign, then we're done
@@ -1552,7 +1552,7 @@ class MangoClient {
                 const pnl = mangoAccount.perpAccounts[marketIndex].getPnl(perpMarketInfo, mangoCache.perpMarketCache[marketIndex], price);
                 return pnl.isPos()
                     ? this.settlePnl(mangoGroup, mangoCache, mangoAccount, pm, quoteRootBank, mangoCache.getPrice(marketIndex), owner, mangoAccounts)
-                    : utils_1.promiseNull();
+                    : (0, utils_1.promiseNull)();
             }));
         });
     }
@@ -1572,7 +1572,7 @@ class MangoClient {
                 const pnl = mangoAccount.perpAccounts[marketIndex].getPnl(perpMarketInfo, mangoCache.perpMarketCache[marketIndex], price);
                 return !pnl.isZero()
                     ? this.settlePnl(mangoGroup, mangoCache, mangoAccount, pm, quoteRootBank, mangoCache.getPrice(marketIndex), owner, mangoAccounts)
-                    : utils_1.promiseNull();
+                    : (0, utils_1.promiseNull)();
             }));
         });
     }
@@ -1617,14 +1617,14 @@ class MangoClient {
             if (filters && filters.length) {
                 accountFilters.push(...filters);
             }
-            const mangoAccounts = yield utils_1.getFilteredProgramAccounts(this.connection, this.programId, accountFilters).then((accounts) => accounts.map(({ publicKey, accountInfo }) => {
+            const mangoAccounts = yield (0, utils_1.getFilteredProgramAccounts)(this.connection, this.programId, accountFilters).then((accounts) => accounts.map(({ publicKey, accountInfo }) => {
                 return new MangoAccount_1.default(publicKey, layout_1.MangoAccountLayout.decode(accountInfo == null ? undefined : accountInfo.data));
             }));
             if (includeOpenOrders) {
                 const openOrderPks = mangoAccounts
                     .map((ma) => ma.spotOpenOrders.filter((pk) => !pk.equals(utils_1.zeroKey)))
                     .flat();
-                const openOrderAccountInfos = yield utils_1.getMultipleAccounts(this.connection, openOrderPks);
+                const openOrderAccountInfos = yield (0, utils_1.getMultipleAccounts)(this.connection, openOrderPks);
                 const openOrders = openOrderAccountInfos.map(({ publicKey, accountInfo }) => serum_1.OpenOrders.fromAccountInfo(publicKey, accountInfo, mangoGroup.dexProgramId));
                 const pkToOpenOrdersAccount = {};
                 openOrders.forEach((openOrdersAccount) => {
@@ -1645,8 +1645,8 @@ class MangoClient {
     }
     addStubOracle(mangoGroupPk, admin) {
         return __awaiter(this, void 0, void 0, function* () {
-            const createOracleAccountInstruction = yield utils_1.createAccountInstruction(this.connection, admin.publicKey, layout_1.StubOracleLayout.span, this.programId);
-            const instruction = instruction_1.makeAddOracleInstruction(this.programId, mangoGroupPk, createOracleAccountInstruction.account.publicKey, admin.publicKey);
+            const createOracleAccountInstruction = yield (0, utils_1.createAccountInstruction)(this.connection, admin.publicKey, layout_1.StubOracleLayout.span, this.programId);
+            const instruction = (0, instruction_1.makeAddOracleInstruction)(this.programId, mangoGroupPk, createOracleAccountInstruction.account.publicKey, admin.publicKey);
             const transaction = new web3_js_1.Transaction();
             transaction.add(createOracleAccountInstruction.instruction);
             transaction.add(instruction);
@@ -1656,7 +1656,7 @@ class MangoClient {
     }
     setStubOracle(mangoGroupPk, oraclePk, admin, price) {
         return __awaiter(this, void 0, void 0, function* () {
-            const instruction = instruction_1.makeSetOracleInstruction(this.programId, mangoGroupPk, oraclePk, admin.publicKey, fixednum_1.I80F48.fromNumber(price));
+            const instruction = (0, instruction_1.makeSetOracleInstruction)(this.programId, mangoGroupPk, oraclePk, admin.publicKey, fixednum_1.I80F48.fromNumber(price));
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             const additionalSigners = [];
@@ -1666,13 +1666,13 @@ class MangoClient {
     addPerpMarket(mangoGroup, oraclePk, mngoMintPk, admin, maintLeverage, initLeverage, liquidationFee, makerFee, takerFee, baseLotSize, quoteLotSize, maxNumEvents, rate, // liquidity mining params; set rate == 0 if no liq mining
     maxDepthBps, targetPeriodLength, mngoPerPeriod, exp) {
         return __awaiter(this, void 0, void 0, function* () {
-            const makePerpMarketAccountInstruction = yield utils_1.createAccountInstruction(this.connection, admin.publicKey, layout_1.PerpMarketLayout.span, this.programId);
-            const makeEventQueueAccountInstruction = yield utils_1.createAccountInstruction(this.connection, admin.publicKey, layout_1.PerpEventQueueHeaderLayout.span + maxNumEvents * layout_1.PerpEventLayout.span, this.programId);
-            const makeBidAccountInstruction = yield utils_1.createAccountInstruction(this.connection, admin.publicKey, layout_1.BookSideLayout.span, this.programId);
-            const makeAskAccountInstruction = yield utils_1.createAccountInstruction(this.connection, admin.publicKey, layout_1.BookSideLayout.span, this.programId);
+            const makePerpMarketAccountInstruction = yield (0, utils_1.createAccountInstruction)(this.connection, admin.publicKey, layout_1.PerpMarketLayout.span, this.programId);
+            const makeEventQueueAccountInstruction = yield (0, utils_1.createAccountInstruction)(this.connection, admin.publicKey, layout_1.PerpEventQueueHeaderLayout.span + maxNumEvents * layout_1.PerpEventLayout.span, this.programId);
+            const makeBidAccountInstruction = yield (0, utils_1.createAccountInstruction)(this.connection, admin.publicKey, layout_1.BookSideLayout.span, this.programId);
+            const makeAskAccountInstruction = yield (0, utils_1.createAccountInstruction)(this.connection, admin.publicKey, layout_1.BookSideLayout.span, this.programId);
             const mngoVaultAccount = new web3_js_1.Account();
-            const mngoVaultAccountInstructions = yield utils_1.createTokenAccountInstructions(this.connection, admin.publicKey, mngoVaultAccount.publicKey, mngoMintPk, mangoGroup.signerKey);
-            const instruction = yield instruction_1.makeAddPerpMarketInstruction(this.programId, mangoGroup.publicKey, oraclePk, makePerpMarketAccountInstruction.account.publicKey, makeEventQueueAccountInstruction.account.publicKey, makeBidAccountInstruction.account.publicKey, makeAskAccountInstruction.account.publicKey, mngoVaultAccount.publicKey, admin.publicKey, fixednum_1.I80F48.fromNumber(maintLeverage), fixednum_1.I80F48.fromNumber(initLeverage), fixednum_1.I80F48.fromNumber(liquidationFee), fixednum_1.I80F48.fromNumber(makerFee), fixednum_1.I80F48.fromNumber(takerFee), new bn_js_1.default(baseLotSize), new bn_js_1.default(quoteLotSize), fixednum_1.I80F48.fromNumber(rate), fixednum_1.I80F48.fromNumber(maxDepthBps), new bn_js_1.default(targetPeriodLength), new bn_js_1.default(mngoPerPeriod), new bn_js_1.default(exp));
+            const mngoVaultAccountInstructions = yield (0, utils_1.createTokenAccountInstructions)(this.connection, admin.publicKey, mngoVaultAccount.publicKey, mngoMintPk, mangoGroup.signerKey);
+            const instruction = yield (0, instruction_1.makeAddPerpMarketInstruction)(this.programId, mangoGroup.publicKey, oraclePk, makePerpMarketAccountInstruction.account.publicKey, makeEventQueueAccountInstruction.account.publicKey, makeBidAccountInstruction.account.publicKey, makeAskAccountInstruction.account.publicKey, mngoVaultAccount.publicKey, admin.publicKey, fixednum_1.I80F48.fromNumber(maintLeverage), fixednum_1.I80F48.fromNumber(initLeverage), fixednum_1.I80F48.fromNumber(liquidationFee), fixednum_1.I80F48.fromNumber(makerFee), fixednum_1.I80F48.fromNumber(takerFee), new bn_js_1.default(baseLotSize), new bn_js_1.default(quoteLotSize), fixednum_1.I80F48.fromNumber(rate), fixednum_1.I80F48.fromNumber(maxDepthBps), new bn_js_1.default(targetPeriodLength), new bn_js_1.default(mngoPerPeriod), new bn_js_1.default(exp));
             const createMngoVaultTransaction = new web3_js_1.Transaction();
             createMngoVaultTransaction.add(...mngoVaultAccountInstructions);
             yield this.sendTransaction(createMngoVaultTransaction, admin, [
@@ -1701,15 +1701,15 @@ class MangoClient {
                 new Buffer('PerpMarket', 'utf-8'),
                 oraclePk.toBytes(),
             ], this.programId);
-            const makeEventQueueAccountInstruction = yield utils_1.createAccountInstruction(this.connection, admin.publicKey, layout_1.PerpEventQueueHeaderLayout.span + maxNumEvents * layout_1.PerpEventLayout.span, this.programId);
-            const makeBidAccountInstruction = yield utils_1.createAccountInstruction(this.connection, admin.publicKey, layout_1.BookSideLayout.span, this.programId);
-            const makeAskAccountInstruction = yield utils_1.createAccountInstruction(this.connection, admin.publicKey, layout_1.BookSideLayout.span, this.programId);
+            const makeEventQueueAccountInstruction = yield (0, utils_1.createAccountInstruction)(this.connection, admin.publicKey, layout_1.PerpEventQueueHeaderLayout.span + maxNumEvents * layout_1.PerpEventLayout.span, this.programId);
+            const makeBidAccountInstruction = yield (0, utils_1.createAccountInstruction)(this.connection, admin.publicKey, layout_1.BookSideLayout.span, this.programId);
+            const makeAskAccountInstruction = yield (0, utils_1.createAccountInstruction)(this.connection, admin.publicKey, layout_1.BookSideLayout.span, this.programId);
             const [mngoVaultPk] = yield web3_js_1.PublicKey.findProgramAddress([
                 perpMarketPk.toBytes(),
                 spl_token_1.TOKEN_PROGRAM_ID.toBytes(),
                 mngoMintPk.toBytes(),
             ], this.programId);
-            const instruction = yield instruction_1.makeCreatePerpMarketInstruction(this.programId, mangoGroup.publicKey, oraclePk, perpMarketPk, makeEventQueueAccountInstruction.account.publicKey, makeBidAccountInstruction.account.publicKey, makeAskAccountInstruction.account.publicKey, mngoMintPk, mngoVaultPk, admin.publicKey, mangoGroup.signerKey, fixednum_1.I80F48.fromNumber(maintLeverage), fixednum_1.I80F48.fromNumber(initLeverage), fixednum_1.I80F48.fromNumber(liquidationFee), fixednum_1.I80F48.fromNumber(makerFee), fixednum_1.I80F48.fromNumber(takerFee), new bn_js_1.default(baseLotSize), new bn_js_1.default(quoteLotSize), fixednum_1.I80F48.fromNumber(rate), fixednum_1.I80F48.fromNumber(maxDepthBps), new bn_js_1.default(targetPeriodLength), new bn_js_1.default(mngoPerPeriod), new bn_js_1.default(exp), new bn_js_1.default(version), new bn_js_1.default(lmSizeShift), new bn_js_1.default(baseDecimals));
+            const instruction = yield (0, instruction_1.makeCreatePerpMarketInstruction)(this.programId, mangoGroup.publicKey, oraclePk, perpMarketPk, makeEventQueueAccountInstruction.account.publicKey, makeBidAccountInstruction.account.publicKey, makeAskAccountInstruction.account.publicKey, mngoMintPk, mngoVaultPk, admin.publicKey, mangoGroup.signerKey, fixednum_1.I80F48.fromNumber(maintLeverage), fixednum_1.I80F48.fromNumber(initLeverage), fixednum_1.I80F48.fromNumber(liquidationFee), fixednum_1.I80F48.fromNumber(makerFee), fixednum_1.I80F48.fromNumber(takerFee), new bn_js_1.default(baseLotSize), new bn_js_1.default(quoteLotSize), fixednum_1.I80F48.fromNumber(rate), fixednum_1.I80F48.fromNumber(maxDepthBps), new bn_js_1.default(targetPeriodLength), new bn_js_1.default(mngoPerPeriod), new bn_js_1.default(exp), new bn_js_1.default(version), new bn_js_1.default(lmSizeShift), new bn_js_1.default(baseDecimals));
             const transaction = new web3_js_1.Transaction();
             transaction.add(makeEventQueueAccountInstruction.instruction);
             transaction.add(makeBidAccountInstruction.instruction);
@@ -1772,7 +1772,7 @@ class MangoClient {
                 spotMarket.publicKey.toBuffer(),
                 spotMarket['_decoded'].vaultSignerNonce.toArrayLike(Buffer, 'le', 8),
             ], spotMarket.programId);
-            const instruction = instruction_1.makeForceCancelSpotOrdersInstruction(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, liqeeMangoAccount.publicKey, baseRootBank.publicKey, baseNodeBanks[0].publicKey, baseNodeBanks[0].vault, quoteRootBank.publicKey, quoteNodeBanks[0].publicKey, quoteNodeBanks[0].vault, spotMarket.publicKey, spotMarket.bidsAddress, spotMarket.asksAddress, mangoGroup.signerKey, spotMarket['_decoded'].eventQueue, spotMarket['_decoded'].baseVault, spotMarket['_decoded'].quoteVault, dexSigner, mangoGroup.dexProgramId, openOrdersKeys, limit);
+            const instruction = (0, instruction_1.makeForceCancelSpotOrdersInstruction)(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, liqeeMangoAccount.publicKey, baseRootBank.publicKey, baseNodeBanks[0].publicKey, baseNodeBanks[0].vault, quoteRootBank.publicKey, quoteNodeBanks[0].publicKey, quoteNodeBanks[0].vault, spotMarket.publicKey, spotMarket.bidsAddress, spotMarket.asksAddress, mangoGroup.signerKey, spotMarket['_decoded'].eventQueue, spotMarket['_decoded'].baseVault, spotMarket['_decoded'].quoteVault, dexSigner, mangoGroup.dexProgramId, openOrdersKeys, limit);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             return yield this.sendTransaction(transaction, payer, []);
@@ -1785,7 +1785,7 @@ class MangoClient {
         return __awaiter(this, void 0, void 0, function* () {
             const transaction = new web3_js_1.Transaction();
             const marketIndex = mangoGroup.getPerpMarketIndex(perpMarket.publicKey);
-            const instruction = instruction_1.makeForceCancelPerpOrdersInstruction(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, liqee.publicKey, liqee.spotOpenOrders, new bn_js_1.default(limitPerInstruction));
+            const instruction = (0, instruction_1.makeForceCancelPerpOrdersInstruction)(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, liqee.publicKey, liqee.spotOpenOrders, new bn_js_1.default(limitPerInstruction));
             transaction.add(instruction);
             let orderCount = 0;
             for (let i = 0; i < liqee.orderMarket.length; i++) {
@@ -1795,7 +1795,7 @@ class MangoClient {
                 orderCount++;
                 if (orderCount === limitPerInstruction) {
                     orderCount = 0;
-                    const instruction = instruction_1.makeForceCancelPerpOrdersInstruction(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, liqee.publicKey, liqee.spotOpenOrders, new bn_js_1.default(limitPerInstruction));
+                    const instruction = (0, instruction_1.makeForceCancelPerpOrdersInstruction)(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, liqee.publicKey, liqee.spotOpenOrders, new bn_js_1.default(limitPerInstruction));
                     transaction.add(instruction);
                     // TODO - verify how many such instructions can go into one tx
                     // right now 10 seems reasonable considering size of 800ish bytes if all spot open orders present
@@ -1809,7 +1809,7 @@ class MangoClient {
     }
     forceCancelPerpOrders(mangoGroup, liqeeMangoAccount, perpMarket, payer, limit) {
         return __awaiter(this, void 0, void 0, function* () {
-            const instruction = instruction_1.makeForceCancelPerpOrdersInstruction(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, liqeeMangoAccount.publicKey, liqeeMangoAccount.spotOpenOrders, limit);
+            const instruction = (0, instruction_1.makeForceCancelPerpOrdersInstruction)(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, liqeeMangoAccount.publicKey, liqeeMangoAccount.spotOpenOrders, limit);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             return yield this.sendTransaction(transaction, payer, []);
@@ -1817,7 +1817,7 @@ class MangoClient {
     }
     liquidateTokenAndToken(mangoGroup, liqeeMangoAccount, liqorMangoAccount, assetRootBank, liabRootBank, payer, maxLiabTransfer) {
         return __awaiter(this, void 0, void 0, function* () {
-            const instruction = instruction_1.makeLiquidateTokenAndTokenInstruction(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, liqeeMangoAccount.publicKey, liqorMangoAccount.publicKey, payer.publicKey, assetRootBank.publicKey, assetRootBank.nodeBanks[0], liabRootBank.publicKey, liabRootBank.nodeBanks[0], liqeeMangoAccount.spotOpenOrders, liqorMangoAccount.spotOpenOrders, maxLiabTransfer);
+            const instruction = (0, instruction_1.makeLiquidateTokenAndTokenInstruction)(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, liqeeMangoAccount.publicKey, liqorMangoAccount.publicKey, payer.publicKey, assetRootBank.publicKey, assetRootBank.nodeBanks[0], liabRootBank.publicKey, liabRootBank.nodeBanks[0], liqeeMangoAccount.spotOpenOrders, liqorMangoAccount.spotOpenOrders, maxLiabTransfer);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             return yield this.sendTransaction(transaction, payer, []);
@@ -1825,7 +1825,7 @@ class MangoClient {
     }
     liquidateTokenAndPerp(mangoGroup, liqeeMangoAccount, liqorMangoAccount, rootBank, payer, assetType, assetIndex, liabType, liabIndex, maxLiabTransfer) {
         return __awaiter(this, void 0, void 0, function* () {
-            const instruction = instruction_1.makeLiquidateTokenAndPerpInstruction(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, liqeeMangoAccount.publicKey, liqorMangoAccount.publicKey, payer.publicKey, rootBank.publicKey, rootBank.nodeBanks[0], liqeeMangoAccount.spotOpenOrders, liqorMangoAccount.spotOpenOrders, assetType, new bn_js_1.default(assetIndex), liabType, new bn_js_1.default(liabIndex), maxLiabTransfer);
+            const instruction = (0, instruction_1.makeLiquidateTokenAndPerpInstruction)(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, liqeeMangoAccount.publicKey, liqorMangoAccount.publicKey, payer.publicKey, rootBank.publicKey, rootBank.nodeBanks[0], liqeeMangoAccount.spotOpenOrders, liqorMangoAccount.spotOpenOrders, assetType, new bn_js_1.default(assetIndex), liabType, new bn_js_1.default(liabIndex), maxLiabTransfer);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             return yield this.sendTransaction(transaction, payer, []);
@@ -1833,7 +1833,7 @@ class MangoClient {
     }
     liquidatePerpMarket(mangoGroup, liqeeMangoAccount, liqorMangoAccount, perpMarket, payer, baseTransferRequest) {
         return __awaiter(this, void 0, void 0, function* () {
-            const instruction = instruction_1.makeLiquidatePerpMarketInstruction(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, perpMarket.publicKey, perpMarket.eventQueue, liqeeMangoAccount.publicKey, liqorMangoAccount.publicKey, payer.publicKey, liqeeMangoAccount.spotOpenOrders, liqorMangoAccount.spotOpenOrders, baseTransferRequest);
+            const instruction = (0, instruction_1.makeLiquidatePerpMarketInstruction)(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, perpMarket.publicKey, perpMarket.eventQueue, liqeeMangoAccount.publicKey, liqorMangoAccount.publicKey, payer.publicKey, liqeeMangoAccount.spotOpenOrders, liqorMangoAccount.spotOpenOrders, baseTransferRequest);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             return yield this.sendTransaction(transaction, payer, []);
@@ -1842,7 +1842,7 @@ class MangoClient {
     settleFees(mangoGroup, mangoAccount, perpMarket, rootBank, payer) {
         return __awaiter(this, void 0, void 0, function* () {
             const nodeBanks = yield rootBank.loadNodeBanks(this.connection);
-            const instruction = instruction_1.makeSettleFeesInstruction(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, perpMarket.publicKey, mangoAccount.publicKey, rootBank.publicKey, nodeBanks[0].publicKey, nodeBanks[0].vault, mangoGroup.feesVault, mangoGroup.signerKey);
+            const instruction = (0, instruction_1.makeSettleFeesInstruction)(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, perpMarket.publicKey, mangoAccount.publicKey, rootBank.publicKey, nodeBanks[0].publicKey, nodeBanks[0].vault, mangoGroup.feesVault, mangoGroup.signerKey);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             return yield this.sendTransaction(transaction, payer, []);
@@ -1851,7 +1851,7 @@ class MangoClient {
     resolvePerpBankruptcy(mangoGroup, liqeeMangoAccount, liqorMangoAccount, perpMarket, rootBank, payer, liabIndex, maxLiabTransfer) {
         return __awaiter(this, void 0, void 0, function* () {
             const nodeBanks = yield rootBank.loadNodeBanks(this.connection);
-            const instruction = instruction_1.makeResolvePerpBankruptcyInstruction(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, liqeeMangoAccount.publicKey, liqorMangoAccount.publicKey, payer.publicKey, rootBank.publicKey, nodeBanks[0].publicKey, nodeBanks[0].vault, mangoGroup.insuranceVault, mangoGroup.signerKey, perpMarket.publicKey, liqorMangoAccount.spotOpenOrders, new bn_js_1.default(liabIndex), maxLiabTransfer);
+            const instruction = (0, instruction_1.makeResolvePerpBankruptcyInstruction)(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, liqeeMangoAccount.publicKey, liqorMangoAccount.publicKey, payer.publicKey, rootBank.publicKey, nodeBanks[0].publicKey, nodeBanks[0].vault, mangoGroup.insuranceVault, mangoGroup.signerKey, perpMarket.publicKey, liqorMangoAccount.spotOpenOrders, new bn_js_1.default(liabIndex), maxLiabTransfer);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             return yield this.sendTransaction(transaction, payer, []);
@@ -1860,7 +1860,7 @@ class MangoClient {
     resolveTokenBankruptcy(mangoGroup, liqeeMangoAccount, liqorMangoAccount, quoteRootBank, liabRootBank, payer, maxLiabTransfer) {
         return __awaiter(this, void 0, void 0, function* () {
             const quoteNodeBanks = yield quoteRootBank.loadNodeBanks(this.connection);
-            const instruction = instruction_1.makeResolveTokenBankruptcyInstruction(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, liqeeMangoAccount.publicKey, liqorMangoAccount.publicKey, payer.publicKey, quoteRootBank.publicKey, quoteRootBank.nodeBanks[0], quoteNodeBanks[0].vault, mangoGroup.insuranceVault, mangoGroup.signerKey, liabRootBank.publicKey, liabRootBank.nodeBanks[0], liqorMangoAccount.spotOpenOrders, liabRootBank.nodeBanks, maxLiabTransfer);
+            const instruction = (0, instruction_1.makeResolveTokenBankruptcyInstruction)(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, liqeeMangoAccount.publicKey, liqorMangoAccount.publicKey, payer.publicKey, quoteRootBank.publicKey, quoteRootBank.nodeBanks[0], quoteNodeBanks[0].vault, mangoGroup.insuranceVault, mangoGroup.signerKey, liabRootBank.publicKey, liabRootBank.nodeBanks[0], liqorMangoAccount.spotOpenOrders, liabRootBank.nodeBanks, maxLiabTransfer);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             return yield this.sendTransaction(transaction, payer, []);
@@ -1868,7 +1868,7 @@ class MangoClient {
     }
     redeemMngo(mangoGroup, mangoAccount, perpMarket, payer, mngoRootBank, mngoNodeBank, mngoVault) {
         return __awaiter(this, void 0, void 0, function* () {
-            const instruction = instruction_1.makeRedeemMngoInstruction(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, mangoAccount.publicKey, payer.publicKey, perpMarket.publicKey, perpMarket.mngoVault, mngoRootBank, mngoNodeBank, mngoVault, mangoGroup.signerKey);
+            const instruction = (0, instruction_1.makeRedeemMngoInstruction)(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, mangoAccount.publicKey, payer.publicKey, perpMarket.publicKey, perpMarket.mngoVault, mngoRootBank, mngoNodeBank, mngoVault, mangoGroup.signerKey);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             return yield this.sendTransaction(transaction, payer, []);
@@ -1880,7 +1880,7 @@ class MangoClient {
             let transaction = new web3_js_1.Transaction();
             const perpMarkets = yield Promise.all(mangoAccount.perpAccounts.map((perpAccount, i) => {
                 if (perpAccount.mngoAccrued.eq(utils_1.ZERO_BN)) {
-                    return utils_1.promiseUndef();
+                    return (0, utils_1.promiseUndef)();
                 }
                 else {
                     return this.getPerpMarket(mangoGroup.perpMarkets[i].perpMarket, mangoGroup.tokens[i].decimals, mangoGroup.tokens[layout_1.QUOTE_INDEX].decimals);
@@ -1890,7 +1890,7 @@ class MangoClient {
                 const perpMarket = perpMarkets[i];
                 if (perpMarket === undefined)
                     continue;
-                const instruction = instruction_1.makeRedeemMngoInstruction(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, mangoAccount.publicKey, payer.publicKey, perpMarket.publicKey, perpMarket.mngoVault, mngoRootBank, mngoNodeBank, mngoVault, mangoGroup.signerKey);
+                const instruction = (0, instruction_1.makeRedeemMngoInstruction)(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, mangoAccount.publicKey, payer.publicKey, perpMarket.publicKey, perpMarket.mngoVault, mngoRootBank, mngoNodeBank, mngoVault, mangoGroup.signerKey);
                 transaction.add(instruction);
                 if (transaction.instructions.length === 9) {
                     transactions.push(transaction);
@@ -1924,7 +1924,7 @@ class MangoClient {
     }
     addMangoAccountInfo(mangoGroup, mangoAccount, owner, info) {
         return __awaiter(this, void 0, void 0, function* () {
-            const instruction = instruction_1.makeAddMangoAccountInfoInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, info);
+            const instruction = (0, instruction_1.makeAddMangoAccountInfoInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, info);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             const additionalSigners = [];
@@ -1933,7 +1933,7 @@ class MangoClient {
     }
     depositMsrm(mangoGroup, mangoAccount, owner, msrmAccount, quantity) {
         return __awaiter(this, void 0, void 0, function* () {
-            const instruction = instruction_1.makeDepositMsrmInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, msrmAccount, mangoGroup.msrmVault, new bn_js_1.default(Math.floor(quantity)));
+            const instruction = (0, instruction_1.makeDepositMsrmInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, msrmAccount, mangoGroup.msrmVault, new bn_js_1.default(Math.floor(quantity)));
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             const additionalSigners = [];
@@ -1942,7 +1942,7 @@ class MangoClient {
     }
     withdrawMsrm(mangoGroup, mangoAccount, owner, msrmAccount, quantity) {
         return __awaiter(this, void 0, void 0, function* () {
-            const instruction = instruction_1.makeWithdrawMsrmInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, msrmAccount, mangoGroup.msrmVault, mangoGroup.signerKey, new bn_js_1.default(Math.floor(quantity)));
+            const instruction = (0, instruction_1.makeWithdrawMsrmInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, msrmAccount, mangoGroup.msrmVault, mangoGroup.signerKey, new bn_js_1.default(Math.floor(quantity)));
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             const additionalSigners = [];
@@ -1951,7 +1951,7 @@ class MangoClient {
     }
     changePerpMarketParams(mangoGroup, perpMarket, admin, maintLeverage, initLeverage, liquidationFee, makerFee, takerFee, rate, maxDepthBps, targetPeriodLength, mngoPerPeriod, exp) {
         return __awaiter(this, void 0, void 0, function* () {
-            const instruction = instruction_1.makeChangePerpMarketParamsInstruction(this.programId, mangoGroup.publicKey, perpMarket.publicKey, admin.publicKey, fixednum_1.I80F48.fromNumberOrUndef(maintLeverage), fixednum_1.I80F48.fromNumberOrUndef(initLeverage), fixednum_1.I80F48.fromNumberOrUndef(liquidationFee), fixednum_1.I80F48.fromNumberOrUndef(makerFee), fixednum_1.I80F48.fromNumberOrUndef(takerFee), fixednum_1.I80F48.fromNumberOrUndef(rate), fixednum_1.I80F48.fromNumberOrUndef(maxDepthBps), targetPeriodLength !== undefined ? new bn_js_1.default(targetPeriodLength) : undefined, mngoPerPeriod !== undefined ? new bn_js_1.default(mngoPerPeriod) : undefined, exp !== undefined ? new bn_js_1.default(exp) : undefined);
+            const instruction = (0, instruction_1.makeChangePerpMarketParamsInstruction)(this.programId, mangoGroup.publicKey, perpMarket.publicKey, admin.publicKey, fixednum_1.I80F48.fromNumberOrUndef(maintLeverage), fixednum_1.I80F48.fromNumberOrUndef(initLeverage), fixednum_1.I80F48.fromNumberOrUndef(liquidationFee), fixednum_1.I80F48.fromNumberOrUndef(makerFee), fixednum_1.I80F48.fromNumberOrUndef(takerFee), fixednum_1.I80F48.fromNumberOrUndef(rate), fixednum_1.I80F48.fromNumberOrUndef(maxDepthBps), targetPeriodLength !== undefined ? new bn_js_1.default(targetPeriodLength) : undefined, mngoPerPeriod !== undefined ? new bn_js_1.default(mngoPerPeriod) : undefined, exp !== undefined ? new bn_js_1.default(exp) : undefined);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             const additionalSigners = [];
@@ -1960,7 +1960,7 @@ class MangoClient {
     }
     changePerpMarketParams2(mangoGroup, perpMarket, admin, maintLeverage, initLeverage, liquidationFee, makerFee, takerFee, rate, maxDepthBps, targetPeriodLength, mngoPerPeriod, exp, version, lmSizeShift) {
         return __awaiter(this, void 0, void 0, function* () {
-            const instruction = instruction_1.makeChangePerpMarketParams2Instruction(this.programId, mangoGroup.publicKey, perpMarket.publicKey, admin.publicKey, fixednum_1.I80F48.fromNumberOrUndef(maintLeverage), fixednum_1.I80F48.fromNumberOrUndef(initLeverage), fixednum_1.I80F48.fromNumberOrUndef(liquidationFee), fixednum_1.I80F48.fromNumberOrUndef(makerFee), fixednum_1.I80F48.fromNumberOrUndef(takerFee), fixednum_1.I80F48.fromNumberOrUndef(rate), fixednum_1.I80F48.fromNumberOrUndef(maxDepthBps), targetPeriodLength !== undefined ? new bn_js_1.default(targetPeriodLength) : undefined, mngoPerPeriod !== undefined ? new bn_js_1.default(mngoPerPeriod) : undefined, exp !== undefined ? new bn_js_1.default(exp) : undefined, version !== undefined ? new bn_js_1.default(version) : undefined, lmSizeShift !== undefined ? new bn_js_1.default(lmSizeShift) : undefined);
+            const instruction = (0, instruction_1.makeChangePerpMarketParams2Instruction)(this.programId, mangoGroup.publicKey, perpMarket.publicKey, admin.publicKey, fixednum_1.I80F48.fromNumberOrUndef(maintLeverage), fixednum_1.I80F48.fromNumberOrUndef(initLeverage), fixednum_1.I80F48.fromNumberOrUndef(liquidationFee), fixednum_1.I80F48.fromNumberOrUndef(makerFee), fixednum_1.I80F48.fromNumberOrUndef(takerFee), fixednum_1.I80F48.fromNumberOrUndef(rate), fixednum_1.I80F48.fromNumberOrUndef(maxDepthBps), targetPeriodLength !== undefined ? new bn_js_1.default(targetPeriodLength) : undefined, mngoPerPeriod !== undefined ? new bn_js_1.default(mngoPerPeriod) : undefined, exp !== undefined ? new bn_js_1.default(exp) : undefined, version !== undefined ? new bn_js_1.default(version) : undefined, lmSizeShift !== undefined ? new bn_js_1.default(lmSizeShift) : undefined);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             const additionalSigners = [];
@@ -1969,7 +1969,7 @@ class MangoClient {
     }
     setGroupAdmin(mangoGroup, newAdmin, admin) {
         return __awaiter(this, void 0, void 0, function* () {
-            const instruction = instruction_1.makeSetGroupAdminInstruction(this.programId, mangoGroup.publicKey, newAdmin, admin.publicKey);
+            const instruction = (0, instruction_1.makeSetGroupAdminInstruction)(this.programId, mangoGroup.publicKey, newAdmin, admin.publicKey);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             const additionalSigners = [];
@@ -1982,7 +1982,7 @@ class MangoClient {
     modifySpotOrder(mangoGroup, mangoAccount, mangoCache, spotMarket, owner, order, side, price, size, orderType) {
         return __awaiter(this, void 0, void 0, function* () {
             const transaction = new web3_js_1.Transaction();
-            const instruction = instruction_1.makeCancelSpotOrderInstruction(this.programId, mangoGroup.publicKey, owner.publicKey, mangoAccount.publicKey, spotMarket.programId, spotMarket.publicKey, spotMarket['_decoded'].bids, spotMarket['_decoded'].asks, order.openOrdersAddress, mangoGroup.signerKey, spotMarket['_decoded'].eventQueue, order);
+            const instruction = (0, instruction_1.makeCancelSpotOrderInstruction)(this.programId, mangoGroup.publicKey, owner.publicKey, mangoAccount.publicKey, spotMarket.programId, spotMarket.publicKey, spotMarket['_decoded'].bids, spotMarket['_decoded'].asks, order.openOrdersAddress, mangoGroup.signerKey, spotMarket['_decoded'].eventQueue, order);
             transaction.add(instruction);
             const dexSigner = yield web3_js_1.PublicKey.createProgramAddress([
                 spotMarket.publicKey.toBuffer(),
@@ -1999,15 +1999,15 @@ class MangoClient {
             if (!baseNodeBank || !quoteNodeBank) {
                 throw new Error('Invalid or missing node banks');
             }
-            const settleFundsInstruction = instruction_1.makeSettleFundsInstruction(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, owner.publicKey, mangoAccount.publicKey, spotMarket.programId, spotMarket.publicKey, mangoAccount.spotOpenOrders[spotMarketIndex], mangoGroup.signerKey, spotMarket['_decoded'].baseVault, spotMarket['_decoded'].quoteVault, mangoGroup.tokens[spotMarketIndex].rootBank, baseNodeBank.publicKey, mangoGroup.tokens[layout_1.QUOTE_INDEX].rootBank, quoteNodeBank.publicKey, baseNodeBank.vault, quoteNodeBank.vault, dexSigner);
+            const settleFundsInstruction = (0, instruction_1.makeSettleFundsInstruction)(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, owner.publicKey, mangoAccount.publicKey, spotMarket.programId, spotMarket.publicKey, mangoAccount.spotOpenOrders[spotMarketIndex], mangoGroup.signerKey, spotMarket['_decoded'].baseVault, spotMarket['_decoded'].quoteVault, mangoGroup.tokens[spotMarketIndex].rootBank, baseNodeBank.publicKey, mangoGroup.tokens[layout_1.QUOTE_INDEX].rootBank, quoteNodeBank.publicKey, baseNodeBank.vault, quoteNodeBank.vault, dexSigner);
             transaction.add(settleFundsInstruction);
             const additionalSigners = [];
             const limitPrice = spotMarket.priceNumberToLots(price);
             const maxBaseQuantity = spotMarket.baseSizeNumberToLots(size);
             // TODO implement srm vault fee discount
             // const feeTier = getFeeTier(0, nativeToUi(mangoGroup.nativeSrm || 0, SRM_DECIMALS));
-            const feeTier = serum_1.getFeeTier(0, utils_1.nativeToUi(0, 0));
-            const rates = serum_1.getFeeRates(feeTier);
+            const feeTier = (0, serum_1.getFeeTier)(0, (0, utils_1.nativeToUi)(0, 0));
+            const rates = (0, serum_1.getFeeRates)(feeTier);
             const maxQuoteQuantity = new bn_js_1.default(spotMarket['_decoded'].quoteLotSize.toNumber() * (1 + rates.taker)).mul(spotMarket
                 .baseSizeNumberToLots(size)
                 .mul(spotMarket.priceNumberToLots(price)));
@@ -2034,8 +2034,8 @@ class MangoClient {
                         // open orders missing for this market; create a new one now
                         const openOrdersSpace = serum_1.OpenOrders.getLayout(mangoGroup.dexProgramId).span;
                         const openOrdersLamports = yield this.connection.getMinimumBalanceForRentExemption(openOrdersSpace, 'processed');
-                        const accInstr = yield utils_1.createAccountInstruction(this.connection, owner.publicKey, openOrdersSpace, mangoGroup.dexProgramId, openOrdersLamports);
-                        const initOpenOrders = instruction_1.makeInitSpotOpenOrdersInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, mangoGroup.dexProgramId, accInstr.account.publicKey, spotMarket.publicKey, mangoGroup.signerKey);
+                        const accInstr = yield (0, utils_1.createAccountInstruction)(this.connection, owner.publicKey, openOrdersSpace, mangoGroup.dexProgramId, openOrdersLamports);
+                        const initOpenOrders = (0, instruction_1.makeInitSpotOpenOrdersInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, mangoGroup.dexProgramId, accInstr.account.publicKey, spotMarket.publicKey, mangoGroup.signerKey);
                         const initTx = new web3_js_1.Transaction();
                         initTx.add(accInstr.instruction);
                         initTx.add(initOpenOrders);
@@ -2051,7 +2051,7 @@ class MangoClient {
                 }
                 openOrdersKeys.push({ pubkey, isWritable });
             }
-            const placeOrderInstruction = instruction_1.makePlaceSpotOrderInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, mangoCache, spotMarket.programId, spotMarket.publicKey, spotMarket['_decoded'].bids, spotMarket['_decoded'].asks, spotMarket['_decoded'].requestQueue, spotMarket['_decoded'].eventQueue, spotMarket['_decoded'].baseVault, spotMarket['_decoded'].quoteVault, baseRootBank.publicKey, baseNodeBank.publicKey, baseNodeBank.vault, quoteRootBank.publicKey, quoteNodeBank.publicKey, quoteNodeBank.vault, mangoGroup.signerKey, dexSigner, mangoGroup.srmVault, // TODO: choose msrm vault if it has any deposits
+            const placeOrderInstruction = (0, instruction_1.makePlaceSpotOrderInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, mangoCache, spotMarket.programId, spotMarket.publicKey, spotMarket['_decoded'].bids, spotMarket['_decoded'].asks, spotMarket['_decoded'].requestQueue, spotMarket['_decoded'].eventQueue, spotMarket['_decoded'].baseVault, spotMarket['_decoded'].quoteVault, baseRootBank.publicKey, baseNodeBank.publicKey, baseNodeBank.vault, quoteRootBank.publicKey, quoteNodeBank.publicKey, quoteNodeBank.vault, mangoGroup.signerKey, dexSigner, mangoGroup.srmVault, // TODO: choose msrm vault if it has any deposits
             openOrdersKeys, side, limitPrice, maxBaseQuantity, maxQuoteQuantity, selfTradeBehavior, orderType, order.clientId);
             transaction.add(placeOrderInstruction);
             if (spotMarketIndex > 0) {
@@ -2073,10 +2073,10 @@ class MangoClient {
         return __awaiter(this, void 0, void 0, function* () {
             const transaction = new web3_js_1.Transaction();
             const additionalSigners = [];
-            const cancelInstruction = instruction_1.makeCancelPerpOrderInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, order, invalidIdOk);
+            const cancelInstruction = (0, instruction_1.makeCancelPerpOrderInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, order, invalidIdOk);
             transaction.add(cancelInstruction);
             const [nativePrice, nativeQuantity] = perpMarket.uiToNativePriceQuantity(price, quantity);
-            const placeInstruction = instruction_1.makePlacePerpOrderInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, mangoCache, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, perpMarket.eventQueue, mangoAccount.spotOpenOrders, nativePrice, nativeQuantity, clientOrderId
+            const placeInstruction = (0, instruction_1.makePlacePerpOrderInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, mangoCache, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, perpMarket.eventQueue, mangoAccount.spotOpenOrders, nativePrice, nativeQuantity, clientOrderId
                 ? new bn_js_1.default(clientOrderId)
                 : (_a = order.clientId) !== null && _a !== void 0 ? _a : new bn_js_1.default(Date.now()), side, orderType, false, referrerMangoAccountPk);
             transaction.add(placeInstruction);
@@ -2092,7 +2092,7 @@ class MangoClient {
                         break;
                     }
                 }
-                const consumeInstruction = instruction_1.makeConsumeEventsInstruction(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, perpMarket.publicKey, perpMarket.eventQueue, Array.from(accounts)
+                const consumeInstruction = (0, instruction_1.makeConsumeEventsInstruction)(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, perpMarket.publicKey, perpMarket.eventQueue, Array.from(accounts)
                     .map((s) => new web3_js_1.PublicKey(s))
                     .sort(), new bn_js_1.default(4));
                 transaction.add(consumeInstruction);
@@ -2108,7 +2108,7 @@ class MangoClient {
             if (mangoAccount.advancedOrdersKey.equals(utils_1.zeroKey)) {
                 [advancedOrders] = yield web3_js_1.PublicKey.findProgramAddress([mangoAccount.publicKey.toBytes()], this.programId);
                 console.log('AdvancedOrders PDA:', advancedOrders.toBase58());
-                transaction.add(instruction_1.makeInitAdvancedOrdersInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, advancedOrders));
+                transaction.add((0, instruction_1.makeInitAdvancedOrdersInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, advancedOrders));
             }
             const marketIndex = mangoGroup.getPerpMarketIndex(perpMarket.publicKey);
             const baseTokenInfo = mangoGroup.tokens[marketIndex];
@@ -2122,7 +2122,7 @@ class MangoClient {
             const nativeTriggerPrice = fixednum_1.I80F48.fromNumber(triggerPrice *
                 Math.pow(10, perpMarket.quoteDecimals - perpMarket.baseDecimals));
             const openOrders = mangoAccount.spotOpenOrders.filter((pk, i) => mangoAccount.inMarginBasket[i]);
-            transaction.add(instruction_1.makeAddPerpTriggerOrderInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, advancedOrders, mangoGroup.mangoCache, perpMarket.publicKey, openOrders, orderType, side, nativePrice, nativeQuantity, triggerCondition, nativeTriggerPrice, reduceOnly, new bn_js_1.default(clientOrderId !== null && clientOrderId !== void 0 ? clientOrderId : Date.now())));
+            transaction.add((0, instruction_1.makeAddPerpTriggerOrderInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, advancedOrders, mangoGroup.mangoCache, perpMarket.publicKey, openOrders, orderType, side, nativePrice, nativeQuantity, triggerCondition, nativeTriggerPrice, reduceOnly, new bn_js_1.default(clientOrderId !== null && clientOrderId !== void 0 ? clientOrderId : Date.now())));
             const txid = yield this.sendTransaction(transaction, owner, additionalSigners);
             mangoAccount.advancedOrdersKey = advancedOrders;
             return txid;
@@ -2130,7 +2130,7 @@ class MangoClient {
     }
     removeAdvancedOrder(mangoGroup, mangoAccount, owner, orderIndex) {
         return __awaiter(this, void 0, void 0, function* () {
-            const instruction = instruction_1.makeRemoveAdvancedOrderInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, mangoAccount.advancedOrdersKey, orderIndex);
+            const instruction = (0, instruction_1.makeRemoveAdvancedOrderInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, owner.publicKey, mangoAccount.advancedOrdersKey, orderIndex);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             const additionalSigners = [];
@@ -2140,7 +2140,7 @@ class MangoClient {
     executePerpTriggerOrder(mangoGroup, mangoAccount, mangoCache, perpMarket, payer, orderIndex) {
         return __awaiter(this, void 0, void 0, function* () {
             const openOrders = mangoAccount.spotOpenOrders.filter((pk, i) => mangoAccount.inMarginBasket[i]);
-            const instruction = instruction_1.makeExecutePerpTriggerOrderInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, mangoAccount.advancedOrdersKey, payer.publicKey, mangoCache.publicKey, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, perpMarket.eventQueue, openOrders, new bn_js_1.default(orderIndex));
+            const instruction = (0, instruction_1.makeExecutePerpTriggerOrderInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, mangoAccount.advancedOrdersKey, payer.publicKey, mangoCache.publicKey, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, perpMarket.eventQueue, openOrders, new bn_js_1.default(orderIndex));
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             const additionalSigners = [];
@@ -2149,7 +2149,7 @@ class MangoClient {
     }
     closeAdvancedOrders(mangoGroup, mangoAccount, payer) {
         return __awaiter(this, void 0, void 0, function* () {
-            const instruction = instruction_1.makeCloseAdvancedOrdersInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, mangoAccount.advancedOrdersKey);
+            const instruction = (0, instruction_1.makeCloseAdvancedOrdersInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, mangoAccount.advancedOrdersKey);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             const additionalSigners = [];
@@ -2158,7 +2158,7 @@ class MangoClient {
     }
     closeSpotOpenOrders(mangoGroup, mangoAccount, payer, marketIndex) {
         return __awaiter(this, void 0, void 0, function* () {
-            const instruction = instruction_1.makeCloseSpotOpenOrdersInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, mangoGroup.dexProgramId, mangoAccount.spotOpenOrders[marketIndex], mangoGroup.spotMarkets[marketIndex].spotMarket, mangoGroup.signerKey);
+            const instruction = (0, instruction_1.makeCloseSpotOpenOrdersInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, mangoGroup.dexProgramId, mangoAccount.spotOpenOrders[marketIndex], mangoGroup.spotMarkets[marketIndex].spotMarket, mangoGroup.signerKey);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             const additionalSigners = [];
@@ -2167,7 +2167,7 @@ class MangoClient {
     }
     closeMangoAccount(mangoGroup, mangoAccount, payer) {
         return __awaiter(this, void 0, void 0, function* () {
-            const instruction = instruction_1.makeCloseMangoAccountInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey);
+            const instruction = (0, instruction_1.makeCloseMangoAccountInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             const additionalSigners = [];
@@ -2177,7 +2177,7 @@ class MangoClient {
     createDustAccount(mangoGroup, payer) {
         return __awaiter(this, void 0, void 0, function* () {
             const [mangoAccountPk] = yield web3_js_1.PublicKey.findProgramAddress([mangoGroup.publicKey.toBytes(), new Buffer('DustAccount', 'utf-8')], this.programId);
-            const instruction = instruction_1.makeCreateDustAccountInstruction(this.programId, mangoGroup.publicKey, mangoAccountPk, payer.publicKey);
+            const instruction = (0, instruction_1.makeCreateDustAccountInstruction)(this.programId, mangoGroup.publicKey, mangoAccountPk, payer.publicKey);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             const additionalSigners = [];
@@ -2187,7 +2187,7 @@ class MangoClient {
     resolveDust(mangoGroup, mangoAccount, rootBank, mangoCache, payer) {
         return __awaiter(this, void 0, void 0, function* () {
             const [dustAccountPk] = yield web3_js_1.PublicKey.findProgramAddress([mangoGroup.publicKey.toBytes(), new Buffer('DustAccount', 'utf-8')], this.programId);
-            const instruction = instruction_1.makeResolveDustInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, dustAccountPk, rootBank.publicKey, rootBank.nodeBanks[0], mangoCache.publicKey);
+            const instruction = (0, instruction_1.makeResolveDustInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, dustAccountPk, rootBank.publicKey, rootBank.nodeBanks[0], mangoCache.publicKey);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             const additionalSigners = [];
@@ -2196,7 +2196,7 @@ class MangoClient {
     }
     updateMarginBasket(mangoGroup, mangoAccount, payer) {
         return __awaiter(this, void 0, void 0, function* () {
-            const instruction = instruction_1.makeUpdateMarginBasketInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, mangoAccount.spotOpenOrders);
+            const instruction = (0, instruction_1.makeUpdateMarginBasketInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, mangoAccount.spotOpenOrders);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             const additionalSigners = [];
@@ -2221,7 +2221,7 @@ class MangoClient {
                     console.log('tokenIndex', tokenIndex.toString());
                     if ((nativeDeposit.gt(fixednum_1.ZERO_I80F48) && nativeDeposit.lt(fixednum_1.ONE_I80F48)) ||
                         (nativeBorrow.gt(fixednum_1.ZERO_I80F48) && nativeBorrow.lt(fixednum_1.ONE_I80F48))) {
-                        const instruction = instruction_1.makeResolveDustInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, dustAccountPk, rootBank.publicKey, rootBank.nodeBanks[0], mangoCache.publicKey);
+                        const instruction = (0, instruction_1.makeResolveDustInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, dustAccountPk, rootBank.publicKey, rootBank.nodeBanks[0], mangoCache.publicKey);
                         transactionAndSigners.transaction.add(instruction);
                     }
                 }
@@ -2257,7 +2257,7 @@ class MangoClient {
             const mngoRootBank = mangoGroup.rootBankAccounts[mngoIndex];
             const perpMarkets = yield Promise.all(mangoAccount.perpAccounts.map((perpAccount, i) => {
                 if (perpAccount.mngoAccrued.eq(utils_1.ZERO_BN)) {
-                    return utils_1.promiseUndef();
+                    return (0, utils_1.promiseUndef)();
                 }
                 else {
                     return this.getPerpMarket(mangoGroup.perpMarkets[i].perpMarket, mangoGroup.tokens[i].decimals, mangoGroup.tokens[layout_1.QUOTE_INDEX].decimals);
@@ -2274,7 +2274,7 @@ class MangoClient {
                 // this is actually an error state; Means there is mngo accrued but PerpMarket doesn't exist
                 if (perpMarket === undefined)
                     continue;
-                const instruction = instruction_1.makeRedeemMngoInstruction(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, mangoAccount.publicKey, payer.publicKey, perpMarket.publicKey, perpMarket.mngoVault, mngoRootBank.publicKey, mngoRootBank.nodeBanks[0], mngoRootBank.nodeBankAccounts[0].vault, mangoGroup.signerKey);
+                const instruction = (0, instruction_1.makeRedeemMngoInstruction)(this.programId, mangoGroup.publicKey, mangoGroup.mangoCache, mangoAccount.publicKey, payer.publicKey, perpMarket.publicKey, perpMarket.mngoVault, mngoRootBank.publicKey, mngoRootBank.nodeBanks[0], mngoRootBank.nodeBankAccounts[0].vault, mangoGroup.signerKey);
                 redeemMngoTransaction.transaction.add(instruction);
             }
             transactionsAndSigners.push(redeemMngoTransaction);
@@ -2307,7 +2307,7 @@ class MangoClient {
                                 space,
                                 programId: spl_token_1.TOKEN_PROGRAM_ID,
                             }));
-                            withdrawTransaction.transaction.add(token_instructions_1.initializeAccount({
+                            withdrawTransaction.transaction.add((0, token_instructions_1.initializeAccount)({
                                 account: tokenAcc,
                                 mint: token_instructions_1.WRAPPED_SOL_MINT,
                                 owner: payer.publicKey,
@@ -2320,10 +2320,10 @@ class MangoClient {
                                 withdrawTransaction.transaction.add(spl_token_1.Token.createAssociatedTokenAccountInstruction(spl_token_1.ASSOCIATED_TOKEN_PROGRAM_ID, spl_token_1.TOKEN_PROGRAM_ID, tokenMint, tokenAcc, payer.publicKey, payer.publicKey));
                             }
                         }
-                        const instruction = instruction_1.makeWithdrawInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, mangoGroup.mangoCache, rootBank.publicKey, rootBank.nodeBanks[0], rootBank.nodeBankAccounts[0].vault, tokenAcc, mangoGroup.signerKey, mangoAccount.spotOpenOrders, _1.U64_MAX_BN, false);
+                        const instruction = (0, instruction_1.makeWithdrawInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, mangoGroup.mangoCache, rootBank.publicKey, rootBank.nodeBanks[0], rootBank.nodeBankAccounts[0].vault, tokenAcc, mangoGroup.signerKey, mangoAccount.spotOpenOrders, _1.U64_MAX_BN, false);
                         withdrawTransaction.transaction.add(instruction);
                         if (wrappedSolAccount) {
-                            withdrawTransaction.transaction.add(token_instructions_1.closeAccount({
+                            withdrawTransaction.transaction.add((0, token_instructions_1.closeAccount)({
                                 source: wrappedSolAccount.publicKey,
                                 destination: payer.publicKey,
                                 owner: payer.publicKey,
@@ -2335,7 +2335,7 @@ class MangoClient {
                     if (shouldWithdrawMngo ||
                         mangoAccount.deposits[tokenIndex].isPos() ||
                         (nativeBorrow.gt(fixednum_1.ZERO_I80F48) && nativeBorrow.lt(fixednum_1.ONE_I80F48))) {
-                        const instruction = instruction_1.makeResolveDustInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, dustAccountPk, rootBank.publicKey, rootBank.nodeBanks[0], mangoCache.publicKey);
+                        const instruction = (0, instruction_1.makeResolveDustInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, dustAccountPk, rootBank.publicKey, rootBank.nodeBanks[0], mangoCache.publicKey);
                         resolveAllDustTransaction.transaction.add(instruction);
                     }
                 }
@@ -2349,16 +2349,16 @@ class MangoClient {
                 const openOrders = mangoAccount.spotOpenOrders[i];
                 const spotMarket = mangoGroup.spotMarkets[i].spotMarket;
                 if (!openOrders.equals(utils_1.zeroKey)) {
-                    closeAccountsTransaction.transaction.add(instruction_1.makeCloseSpotOpenOrdersInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, mangoGroup.dexProgramId, openOrders, spotMarket, mangoGroup.signerKey));
+                    closeAccountsTransaction.transaction.add((0, instruction_1.makeCloseSpotOpenOrdersInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, mangoGroup.dexProgramId, openOrders, spotMarket, mangoGroup.signerKey));
                 }
             }
             if (!mangoAccount.advancedOrdersKey.equals(utils_1.zeroKey)) {
-                closeAccountsTransaction.transaction.add(instruction_1.makeCloseAdvancedOrdersInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, mangoAccount.advancedOrdersKey));
+                closeAccountsTransaction.transaction.add((0, instruction_1.makeCloseAdvancedOrdersInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, mangoAccount.advancedOrdersKey));
             }
             if (mangoAccount.metaData.version == 0) {
-                closeAccountsTransaction.transaction.add(instruction_1.makeUpgradeMangoAccountV0V1Instruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey));
+                closeAccountsTransaction.transaction.add((0, instruction_1.makeUpgradeMangoAccountV0V1Instruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey));
             }
-            closeAccountsTransaction.transaction.add(instruction_1.makeCloseMangoAccountInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey));
+            closeAccountsTransaction.transaction.add((0, instruction_1.makeCloseMangoAccountInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey));
             transactionsAndSigners.push(closeAccountsTransaction);
             const signedTransactions = yield this.signTransactions({
                 transactionsAndSigners,
@@ -2385,7 +2385,7 @@ class MangoClient {
     }
     cancelPerpOrderSide(mangoGroup, mangoAccount, perpMarket, payer, side, limit) {
         return __awaiter(this, void 0, void 0, function* () {
-            const instruction = instruction_1.makeCancelPerpOrdersSideInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, side, new bn_js_1.default(limit));
+            const instruction = (0, instruction_1.makeCancelPerpOrdersSideInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, perpMarket.publicKey, perpMarket.bids, perpMarket.asks, side, new bn_js_1.default(limit));
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             const additionalSigners = [];
@@ -2394,7 +2394,7 @@ class MangoClient {
     }
     setDelegate(mangoGroup, mangoAccount, payer, delegate) {
         return __awaiter(this, void 0, void 0, function* () {
-            const instruction = instruction_1.makeSetDelegateInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, delegate);
+            const instruction = (0, instruction_1.makeSetDelegateInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, delegate);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             const additionalSigners = [];
@@ -2403,7 +2403,7 @@ class MangoClient {
     }
     changeSpotMarketParams(mangoGroup, spotMarket, rootBank, admin, maintLeverage, initLeverage, liquidationFee, optimalUtil, optimalRate, maxRate, version) {
         return __awaiter(this, void 0, void 0, function* () {
-            const instruction = instruction_1.makeChangeSpotMarketParamsInstruction(this.programId, mangoGroup.publicKey, spotMarket.publicKey, rootBank.publicKey, admin.publicKey, fixednum_1.I80F48.fromNumberOrUndef(maintLeverage), fixednum_1.I80F48.fromNumberOrUndef(initLeverage), fixednum_1.I80F48.fromNumberOrUndef(liquidationFee), fixednum_1.I80F48.fromNumberOrUndef(optimalUtil), fixednum_1.I80F48.fromNumberOrUndef(optimalRate), fixednum_1.I80F48.fromNumberOrUndef(maxRate), version !== undefined ? new bn_js_1.default(version) : undefined);
+            const instruction = (0, instruction_1.makeChangeSpotMarketParamsInstruction)(this.programId, mangoGroup.publicKey, spotMarket.publicKey, rootBank.publicKey, admin.publicKey, fixednum_1.I80F48.fromNumberOrUndef(maintLeverage), fixednum_1.I80F48.fromNumberOrUndef(initLeverage), fixednum_1.I80F48.fromNumberOrUndef(liquidationFee), fixednum_1.I80F48.fromNumberOrUndef(optimalUtil), fixednum_1.I80F48.fromNumberOrUndef(optimalRate), fixednum_1.I80F48.fromNumberOrUndef(maxRate), version !== undefined ? new bn_js_1.default(version) : undefined);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             const additionalSigners = [];
@@ -2420,7 +2420,7 @@ class MangoClient {
      */
     changeReferralFeeParams(mangoGroup, admin, refSurcharge, refShare, refMngoRequired) {
         return __awaiter(this, void 0, void 0, function* () {
-            const instruction = instruction_1.makeChangeReferralFeeParamsInstruction(this.programId, mangoGroup.publicKey, admin.publicKey, new bn_js_1.default(refSurcharge * layout_1.CENTIBPS_PER_UNIT), new bn_js_1.default(refShare * layout_1.CENTIBPS_PER_UNIT), new bn_js_1.default(refMngoRequired * 1000000));
+            const instruction = (0, instruction_1.makeChangeReferralFeeParamsInstruction)(this.programId, mangoGroup.publicKey, admin.publicKey, new bn_js_1.default(refSurcharge * layout_1.CENTIBPS_PER_UNIT), new bn_js_1.default(refShare * layout_1.CENTIBPS_PER_UNIT), new bn_js_1.default(refMngoRequired * 1000000));
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             const additionalSigners = [];
@@ -2432,7 +2432,7 @@ class MangoClient {
         return __awaiter(this, void 0, void 0, function* () {
             // Generate the PDA pubkey
             const [referrerMemoryPk] = yield web3_js_1.PublicKey.findProgramAddress([mangoAccount.publicKey.toBytes(), new Buffer('ReferrerMemory', 'utf-8')], this.programId);
-            const instruction = instruction_1.makeSetReferrerMemoryInstruction(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, referrerMemoryPk, referrerMangoAccountPk, payer.publicKey);
+            const instruction = (0, instruction_1.makeSetReferrerMemoryInstruction)(this.programId, mangoGroup.publicKey, mangoAccount.publicKey, payer.publicKey, referrerMemoryPk, referrerMangoAccountPk, payer.publicKey);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             const additionalSigners = [];
@@ -2462,7 +2462,7 @@ class MangoClient {
     referrerId) {
         return __awaiter(this, void 0, void 0, function* () {
             const { referrerPda, encodedReferrerId } = yield this.getReferrerPda(mangoGroup, referrerId);
-            const instruction = instruction_1.makeRegisterReferrerIdInstruction(this.programId, mangoGroup.publicKey, referrerMangoAccount.publicKey, referrerPda, payer.publicKey, encodedReferrerId);
+            const instruction = (0, instruction_1.makeRegisterReferrerIdInstruction)(this.programId, mangoGroup.publicKey, referrerMangoAccount.publicKey, referrerPda, payer.publicKey, encodedReferrerId);
             const transaction = new web3_js_1.Transaction();
             transaction.add(instruction);
             const additionalSigners = [];
@@ -2482,7 +2482,7 @@ class MangoClient {
                     dataSize: _1.ReferrerIdRecordLayout.span,
                 },
             ];
-            const referrerIds = yield utils_1.getFilteredProgramAccounts(this.connection, this.programId, filters).then((referrerIds) => {
+            const referrerIds = yield (0, utils_1.getFilteredProgramAccounts)(this.connection, this.programId, filters).then((referrerIds) => {
                 return referrerIds.map(({ accountInfo }) => {
                     return new _1.ReferrerIdRecord(_1.ReferrerIdRecordLayout.decode(accountInfo == null ? undefined : accountInfo.data));
                 });

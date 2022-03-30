@@ -30,19 +30,19 @@ function main() {
         const client = new client_1.MangoClient(connection, mangoProgramId);
         const group = yield client.getMangoGroup(mangoGroupKey);
         // AVAX-PERP
-        const avaxParams = utils_1.findPerpMarketParams(18, group.tokens[layout_1.QUOTE_INDEX].decimals, 85, 10, 500);
+        const avaxParams = (0, utils_1.findPerpMarketParams)(18, group.tokens[layout_1.QUOTE_INDEX].decimals, 85, 10, 500);
         console.log('AVAX params:', avaxParams);
         // BNB-PERP
-        const bnbParams = utils_1.findPerpMarketParams(18, group.tokens[layout_1.QUOTE_INDEX].decimals, 568, 10, 500);
+        const bnbParams = (0, utils_1.findPerpMarketParams)(18, group.tokens[layout_1.QUOTE_INDEX].decimals, 568, 10, 500);
         console.log('BNB params:', bnbParams);
         // MATIC-PERP
-        const maticParams = utils_1.findPerpMarketParams(18, group.tokens[layout_1.QUOTE_INDEX].decimals, 2.22, 10, 500);
+        const maticParams = (0, utils_1.findPerpMarketParams)(18, group.tokens[layout_1.QUOTE_INDEX].decimals, 2.22, 10, 500);
         console.log('MATIC params:', maticParams);
         // LUNA-PERP
-        const lunaParams = utils_1.findPerpMarketParams(6, group.tokens[layout_1.QUOTE_INDEX].decimals, 85, 10, 500);
+        const lunaParams = (0, utils_1.findPerpMarketParams)(6, group.tokens[layout_1.QUOTE_INDEX].decimals, 85, 10, 500);
         console.log('LUNA params:', lunaParams);
         // DOT-PERP
-        const dotParams = utils_1.findPerpMarketParams(10, group.tokens[layout_1.QUOTE_INDEX].decimals, 64, 10, 500);
+        const dotParams = (0, utils_1.findPerpMarketParams)(10, group.tokens[layout_1.QUOTE_INDEX].decimals, 64, 10, 500);
         console.log('DOT params:', dotParams);
     });
 }

@@ -154,13 +154,13 @@ class MangoGroup {
             const rootBankPks = this.tokens
                 .map((t) => t.rootBank)
                 .filter((rB) => !rB.equals(utils_1.zeroKey));
-            const rootBankAccts = yield utils_1.getMultipleAccounts(connection, rootBankPks);
+            const rootBankAccts = yield (0, utils_1.getMultipleAccounts)(connection, rootBankPks);
             const parsedRootBanks = rootBankAccts.map((acc) => {
                 const decoded = layout_1.RootBankLayout.decode(acc.accountInfo.data);
                 return new RootBank_1.default(acc.publicKey, decoded);
             });
             const nodeBankPks = parsedRootBanks.map((bank) => bank.nodeBanks.filter((key) => !key.equals(utils_1.zeroKey)));
-            const nodeBankAccts = yield utils_1.getMultipleAccounts(connection, nodeBankPks.flat());
+            const nodeBankAccts = yield (0, utils_1.getMultipleAccounts)(connection, nodeBankPks.flat());
             const nodeBankAccounts = nodeBankAccts.map((acc) => {
                 const decoded = _1.NodeBankLayout.decode(acc.accountInfo.data);
                 return new _1.NodeBank(acc.publicKey, decoded);

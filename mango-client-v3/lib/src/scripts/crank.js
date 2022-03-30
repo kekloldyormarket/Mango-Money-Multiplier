@@ -1,7 +1,11 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -86,10 +90,10 @@ function run() {
         const eventQueuePks = spotMarkets.map((market) => market['_decoded'].eventQueue);
         // eslint-disable-next-line
         while (true) {
-            const eventQueueAccts = yield utils_1.getMultipleAccounts(connection, eventQueuePks);
+            const eventQueueAccts = yield (0, utils_1.getMultipleAccounts)(connection, eventQueuePks);
             for (let i = 0; i < eventQueueAccts.length; i++) {
                 const accountInfo = eventQueueAccts[i].accountInfo;
-                const events = serum_1.decodeEventQueue(accountInfo.data);
+                const events = (0, serum_1.decodeEventQueue)(accountInfo.data);
                 if (events.length === 0) {
                     continue;
                 }
@@ -118,7 +122,7 @@ function run() {
                 console.log('market', i, 'sending consume events for', events.length, 'events');
                 yield client.sendTransaction(transaction, payer, []);
             }
-            yield utils_1.sleep(interval);
+            yield (0, utils_1.sleep)(interval);
         }
     });
 }

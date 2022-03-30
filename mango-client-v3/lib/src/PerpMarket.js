@@ -72,7 +72,7 @@ class PerpMarket {
         let diff;
         if (bid !== undefined && ask !== undefined) {
             const bookPrice = (bid + ask) / 2;
-            diff = _1.clamp(bookPrice / indexPrice - 1, MIN_FUNDING, MAX_FUNDING);
+            diff = (0, _1.clamp)(bookPrice / indexPrice - 1, MIN_FUNDING, MAX_FUNDING);
         }
         else if (bid !== undefined) {
             diff = MAX_FUNDING;
@@ -174,7 +174,7 @@ class PerpMarket {
             `liquidationFee: ${info.liquidationFee.toString()}`,
             `takerFee: ${info.takerFee.toString()}`,
             `makerFee: ${info.makerFee.toString()}`,
-            `feesAccrued: ${_1.nativeToUi(this.feesAccrued.toNumber(), 6).toFixed(6)}`,
+            `feesAccrued: ${(0, _1.nativeToUi)(this.feesAccrued.toNumber(), 6).toFixed(6)}`,
             `\n----- ${perpMarketConfig.name} Liquidity Mining Info -----`,
             `rate: ${lmi.rate.toString()}`,
             `maxDepth: ${this.metaData.version === 0

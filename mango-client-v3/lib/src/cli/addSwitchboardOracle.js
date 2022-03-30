@@ -43,7 +43,7 @@ function addSwitchboardOracle(connection, payer, groupConfig, symbol) {
             symbol: symbol,
             publicKey: oraclePk,
         };
-        const _oracle = config_1.getOracleBySymbol(groupConfig, symbol);
+        const _oracle = (0, config_1.getOracleBySymbol)(groupConfig, symbol);
         if (_oracle) {
             Object.assign(_oracle, oracle);
         }
