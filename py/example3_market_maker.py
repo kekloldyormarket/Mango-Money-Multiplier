@@ -169,7 +169,7 @@ class MM:
                     wantsInKind[self.MARKET] = (LALA['wants'][self.MARKET] * self.balance) / mid
                     print('2: ' + str(wantsInKind[self.MARKET]))
                 print('diff: ' + str(diff))
-                if abs(diff) <= (self.balance / 20.5) / self.mid:
+                if abs(diff) <= (self.balance / 50.5) / self.mid:
                     if wantsInKind[self.MARKET] > 0:
                         self.MAX_LONG_POSITION = wantsInKind[self.MARKET]
                         self.SIZE = abs(self.MAX_LONG_POSITION / 100 * 20)
@@ -369,7 +369,7 @@ class MM:
                 #sleep(1))#print(self.balance)
                 #sleep(random.randint(1,10))
                 if len(to_create) > 0:
-                    if market == True and abs(to_create[0].size) > 0:# * to_create[0].price > self.balance / (100 * 100) * 4:# * 10:
+                    if market == True and abs(to_create[0].size) * to_create[0].price > self.balance / (100 * 100) * 4:# * 10:
                         print(1381)
                         for order in to_create:
                             try:
@@ -388,7 +388,7 @@ class MM:
                                 )
                             except Exception as e :
                                 print(str(e))
-                    elif market == False and abs(to_create[0].size) > 0:#* to_create[0].price > self.balance / (100 * 100) * 4:# * 10:
+                    elif market == False and abs(to_create[0].size) >  to_create[0].price > self.balance / (100 * 100) * 4:# * 10:
                         print(1831)
                         for order in to_create:
                             try:
@@ -419,7 +419,7 @@ class MM:
         price=order.price,
                                         type="limit",
                                         ioc=False,
-                                        size=order.size,
+                                        size=order.size / 3,
                                         reduce_only=True,
                                         post_only=False,
                                         client_id=1231,
@@ -438,7 +438,7 @@ class MM:
                                         side=order.side,
                                         price=order.price,
                                         type="limit",
-                                        size=order.size,
+                                        size=order.size / 3,
                                         ioc=False,
                                         reduce_only=True,
                                         post_only=True,

@@ -1,6 +1,6 @@
 {
   "cluster_urls": {
-    "devnet": "https://solana--mainnet.datahub.figment.io/apikey/24c64e276fc5db6ff73da2f59blolkek",
+    "devnet": "https://solana--devnet.datahub.figment.io/apikey/24c64e276fc5db6ff73da2f59blolkek",
     "localnet": "http://127.0.0.1:8899",
     "mainnet": "https://mango.rpcpool.com/946ef7337da3f5b8d3e4a34e7f88",
     "testnet": "https://testnet.solana.com"
