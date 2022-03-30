@@ -5,7 +5,7 @@ A REST API server on top of mango markets v3, written in typescript + expressjs 
 All environment variables are optional.
 * PRIVATE_KEY_PATH - path to private key, default is ~/.config/solana/id.json
 * PORT - port on which expressjs webserver runs, default is 3000
-* CLUSTER_URL - RPC node url e.g., default is scheduled rotation between  https://solana--devnet.datahub.figment.io/apikey/24c64e276fc5db6ff73da2f59bkeklol, https://lokidfxnwlabdq.main.genesysgo.net:8899/,
+* CLUSTER_URL - RPC node url e.g., default is scheduled rotation between  https://solana--devnet.datahub.figment.io/apikey/24c64e276fc5db6ff73da2f59bac4kek, https://lokidfxnwlabdq.main.genesysgo.net:8899/,
       https://solana-api.projectserum.com/
 * MANGO_ACCOUNT - public key of mango account to explicitly choose, in case an owner has multiple mango accounts, or PRIVATE_KEY_PATH is a delegate  
 

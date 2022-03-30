@@ -67,7 +67,7 @@ export async function _sendTransaction(
 
 export function createDevnetConnection() {
   return new Connection(
-    'https://solana--devnet.datahub.figment.io/apikey/24c64e276fc5db6ff73da2f59bkeklol',
+    'https://solana--devnet.datahub.figment.io/apikey/24c64e276fc5db6ff73da2f59bac4kek',
     'processed' as Commitment,
   );
 }

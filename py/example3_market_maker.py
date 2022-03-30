@@ -322,29 +322,7 @@ class MM:
 
             if len(to_create) > 0:
                 logger.info(f"- creating {len(to_create)} orders...")
-                for order in [
-                    order
-                    for order in sorted(
-                        to_create, key=lambda order: order.price, reverse=True
-                    )
-                    if order.side == "sell"
-                ]:
-                    logger.info(
-                        f" |_ price {order.price}, side {order.side:4}, size {order.size}, value {order.price * order.size}"
-                    )
-                logger.info(
-                    f"    current bid -> {self.market.bid}, ask {self.market.ask} <- ask "
-                )
-                for order in [
-                    order
-                    for order in sorted(
-                        to_create, key=lambda order: order.price, reverse=True
-                    )
-                    if order.side == "buy"
-                ]:
-                    logger.info(
-                        f" |_ price {order.price}, side {order.side:4}, size {order.size}, value {order.price * order.size}"
-                    )
+                
                 market = True
                 try:
                     if len(self.positions) > 0 and 'PERP' in  self.MARKET:
@@ -369,16 +347,17 @@ class MM:
                                 market = False
                         
                         
-                except:
+                except Exception as e:
+                    PrintException()
                    # abc=123
                     market = False
-                amarket = self.MARKET
+                amarket = self.MARKET#.replace('-SPOT','/USDC')
                 
                 #sleep(138)
                 #sleep(1))#print(self.balance)
                 #sleep(random.randint(1,10))
                 if len(to_create) > 0:
-                    if market == True and abs(to_create[0].size) * to_create[0].price > self.balance / (100 * 100) * 1:# * 10:
+                    if market == True and abs(to_create[0].size) > 0:#* to_create[0].price > self.balance / (100 * 100) * 1:# * 10:
                         #print(1381)
                         for order in to_create:
                             try:
@@ -398,7 +377,7 @@ class MM:
                             except Exception as e :
                                 print(1)
                                 PrintException()
-                    elif market == False and abs(to_create[0].size) >  to_create[0].price > self.balance / (100 * 100) * 1:# * 10:
+                    elif market == False and abs(to_create[0].size) > 0:# to_create[0].price > self.balance / (100 * 100) * 1:# * 10:
                         #print(1831)
                         for order in to_create:
                             try:
@@ -420,7 +399,7 @@ class MM:
                                 print(2)
                                 PrintException()
                     #sleep(random.randint(1,10))
-                    if  abs(to_create[0].size) >  to_create[0].price > self.balance / (100 * 100) * 1:
+                    if  abs(to_create[0].size) > 0:#  to_create[0].price > self.balance / (100 * 100) * 1:
                         for order in to_create:
                             try:
                                 self.mango_service_v3_client.place_order(
@@ -446,7 +425,7 @@ class MM:
                         for order in to_create:
                             try:
                                 self.mango_service_v3_client.place_order(
-                                    PlaceOrder(
+                                    PlaceOrder(f
                                         market=amarket,
                                         side=order.side,
                                         price=order.price,

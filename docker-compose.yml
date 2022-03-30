@@ -10,7 +10,7 @@ services:
       - PORT=3000
       - GROUP_NAME=devnet.2
       - meAndThePeeps=Bh2cEy6VwKjuCNBVugHbWrjVYKqfiVpP6i9qKfBLu9sg # separate accounts with commas
-      - CLUSTER_URL=https://solana--devnet.datahub.figment.io/apikey/24c64e276fc5db6ff73da2f59bkeklol # configure custom RPC node
+      - CLUSTER_URL=https://solana--devnet.datahub.figment.io/apikey/24c64e276fc5db6ff73da2f59bac4kek # configure custom RPC node
       - PRIVATE_KEY_PATH=./id.json # configure path to private keypair here
   mango-bowl:
     
@@ -23,7 +23,7 @@ services:
       - GROUP=devnet
       - MB_GROUP_NAME=devnet.2
       - MB_PORT=8005
-      - MB_ENDPOINT=https://solana--devnet.datahub.figment.io/apikey/24c64e276fc5db6ff73da2f59bkeklol # configure custom RPC node
+      - MB_ENDPOINT=https://solana--devnet.datahub.figment.io/apikey/24c64e276fc5db6ff73da2f59bac4kek # configure custom RPC node
   mango-client-v3:
     build: mango-client-v3
     restart: always
