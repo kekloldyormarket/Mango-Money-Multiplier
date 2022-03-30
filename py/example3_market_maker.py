@@ -581,7 +581,7 @@ if __name__ == "__main__":
                 
                 sleep(1)
     for market in MARKETS:
-        for meh in ['-SPOT', '-PERP']
+        for meh in ['-SPOT', '-PERP']:
             t = threading.Thread(target=aThread, args=(market + meh,))
             t.daemon = True 
             t.start()
