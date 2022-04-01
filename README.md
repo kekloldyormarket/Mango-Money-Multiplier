@@ -1,5 +1,19 @@
 it's a funding arbitrage bot for mangomarkets
 
+## Cool shit
+
+check out the mango money multiplier except it's as a pool and you can stake lp tokens to get your proportional share of the fees from anyone buying into / selling out of pool :D
+
+
+https://github.com/staccDOTsol/mango-blender 
+https://github.com/staccDOTsol/mango-blender-ui
+
+
+https://riptide.fair3d.me
+
+## To Repro
+
+
 0. you must have a Solana private key in id.json in a few spots, and in ~/.config/solana/id.json. it's a mess, I know
 1. replace meAndThePeeps with the publickeys of wallets you wish to trade (not Mango account pubkeys) and replace any instance of https://solana--devnet.datahub.figment.io/apikey/24c64e276fc5db6ff73da2f59bac4kek with your own private RPC. notably it won't even work with the one here if you don't change it ;) ctrl+shift+h change everywhere :)
 2. run sudo docker-compose up --build
