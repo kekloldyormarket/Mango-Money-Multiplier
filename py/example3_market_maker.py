@@ -372,7 +372,7 @@ class MM:
         price=order.price,
                                         type="limit",
                                         size=order.size,
-                                        reduce_only=False,
+                                        reduce_only=True,
                                         ioc=False,
                                         post_only=False,
                                         client_id=123,
