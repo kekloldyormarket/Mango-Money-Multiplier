@@ -1,8 +1,8 @@
 {
     "cluster_urls": {
-        "devnet": "https://solana--devnet.datahub.figment.io/apikey/24c64e276fc5db6ff73da2f59bac4kek",
+        "devnet": "https://yourshit.gg",
         "localnet": "http://127.0.0.1:8899",
-        "mainnet": "https://mango.rpcpool.com/946ef7337da3f5b8d3e4a34e7f88",
+        "mainnet": "https://yourshit.gg",
         "testnet": "https://testnet.solana.com"
     },
     "groups": [

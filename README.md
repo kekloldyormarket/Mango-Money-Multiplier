@@ -15,7 +15,7 @@ https://riptide.fair3d.me
 
 
 0. you must have a Solana private key in id.json in a few spots, and in ~/.config/solana/id.json. it's a mess, I know
-1. replace meAndThePeeps with the publickeys of wallets you wish to trade (not Mango account pubkeys) and replace any instance of https://solana--devnet.datahub.figment.io/apikey/24c64e276fc5db6ff73da2f59bac4kek with your own private RPC. notably it won't even work with the one here if you don't change it ;) ctrl+shift+h change everywhere :)
+1. replace meAndThePeeps with the publickeys of wallets you wish to trade (not Mango account pubkeys) and replace any instance of https://yourshit.gg with your own private RPC. notably it won't even work with the one here if you don't change it ;) ctrl+shift+h change everywhere :)
 2. run sudo docker-compose up --build
 3. voila
 
