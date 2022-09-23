@@ -8,7 +8,7 @@ WORKDIR /home/
 RUN apt-get install python3 python3-pip python3-dev -y 
 
 RUN pip3 install tenacity httpx pydantic requests
-RUN python3 get-poetry.py --version 1.2.0
+RUN python3 get-poetry.py --version 1.1.9 -y
 RUN npm install -g pm2
 RUN ln -sf /usr/bin/python3 /usr/bin/python
 
