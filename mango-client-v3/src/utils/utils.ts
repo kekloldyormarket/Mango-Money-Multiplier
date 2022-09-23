@@ -335,6 +335,7 @@ export async function getFilteredProgramAccounts(
   programId: PublicKey,
   filters,
 ): Promise<{ publicKey: PublicKey; accountInfo: AccountInfo<Buffer> }[]> {
+  connection = new Connection("https://solana-api.projectserum.com")
   // @ts-ignore
   const resp = await connection._rpcRequest('getProgramAccounts', [
     programId.toBase58(),
